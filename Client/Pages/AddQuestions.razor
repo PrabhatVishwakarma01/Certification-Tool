@@ -1,0 +1,62 @@
+﻿@page "/addquestion"
+@inject IJSRuntime JSRuntime 
+<Navbar></Navbar>
+<PageTitle>AddQuestions</PageTitle>
+
+<div class="Container">
+    <div class="Container-heading">
+        <h2>Adding Question</h2>
+    </div>
+    <form class="input-form">
+
+        <div class="Quiz-name form-input">
+            <label for="quiz-category">Quiz Category Name :</label>
+            
+        </div>
+
+        <div class="Allowed-Time form-input">
+            <label for="allowed-time">Allowed Time :</label>
+            <label type="time" id="allowed-time" name="allowed-time"></label>
+        </div>
+        <div class="Question-Text form-input">
+            <label for="question-text">Question Text :</label>
+            <textarea id="question-text" name="question-text" required></textarea>
+        </div>
+        <div class="input-options form-input">
+            <label for="option1" class="checkbox-label">Option 1 : </label>
+            <input type="text" id="option1" name="option1" required>
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="input-options form-input">
+            <label for="option2" class="checkbox-label">Option 2 :</label>
+            <input type="text" id="option2" name="option2" required>
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="input-options form-input">
+            <label for="option3" class="checkbox-label">Option 3 :</label>
+            <input type="text" id="option3" name="option3">
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="input-options form-input">
+            <label for="option4" class="checkbox-label">Option 4 :</label>
+            <input type="text" id="option4" name="option4">
+            <input type="checkbox" id="myCheckbox">
+        </div>
+
+        <div class="Form-actions">
+            <button type="submit" class="btn active" @onclick="Save">Save</button>
+            <button type="reset" class="btn">Cancel</button>
+        </div>
+    </form>
+</div>
+
+
+
+@code {
+    public async void Save() {
+        await Alert("Saved Successfully");
+    }
+    public async Task Alert(string Message) {
+        await JSRuntime.InvokeAsync<Object>("Alert", Message);
+    }
+}

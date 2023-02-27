@@ -1,0 +1,126 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "aktiv-grotesk", Arial, Â sans-serif;
+    justify-items: center;
+   
+}
+
+a{
+    text-decoration: none;
+    padding: 8px 20px;
+}
+
+.master {
+    justify-content: center;
+    width: 100%;
+}
+
+.master-table {
+    text-align: auto;
+    width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
+   
+}
+
+.master-tablebutton {
+    width: 12rem;
+    height: 2rem;
+    background-color: #02b689;
+    color: black;
+    left: 0;
+    border: 1px solid #000;
+    font-weight: 400;
+}
+
+    .master-tablebutton:hover {
+        background-color: #eaeaea;
+        font: black;
+    }
+
+th {
+    background-color: gray;
+    border: 1px solid black;
+}
+
+.master-row {
+    padding-left: 2%;
+    align-items: center;
+}
+
+    .master-row:hover {
+        background-color: #ddd;
+    }
+
+.master-tablebody {
+    background-color: #fff;
+    background-color: #f1f1f1;
+    border:1px solid;
+    font-weight: 400;
+    font-size: 18px;
+    align-items: center;
+    text-align:center;
+}
+
+.master-head {
+    border-top: .5px solid black;
+    border-bottom: .5px solid black;
+    border-left: .5px solid black;
+    border-right: .5px solid black;
+    background-color: #f1f1f1;
+    width: 25%;
+    font-weight: 400;
+    font-size: 18px;
+    text-align:center;
+}
+
+
+.center {
+    margin-left: 14rem;
+    width: 80%;
+
+}
+
+.Allowedtime {
+    width: 100%;
+    height: 42px;
+}
+
+.btn {
+    width: 100%;
+    height:30px;
+}
+
+    .btn:hover {
+        background-color: #02b689;
+        color: #fff;
+      
+    }
+.login-actions {
+    width: 54%;
+    margin: 12px;
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    /* margin-top: 3vh; */
+    right: 0;
+    margin-left: 43rem;
+}
+
+.btnADD {
+    background-color: transparent;
+    width: 48%;
+    padding: 8px 20px;
+    border: 1px solid #000;
+    font-weight: 600;
+}
+.btnADD:hover {
+    background-color: #02b689;
+    color: #fff;
+}
+
+.active {
+    background-color: #02b689;
+    color: #fff;
+}

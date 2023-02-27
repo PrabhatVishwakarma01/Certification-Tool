@@ -1,0 +1,65 @@
+﻿@page "/homepage"
+@using Tool.Shared
+@inject HttpClient _http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+<Sidebar></Sidebar>
+
+
+<PageTitle>Home Page</PageTitle>
+    <body>
+        <div class="master p-4">
+            <br />
+            <br/>
+            <div class="center">
+            <div class="login-actions">
+                <button @onclick="Cancel" class="btnADD">Add Quiz</button>
+                </div>
+           
+            @if(quizList != null)
+            {
+                <table class="master-table table table-striped table-borderless">
+                    <thead>
+                        <tr class="master-head">
+                            <th class="master-head"><b>Category</b></th>
+                            <th class="master-head"><b>Uploaded By</b></th>
+                            <th class="master-head"><b>Allowed Time</b></th>
+                            <th class="master-head"><b>Action</b></th>
+                        </tr>
+                    </thead>
+                    <tbody class="master-table3">
+                        @foreach (var q in quizList)
+                        {
+                            <tr class="master-row">
+                                <td class="master-tablebody">@q.QuizTitle</td>
+                                <td class="master-tablebody">Prabhat Vihswakarma</td>
+                                <td class="master-tablebody">@q.Timer</td>
+                                <td class="master-tablebody"><button class="btn"><i class="fa fa-edit"></i></button></td>
+                            </tr>
+                        }
+                    </tbody>
+                    </table>
+                    }
+            
+            </div>
+        </div>
+    </body>
+
+@code {
+    List <HomeViewModel> quizList = new List <HomeViewModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _http.GetAsync("api/quiz");
+        response.EnsureSuccessStatusCode();
+        quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
+        foreach(var q in quizList)
+        {
+            Console.WriteLine(q.QuizTitle);
+        }
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/addquizcategory");
+    }
+
+}
