@@ -8,8 +8,9 @@
 .Container {
     background-color: #eaeaea;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 50px;
     height: auto;
+    padding: 20px;
 }
 
 .Container-heading {
@@ -110,4 +111,8 @@ input[type="time" i] {
     font-size: 15px;
     width: 10rem;
     height: 38px;
+}
+.text-danger{
+    color: red !important;
+
 }

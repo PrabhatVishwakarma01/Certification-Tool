@@ -7,15 +7,15 @@
 <PageTitle>Tool Login</PageTitle>
 
 <div class="login-container">
-    <form @onsubmit="Login" action="" class="login-form" >
+    <form @onsubmit="Login" action="" class="login-form">
         <div class="login-input-container">
             <label for="email" class="login-input-label">Username</label>
-            <input type="email" id="email" @bind="@user.Email" form="Email" asp-for="email"   required/>
+            <input type="email" id="email" @bind="@user.Email" form="Email" asp-for="email" required />
             <span asp-validation-for="email"></span>
         </div>
 
         <div class="login-input-container">
-            <label for="password" class="login-input-label" >Password</label>
+            <label for="password" class="login-input-label">Password</label>
             <input type="password" id="password" @bind="@user.Password"
                    asp-for="password"
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%^&*]).{8,}"
@@ -26,7 +26,7 @@
         </div>
 
         <div class="login-actions">
-            <button class="btn active" >Login</button>
+            <button class="btn active">Login</button>
             <button type="reset" class="btn">Cancel</button>
         </div>
     </form>
@@ -50,5 +50,4 @@
             NavigationManager.NavigateTo("/homepage");
         }
     }
-   
-    }
+}
