@@ -26,17 +26,21 @@
                             </tr>
                         </thead>
                         <tbody class="master-table3">
-                           
-                                <tr class="master-row">
-                                    <td class="master-tablebody"></td>
-                                    <td class="master-tablebody"></td>
-                                    <td class="master-tablebody"></td>
-                                    <td class="master-tablebody"></td>
-                                    <td class="master-tablebody">
-                                        <button @onclick="EditQuestion" class="btn"><i class="fa fa-edit"></i></button>
-                            <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
-                                    </td>
-                                </tr>
+
+                        @foreach (var q in quizList)
+                    {
+                        <tr class="master-row">
+                            <td class="master-tablebody"></td>
+                            <td class="master-tablebody"></td>
+                            <td class="master-tablebody"></td>
+                            <td class="master-tablebody"></td>
+                            <td class="master-tablebody">
+                                <button @onclick="EditQuestion" class="btn"><i class="fa fa-edit"></i></button>
+                                <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+                        
+                    }
                           </tbody>
                     </table>
               </div>
@@ -45,6 +49,11 @@
     
 
 @code{
+    List<HomeViewModel> quizList = new List<HomeViewModel>();
+
+
+
+
     void EditQuestion()
     {
         NavigationManager.NavigateTo("/editquestion");
