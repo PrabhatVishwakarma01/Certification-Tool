@@ -27,5 +27,6 @@ namespace Tool.Shared
             get;
             set;
         }
+
     }
 }

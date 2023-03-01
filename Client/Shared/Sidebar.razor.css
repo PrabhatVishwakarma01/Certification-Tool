@@ -27,7 +27,8 @@ body {
 	.sidebar h3 {
 		text-align: center;
 		margin-bottom: 10px;
-		font-weight: 450;
+		font-weight: 500;
+		cursor:pointer;
 	}
 
 	.sidebar ul {

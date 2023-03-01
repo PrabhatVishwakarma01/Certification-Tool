@@ -1,15 +1,17 @@
-﻿<body>
+﻿@inject HttpClient _http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
     <div class="sidebar">
         <br /><br /><br />
       <ul>
             <li class="active">
-          <a href="#">
-            <h3>Quizzes</h3>
-          </a>
+            <h3 @onclick="Quizzes">Quizzes</h3>
         </li> 
       </ul>
     </div>
-    </body>
 @code {
-
+    void Quizzes()
+    {
+        NavigationManager.NavigateTo("/homepage");
+    }
 }

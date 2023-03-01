@@ -3,7 +3,9 @@
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+
 <Sidebar></Sidebar>
+
 
 
 <PageTitle>Home Page</PageTitle>
@@ -28,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody class="master-table3">
-                    @if(quizList != null)
+                    @if (quizList != null)
                     {
                         @foreach (var q in quizList)
                         {
@@ -51,31 +53,60 @@
         </div>
         </div>
     <!-- Modal -->
-    <div class="modal fade " id="addquizcategorymodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal fade " id="addquizcategorymodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Add Quiz Category</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick=@Okay></button>
                 </div>
+               @* <EditForm Model="@quiz">*@
+                <DataAnnotationsValidator></DataAnnotationsValidator>
                 <div class="modal-body">
+               
+                 
+
                 <form class="input-form">
 
                     <div class="Quiz-name form-input">
                         <label for="quiz-category">Quiz Category Name </label>
-                        <input type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" required>
+                        <input type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
+                            @*<ValidationMessage For="@(() => quiz.QuizTitle)"></ValidationMessage>
+                            <span asp-validation-for="quiz-category"></span>*@
+                            @if ((string.IsNullOrEmpty(@quiz.QuizTitle) || string.IsNullOrWhiteSpace(@quiz.QuizTitle)) && flag)
+                            {
+                                @*@quiz.QuizTitle*@
+                                <br /> <div class="text-danger">This value can't be Empty</div>
+                            }
                     </div>
                     <div class="Allowed-Time form-input">
                         <label for="allowed-time">Allowed Time in minutes </label>
-                        <input class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" required>
+                        <input class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" disabled="@validResponse" required>
+                            @if (quiz.Timer < 1 && flag)
+                            {
+                                <br /> <div class="text-danger">The timer value must be greater than or equal to 1.</div>
+                            }
+
                     </div>
                 
                 </form>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
-                <button type="button" class="btn btn-success" @onclick="Save" data-bs-dismiss="modal" aria-label="Close">Save changes</button>
-                </div>
+                @if (!validResponse)
+                {
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
+                    <button type="button" class="btn btn-success" @onclick="Save">Save changes</button>
+                }
+                else
+                {
+                    <div>Record Saved</div>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
+                }
+
+           @*     <button type="button" class="btn btn-success" @onclick="Save" data-bs-dismiss="modal" aria-label="Close">Save changes</button>*@
+            </div>
+
+             @*   </EditForm >*@
             </div>
         </div>
     </div>
@@ -86,6 +117,9 @@
 
 @code {
     List <HomeViewModel> quizList = new List <HomeViewModel>();
+
+    bool flag = false;
+    bool validResponse = false;
 
     async void getQuizCategory()
     {
@@ -112,23 +146,40 @@
     {
         NavigationManager.NavigateTo("/AddQuestion");
     }
+    AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel
+        {
+            QuizTitle = "",
+            Timer = 0
+        };
 
 
-    AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel();
 
     protected async Task Save()
     {
         Console.WriteLine("Save");
-        var response = await _http.PostAsJsonAsync("api/quiz", @quiz);
-        bool jsonResponse = await response.Content.ReadFromJsonAsync<bool>();
-        if (jsonResponse)
+        this.flag = true;
+        if (quiz.Timer >= 1 && quiz.QuizTitle != "")
         {
-            getQuizCategory();
-            Console.WriteLine("saved");
-            NavigationManager.NavigateTo("/homepage");
+            var response = await _http.PostAsJsonAsync("api/quiz", @quiz);
+            bool jsonResponse = await response.Content.ReadFromJsonAsync<bool>();
+            if (jsonResponse)
+            {
+                getQuizCategory();
+                Console.WriteLine("saved");
+                this.validResponse = true;
+
+            }
+
         }
     }
-
+    void Okay()
+    {
+        this.validResponse = false;
+        this.flag = false;
+        quiz.QuizTitle = "";
+        quiz.Timer = 0;
+        NavigationManager.NavigateTo("/homepage");
+    }
 
     void Cancel()
     {
