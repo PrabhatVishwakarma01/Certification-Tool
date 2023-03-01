@@ -7,27 +7,29 @@
 
 
 <PageTitle>Home Page</PageTitle>
-    <body>
+   
         <div class="master p-4">
             <br />
             <br/>
             <div class="center">
             <div class="login-actions">
-                <button @onclick="AddQuiz" class="btnADD">Add Quiz Category</button> 
-                </div>
+            <button type="button" class=" btn btnADD" data-bs-toggle="modal" data-bs-target="#addquizcategorymodel">Add Quiz Category</button>
+            </div>
            
-            @if(quizList != null)
-            {
-                <table class="master-table table table-striped table-borderless">
-                    <thead>
-                        <tr class="master-head">
-                            <th class="master-head"><b>Category</b></th>
-                            <th class="master-head"><b>Uploaded By</b></th>
-                            <th class="master-head"><b>Allowed Time</b></th>
-                            <th class="master-head"><b>Action</b></th>
-                        </tr>
-                    </thead>
-                    <tbody class="master-table3">
+        @if (quizList != null)
+        {
+            <table class="master-table table table-striped table-borderless">
+                <thead>
+                    <tr class="master-head">
+                        <th class="master-head"><b>Category</b></th>
+                        <th class="master-head"><b>Uploaded By</b></th>
+                        <th class="master-head"><b>Allowed Time</b></th>
+                        <th class="master-head"><b>Action</b></th>
+                    </tr>
+                </thead>
+                <tbody class="master-table3">
+                    @if(quizList != null)
+                    {
                         @foreach (var q in quizList)
                         {
                             <tr class="master-row">
@@ -37,41 +39,101 @@
                                 <td class="master-tablebody">
                                     <button @onclick="EditQuiz" class="btn"><i class="fa fa-edit"></i></button>
                                     <button @onclick="AddQuestion" class="btn"><i class="fa-solid fa-circle-plus"></i></button>
-                                    <button  class="btn"><i class="fa-regular fa-trash-can"></i></button>
-                                    </td>
+                                    <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
+                                </td>
                             </tr>
                         }
-                        
-                    </tbody>
-                    </table>
                     }
-            
+                   
+                </tbody>
+            </table>
+        }           
+        </div>
+        </div>
+    <!-- Modal -->
+    <div class="modal fade " id="addquizcategorymodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Quiz Category</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form class="input-form">
+
+                    <div class="Quiz-name form-input">
+                        <label for="quiz-category">Quiz Category Name </label>
+                        <input type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" required>
+                    </div>
+                    <div class="Allowed-Time form-input">
+                        <label for="allowed-time">Allowed Time in minutes </label>
+                        <input class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" required>
+                    </div>
+                
+                </form>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
+                <button type="button" class="btn btn-success" @onclick="Save" data-bs-dismiss="modal" aria-label="Close">Save changes</button>
+                </div>
             </div>
         </div>
-    </body>
+    </div>
+
+
+   
+   
 
 @code {
     List <HomeViewModel> quizList = new List <HomeViewModel>();
-    protected override async Task OnInitializedAsync()
+
+    async void getQuizCategory()
     {
         var response = await _http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
         quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
-        foreach(var q in quizList)
+        foreach (var q in quizList)
         {
             Console.WriteLine(q.QuizTitle);
         }
     }
-    void AddQuiz()
+    protected override async Task OnInitializedAsync()
     {
-        NavigationManager.NavigateTo("/addquizcategory");
+        getQuizCategory();
     }
+
+
+
     void EditQuiz()
     {
         NavigationManager.NavigateTo("/editquizcategory");
     }
     void AddQuestion()
     {
-        NavigationManager.NavigateTo("/addquestion");
+        NavigationManager.NavigateTo("/AddQuestion");
     }
+
+
+    AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel();
+
+    protected async Task Save()
+    {
+        Console.WriteLine("Save");
+        var response = await _http.PostAsJsonAsync("api/quiz", @quiz);
+        bool jsonResponse = await response.Content.ReadFromJsonAsync<bool>();
+        if (jsonResponse)
+        {
+            getQuizCategory();
+            Console.WriteLine("saved");
+            NavigationManager.NavigateTo("/homepage");
+        }
+    }
+
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/homepage");
+    }
+
+
 }
