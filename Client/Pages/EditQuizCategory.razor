@@ -1,5 +1,8 @@
 ﻿@page "/editquizcategory"
-
+@using Tool.Shared
+@inject HttpClient _http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 <Navbar></Navbar>
 <PageTitle>EditQuizCategory</PageTitle>
 
@@ -7,30 +10,42 @@
 <form>
     <div class="container">
        <div class="container-heading">
-                <h1>Quiz Category</h1>
+                <h1>List of Questions</h1>
             </div>
             <div class="button-group">
-            <button class="button active">Add</button>
+            <button class="button active" @onclick="Saved">Add</button>
             <button class="button active">Edit</button>
                 <button class="button active">Delete</button>
             </div>
-
-            <div class="display-field form-input">
-                <input type="checkbox" />
-                <label class="checkbox-heading" for="1">1:</label>
-                <br>
-                <input type="checkbox" />
-            <label class="checkbox-heading" for="2">2:</label>
-                <br>
-                <input type="checkbox" />
-            <label class="checkbox-heading" for="3">3:</label>
-                <br>
-                <input type="checkbox" />
-            <label class="checkbox-heading" for="4">4:</label>
-                <br>
-                <input type="checkbox" />
-            <label class="checkbox-heading" for="5">5:</label>
-            </div>
-        </div>
+            @if(questionList != null)
+            {
+                
+                        @foreach (var q in questionList)
+                        {
+                            <div class="display-field form-input">
+                            <input type="checkbox" />
+                            <label class="checkbox-heading" >@q.QuestionName</label>
+                            </div>
+                        }
+                   
+             }
+            </div> 
 
 </form>
+@code{
+     List<EditViewModel> questionList = new List<EditViewModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _http.GetAsync("api/question");
+        response.EnsureSuccessStatusCode();
+        questionList = await response.Content.ReadFromJsonAsync<List<EditViewModel>>();
+        foreach(var q in questionList)
+        {
+            Console.WriteLine(q.QuestionName);
+        }
+    }
+    void Saved()
+    {
+        NavigationManager.NavigateTo("/addquestion");
+    }
+}

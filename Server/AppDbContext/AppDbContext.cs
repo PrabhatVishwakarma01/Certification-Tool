@@ -8,6 +8,8 @@ using Tool.Server.Models;
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<QuizModel> Quizs { get; set; }
+   
+    public DbSet<AddQuestion> AddQuestions { get; set; }
     public DbSet<QuestionOption> QuestionOptions { get; set; }
     public DbSet<QuestionType> QuestionTypes { get; set; }
     public DbSet<QuizQuestion> QuizQuestions { get; set; }
@@ -26,6 +28,7 @@ using Tool.Server.Models;
             .WithOne(u => u.Role)
             .HasForeignKey<User>(u => u.RoleCode)
             .OnDelete(DeleteBehavior.Cascade);
+        
 
 
         //Relation between Quiz and QuizQuestion 
@@ -84,6 +87,8 @@ using Tool.Server.Models;
            .HasForeignKey(s => s.UserId)
            .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<AddQuestion>()
+            .HasMany(u => u.Users);
     }
 
 

@@ -34,7 +34,7 @@
                                 <td class="master-tablebody">@q.QuizTitle</td>
                                 <td class="master-tablebody">Prabhat Vihswakarma</td>
                                 <td class="master-tablebody">@q.Timer</td>
-                                <td class="master-tablebody"><button class="btn"><i class="fa fa-edit"></i></button></td>
+                                <td class="master-tablebody"><button class="btn" @onclick="Edited"><i class="fa fa-edit"></i></button></td>
                             </tr>
                         }
                     </tbody>
@@ -61,5 +61,8 @@
     {
         NavigationManager.NavigateTo("/addquizcategory");
     }
-
+    void Edited()
+    {
+        NavigationManager.NavigateTo("/editquizcategory");
+    }
 }
