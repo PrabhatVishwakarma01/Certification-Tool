@@ -1,36 +1,52 @@
 ﻿@page "/editquizcategory"
-
-<Navbar></Navbar>
+@using Tool.Shared
+@inject HttpClient _http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 <PageTitle>EditQuizCategory</PageTitle>
 
 
-<form>
-    <div class="container">
-       <div class="container-heading">
-                <h1>Quiz Category</h1>
-            </div>
-            <div class="button-group">
-            <button class="button active">Add</button>
-            <button class="button active">Edit</button>
-                <button class="button active">Delete</button>
+    <body>
+        <div class="master p-4">
+            <br />
+            <br />
+            <div class="center">
+            <div class="Quiz-name form-input">
+                <label for="quiz-category">Quiz Category Name :</label>
             </div>
 
-            <div class="display-field form-input">
-                <input type="checkbox" />
-                <label class="checkbox-heading" for="1">1:</label>
-                <br>
-                <input type="checkbox" />
-            <label class="checkbox-heading" for="2">2:</label>
-                <br>
-                <input type="checkbox" />
-            <label class="checkbox-heading" for="3">3:</label>
-                <br>
-                <input type="checkbox" />
-            <label class="checkbox-heading" for="4">4:</label>
-                <br>
-                <input type="checkbox" />
-            <label class="checkbox-heading" for="5">5:</label>
-            </div>
+                    <table class="master-table table table-striped table-borderless">
+                        <thead>
+                            <tr class="master-head">
+                                <th class="master-head"><b>Question #</b> </th>
+                                <th class="master-head"><b>Question Text</b></th>
+                                <th class="master-head"><b>Available Options</b></th>
+                                <th class="master-head"><b>Correct Option</b></th>
+                                <th class="master-head"><b>Action</b></th>
+                            </tr>
+                        </thead>
+                        <tbody class="master-table3">
+                           
+                                <tr class="master-row">
+                                    <td class="master-tablebody"></td>
+                                    <td class="master-tablebody"></td>
+                                    <td class="master-tablebody"></td>
+                                    <td class="master-tablebody"></td>
+                                    <td class="master-tablebody">
+                                        <button @onclick="EditQuestion" class="btn"><i class="fa fa-edit"></i></button>
+                            <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+                          </tbody>
+                    </table>
+              </div>
         </div>
+    </body>
+    
 
-</form>
+@code{
+    void EditQuestion()
+    {
+        NavigationManager.NavigateTo("/editquestion");
+    }
+}

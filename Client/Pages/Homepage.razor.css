@@ -89,7 +89,7 @@ th {
 }
 
 .btn {
-    width: 100%;
+    width: 50px;
     height:30px;
 }
 
@@ -101,26 +101,63 @@ th {
 .login-actions {
     width: 54%;
     margin: 12px;
-    /* align-items: center; */
-    /* justify-content: space-between; */
-    /* margin-top: 3vh; */
     right: 0;
-    margin-left: 43rem;
+   
 }
 
 .btnADD {
-    background-color: transparent;
-    width: 48%;
-    padding: 8px 20px;
+    background-color: #02b689;
+    width: 35%;
+    padding: 7px;
     border: 1px solid #000;
-    font-weight: 600;
+    font-weight: 500;
+    margin-left: 45rem;
+    color:white;
 }
 .btnADD:hover {
-    background-color: #02b689;
-    color: #fff;
+    background-color: transparent;
+    color: black;
 }
 
 .active {
     background-color: #02b689;
     color: #fff;
 }
+
+
+
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+    .popup-container form {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+    }
+
+    .popup-container.show {
+        display: block;
+    }
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    z-index: 9999;
+}
+

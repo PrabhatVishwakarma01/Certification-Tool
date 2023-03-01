@@ -37,8 +37,10 @@ label {
 
 
 
-.Quiz-name, .Allowed-Time {
+.Quiz-name{
     display: flex;
+    width:90%;
+    text-align:center;
     align-items: center;
     text-align: center;
 }
@@ -62,15 +64,15 @@ input[type="text"] {
 }
 
 .Question-Text {
-    display: flex;
+   
     align-items: center;
 }
 
 
 
 textarea {
-    width: 30rem;
-    height: auto;
+    width: 90%;
+    height: 75px;
     padding: 10px;
     margin-left: 10px;
 }

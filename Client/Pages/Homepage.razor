@@ -13,7 +13,7 @@
             <br/>
             <div class="center">
             <div class="login-actions">
-                <button @onclick="Cancel" class="btnADD">Add Quiz</button>
+                <button @onclick="AddQuiz" class="btnADD">Add Quiz Category</button> 
                 </div>
            
             @if(quizList != null)
@@ -32,11 +32,16 @@
                         {
                             <tr class="master-row">
                                 <td class="master-tablebody">@q.QuizTitle</td>
-                                <td class="master-tablebody">Prabhat Vihswakarma</td>
+                                <td class="master-tablebody">Prabhat Vishwakarma</td>
                                 <td class="master-tablebody">@q.Timer</td>
-                                <td class="master-tablebody"><button class="btn"><i class="fa fa-edit"></i></button></td>
+                                <td class="master-tablebody">
+                                    <button @onclick="EditQuiz" class="btn"><i class="fa fa-edit"></i></button>
+                                    <button @onclick="AddQuestion" class="btn"><i class="fa-solid fa-circle-plus"></i></button>
+                                    <button  class="btn"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
                             </tr>
                         }
+                        
                     </tbody>
                     </table>
                     }
@@ -57,9 +62,16 @@
             Console.WriteLine(q.QuizTitle);
         }
     }
-    void Cancel()
+    void AddQuiz()
     {
         NavigationManager.NavigateTo("/addquizcategory");
     }
-
+    void EditQuiz()
+    {
+        NavigationManager.NavigateTo("/editquizcategory");
+    }
+    void AddQuestion()
+    {
+        NavigationManager.NavigateTo("/addquestion");
+    }
 }
