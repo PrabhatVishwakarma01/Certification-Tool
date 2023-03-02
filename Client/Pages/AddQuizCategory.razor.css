@@ -3,111 +3,197 @@
     padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "aktiv-grotesk", Arial, Â sans-serif;
+    justify-items: center;
 }
 
-.Container {
-    background-color: #eaeaea;
+
+
+a {
+    text-decoration: none;
+    padding: 8px 20px;
+}
+
+
+
+.master {
+    justify-content: center;
     width: 100%;
-    margin-top: 20px;
-    height: auto;
 }
 
-.Container-heading {
-    margin: 0px 20px 30px 20px;
-    box-sizing: border-box;
+
+
+.master-table {
+    text-align: auto;
+    width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
 }
 
-label {
-    display: flex;
-    margin-bottom: 5px;
+
+
+.master-tablebutton {
+    width: 12rem;
+    height: 2rem;
+    background-color: #02b689;
+    color: black;
+    left: 0;
+    border: 1px solid #000;
+    font-weight: 400;
+}
+
+
+
+    .master-tablebutton:hover {
+        background-color: #eaeaea;
+        font: black;
+    }
+
+
+
+th {
+    background-color: gray;
+    border: 1px solid black;
+}
+
+
+
+.master-row {
+    padding-left: 2%;
+    align-items: center;
+}
+
+
+
+    .master-row:hover {
+        background-color: #ddd;
+    }
+
+
+
+.master-tablebody {
+    background-color: #fff;
+    background-color: #f1f1f1;
+    border: 1px solid;
     font-weight: 400;
     font-size: 18px;
-}
-/* Form Styling */
-.input-form {
-    margin: 0px 0px 0px 20px;
-    box-sizing: border-box;
-}
-
-.Quiz-name, .Allowed-Time {
-    display: flex;
     align-items: center;
     text-align: center;
 }
 
 
-.form-input {
-    margin-bottom: 20px;
-}
 
-input[type="text"] {
-    width: 30rem;
-    padding: 10px;
-    border: 1px solid black;
-    box-sizing: border-box;
-    margin-left: 10px;
-    /* margin-bottom: 20px; */
-}
-
-.Question-Text {
-    display: flex;
-    align-items: center;
-}
-
-textarea {
-    width: 30rem;
-    height: auto;
-    padding: 10px;
-    margin-left: 10px;
-}
-
-input[type="checkbox"] {
-    margin-left: 30px;
-    width: 25px;
-    height: 25px;
-    align-items: center;
+.master-head {
+    border-top: .5px solid black;
+    border-bottom: .5px solid black;
+    border-left: .5px solid black;
+    border-right: .5px solid black;
+    background-color: #f1f1f1;
+    width: 25%;
+    font-weight: 400;
+    font-size: 18px;
+    text-align: center;
 }
 
 
 
-.input-options {
-    display: flex;
-    align-items: center;
+
+.center {
+    margin-left: 14rem;
+    width: 80%;
 }
 
-/* Form Button */
 
-.Form-actions {
-    width: 40%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 3vh;
+
+.Allowedtime {
+    width: 100%;
+    height: 42px;
 }
+
+
 
 .btn {
-    background-color: transparent;
-    width: 50%;
-    padding: 8px 20px;
-    border: 1px solid #000;
-    font-weight: 600;
+    width: 50px;
+    height: 30px;
 }
+
+
+
+    .btn:hover {
+        background-color: #02b689;
+        color: #fff;
+    }
+
+.login-actions {
+    width: 54%;
+    margin: 12px;
+    right: 0;
+}
+
+
+
+.btnADD {
+    background-color: #02b689;
+    width: 35%;
+    padding: 7px;
+    border: 1px solid #000;
+    font-weight: 500;
+    margin-left: 45rem;
+    color: white;
+}
+
+    .btnADD:hover {
+        background-color: transparent;
+        color: black;
+    }
+
+
 
 .active {
     background-color: #02b689;
     color: #fff;
 }
 
-input[type="time" i] {
-    align-items: center;
-    display: inline-flex;
-    /* font-family: monospace; */
-    padding-inline-start: 1px;
-    cursor: default;
-    margin-left: 10px;
-    overflow: hidden;
-    padding: 10px;
-    font-size: 15px;
-    width: 10rem;
-    height: 38px;
+
+
+
+
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+
+
+    .popup-container form {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+    }
+
+
+
+    .popup-container.show {
+        display: block;
+    }
+
+
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    z-index: 9999;
 }

@@ -7,6 +7,8 @@
 
 
 
+
+
 .Container {
     background-color: #eaeaea;
     width: 100%;
@@ -16,10 +18,14 @@
 
 
 
+
+
 .Container-heading {
     margin: 0px 20px 30px 20px;
     box-sizing: border-box;
 }
+
+
 
 
 
@@ -37,8 +43,12 @@ label {
 
 
 
-.Quiz-name, .Allowed-Time {
+
+
+.Quiz-name {
     display: flex;
+    width: 90%;
+    text-align: center;
     align-items: center;
     text-align: center;
 }
@@ -46,9 +56,13 @@ label {
 
 
 
+
+
 .form-input {
     margin-bottom: 20px;
 }
+
+
 
 
 
@@ -61,19 +75,24 @@ input[type="text"] {
     /* margin-bottom: 20px; */
 }
 
+
+
 .Question-Text {
-    display: flex;
     align-items: center;
 }
 
 
 
+
+
 textarea {
-    width: 30rem;
-    height: auto;
+    width: 90%;
+    height: 75px;
     padding: 10px;
     margin-left: 10px;
 }
+
+
 
 
 
@@ -88,6 +107,8 @@ input[type="checkbox"] {
 
 
 
+
+
 .input-options {
     display: flex;
     align-items: center;
@@ -95,7 +116,11 @@ input[type="checkbox"] {
 
 
 
+
+
 /* Form Button */
+
+
 
 
 
@@ -109,6 +134,8 @@ input[type="checkbox"] {
 
 
 
+
+
 .btn {
     background-color: transparent;
     width: 50%;
@@ -119,10 +146,14 @@ input[type="checkbox"] {
 
 
 
+
+
 .active {
     background-color: #02b689;
     color: #fff;
 }
+
+
 
 
 
