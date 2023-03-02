@@ -7,15 +7,15 @@
 
 
 <PageTitle>Home Page</PageTitle>
-   
-        <div class="master p-4">
-            <br />
-            <br/>
-            <div class="center">
-            <div class="login-actions">
+
+<div class="master p-4">
+    <br />
+    <br />
+    <div class="center">
+        <div class="login-actions">
             <button type="button" class=" btn btnADD" data-bs-toggle="modal" data-bs-target="#addquizcategorymodel">Add Quiz Category</button>
-            </div>
-           
+        </div>
+
         @if (quizList != null)
         {
             <table class="master-table table table-striped table-borderless">
@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody class="master-table3">
-                    @if(quizList != null)
+                    @if (quizList != null)
                     {
                         @foreach (var q in quizList)
                         {
@@ -44,21 +44,21 @@
                             </tr>
                         }
                     }
-                   
+
                 </tbody>
             </table>
-        }           
-        </div>
-        </div>
-    <!-- Modal -->
-    <div class="modal fade " id="addquizcategorymodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Quiz Category</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+        }
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade " id="addquizcategorymodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Quiz Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
                 <form class="input-form">
 
                     <div class="Quiz-name form-input">
@@ -69,25 +69,25 @@
                         <label for="allowed-time">Allowed Time in minutes </label>
                         <input class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" required>
                     </div>
-                
+
                 </form>
-                </div>
-                <div class="modal-footer">
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
                 <button type="button" class="btn btn-success" @onclick="Save" data-bs-dismiss="modal" aria-label="Close">Save changes</button>
-                </div>
             </div>
         </div>
     </div>
+</div>
 
 
-   
-   
+
+
 
 @code {
-    List <HomeViewModel> quizList = new List <HomeViewModel>();
+    List<HomeViewModel> quizList = new List<HomeViewModel>();
 
-    async void getQuizCategory()
+    async Task getQuizCategory()
     {
         var response = await _http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
@@ -97,6 +97,7 @@
             Console.WriteLine(q.QuizTitle);
         }
     }
+
     protected override async Task OnInitializedAsync()
     {
         getQuizCategory();
@@ -114,17 +115,19 @@
     }
 
 
-    AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel();
+    AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel
+        {
+            QuizTitle = "",
+            Timer = 0
+        };
 
     protected async Task Save()
     {
-        Console.WriteLine("Save");
-        var response = await _http.PostAsJsonAsync("api/quiz", @quiz);
+        var response = await _http.PostAsJsonAsync("api/quiz", quiz);
         bool jsonResponse = await response.Content.ReadFromJsonAsync<bool>();
         if (jsonResponse)
         {
-            getQuizCategory();
-            Console.WriteLine("saved");
+            await getQuizCategory();
             NavigationManager.NavigateTo("/homepage");
         }
     }
