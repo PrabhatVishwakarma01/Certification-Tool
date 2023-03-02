@@ -11,7 +11,7 @@
     margin-top: 8rem;
     justify-content: center;
     align-items: center;
-    margin-left: 25rem;
+    margin-left: 15rem;
 }
 
 .login-form {
@@ -55,11 +55,11 @@ input {
 }
 
 .login-actions {
-    width: 25%;
+    width: 40%;
     display: flex;
     justify-content: space-between;
     margin-top: 3vh;
-    margin-left: 3rem;
+    margin-left: -3rem;
 }
 
 .btn {
