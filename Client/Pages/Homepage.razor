@@ -1,5 +1,8 @@
-﻿@page "/homepage"
+﻿
+@page "/homepage"
 @using Tool.Shared
+@using Blazorise
+@using Blazorise.Bootstrap
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
@@ -7,17 +10,16 @@
 
 
 <PageTitle>Home Page</PageTitle>
-    <body>
-        <div class="master p-4">
-            <br />
-            <br/>
-            <div class="center">
+<body>
+    <div class="master p-4">
+        <br />
+        <br />
+        <div class="center">
             <div class="login-actions">
                 <button @onclick="Cancel" class="btnADD">Add Quiz</button>
-                </div>
-           
-            @if(quizList != null)
-            {
+            </div>
+
+            @if (quizList != null) {
                 <table class="master-table table table-striped table-borderless">
                     <thead>
                         <tr class="master-head">
@@ -28,8 +30,7 @@
                         </tr>
                     </thead>
                     <tbody class="master-table3">
-                        @foreach (var q in quizList)
-                        {
+                        @foreach (var q in quizList) {
                             <tr class="master-row">
                                 <td class="master-tablebody">@q.QuizTitle</td>
                                 <td class="master-tablebody">Prabhat Vihswakarma</td>
@@ -38,28 +39,47 @@
                             </tr>
                         }
                     </tbody>
-                    </table>
-                    }
-            
-            </div>
+                </table>
+            }
+
         </div>
-    </body>
+    </div>
+   <div class="container">  
+        <div class="row">  
+            
+<ul class = "pagination">  
+   <li><a href = "/homepage">«</a></li>
+                <li><a href="/homepage">1</a></li>
+                
+            </ul>  
+   
+  
+</div>  
+     </div>  
+   
+</body>
+
+
 
 @code {
-    List <HomeViewModel> quizList = new List <HomeViewModel>();
-    protected override async Task OnInitializedAsync()
-    {
+   
+    List<HomeViewModel> quizList = new List<HomeViewModel>();
+    int currentPage = 1;
+
+    protected override async Task OnInitializedAsync() {
         var response = await _http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
         quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
-        foreach(var q in quizList)
-        {
-            Console.WriteLine(q.QuizTitle);
-        }
+        // Sort quizzes by category name
+        quizList.Sort((a, b) => string.Compare(a.QuizTitle, b.QuizTitle));
     }
-    void Cancel()
-    {
+
+    void OnPageChanged(int page) => currentPage = page;
+    void Cancel() {
         NavigationManager.NavigateTo("/addquizcategory");
     }
+    
+    
+
 
 }

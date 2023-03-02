@@ -124,3 +124,8 @@ th {
     background-color: #02b689;
     color: #fff;
 }
+.row{
+    margin-left:35rem;
+    margin-top:20rem;
+    align-items:center;
+}

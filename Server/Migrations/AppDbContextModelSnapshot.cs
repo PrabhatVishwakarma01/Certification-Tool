@@ -320,8 +320,8 @@ namespace Tool.Server.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Mobile")
-                        .HasColumnType("int");
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");

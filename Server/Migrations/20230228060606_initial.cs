@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tool.Server.Migrations
 {
-    public partial class second : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -115,7 +115,7 @@ namespace Tool.Server.Migrations
                     RoleCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Mobile = table.Column<int>(type: "int", nullable: false),
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserSummary = table.Column<string>(type: "nvarchar(max)", nullable: true),

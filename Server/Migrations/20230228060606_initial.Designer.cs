@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Tool.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230227070149_second")]
-    partial class second
+    [Migration("20230228060606_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -322,8 +322,8 @@ namespace Tool.Server.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Mobile")
-                        .HasColumnType("int");
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
