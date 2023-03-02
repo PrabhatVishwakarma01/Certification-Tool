@@ -3,59 +3,49 @@
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+<Navbar></Navbar>
 <PageTitle>EditQuizCategory</PageTitle>
 
 
-    <body>
-        <div class="master p-4">
-            <br />
-            <br />
-            <div class="center">
-            <div class="Quiz-name form-input">
-                <label for="quiz-category">Quiz Category Name :</label>
+<form>
+    <div class="container">
+       <div class="container-heading">
+                <h1>List of Questions</h1>
             </div>
+            <div class="button-group">
+            <button class="button active" @onclick="Saved">Add</button>
+            <button class="button active">Edit</button>
+                <button class="button active">Delete</button>
+            </div>
+            @if(questionList != null)
+            {
+                
+                        @foreach (var q in questionList)
+                        {
+                            <div class="display-field form-input">
+                            <input type="checkbox" />
+                            <label class="checkbox-heading" >@q.QuestionName</label>
+                            </div>
+                        }
+                   
+             }
+            </div> 
 
-                    <table class="master-table table table-striped table-borderless">
-                        <thead>
-                            <tr class="master-head">
-                                <th class="master-head"><b>Question #</b> </th>
-                                <th class="master-head"><b>Question Text</b></th>
-                                <th class="master-head"><b>Available Options</b></th>
-                                <th class="master-head"><b>Correct Option</b></th>
-                                <th class="master-head"><b>Action</b></th>
-                            </tr>
-                        </thead>
-                        <tbody class="master-table3">
-
-                        @foreach (var q in quizList)
-                    {
-                        <tr class="master-row">
-                            <td class="master-tablebody"></td>
-                            <td class="master-tablebody"></td>
-                            <td class="master-tablebody"></td>
-                            <td class="master-tablebody"></td>
-                            <td class="master-tablebody">
-                                <button @onclick="EditQuestion" class="btn"><i class="fa fa-edit"></i></button>
-                                <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                        
-                    }
-                          </tbody>
-                    </table>
-              </div>
-        </div>
-    </body>
-    
-
+</form>
 @code{
-    List<HomeViewModel> quizList = new List<HomeViewModel>();
-
-
-
-
-    void EditQuestion()
+     List<EditViewModel> questionList = new List<EditViewModel>();
+    protected override async Task OnInitializedAsync()
     {
-        NavigationManager.NavigateTo("/editquestion");
+        var response = await _http.GetAsync("api/question");
+        response.EnsureSuccessStatusCode();
+        questionList = await response.Content.ReadFromJsonAsync<List<EditViewModel>>();
+        foreach(var q in questionList)
+        {
+            Console.WriteLine(q.QuestionName);
+        }
+    }
+    void Saved()
+    {
+        NavigationManager.NavigateTo("/addquestion");
     }
 }

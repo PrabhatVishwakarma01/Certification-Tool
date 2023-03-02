@@ -5,7 +5,9 @@ using Tool.Server.Models;
 
     public class AppDbContext:DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    //internal readonly object AddQuestion;
+
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<QuizModel> Quizs { get; set; }
     public DbSet<QuestionOption> QuestionOptions { get; set; }

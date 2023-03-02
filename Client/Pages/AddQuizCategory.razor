@@ -5,32 +5,57 @@
 @inject NavigationManager NavigationManager
 
 <PageTitle>Add Quiz Category</PageTitle>
-    <div class="Container">
-        <div class="Container-heading">
-            <h3>Add Quiz Category</h3>
-        </div>
-        <form class="input-form" @onsubmit="Save">
+<div class="Container">
+    <div class="Container-heading">
+        <h3>Add Quiz Category</h3>
+    </div>
+    <form class="input-form" @onsubmit="Save">
 
-            <div class="Quiz-name form-input">
-                <label for="quiz-category">Quiz Category Name </label>
+        <div class="Quiz-name form-input">
+            <label for="quiz-category">Quiz Category Name </label>
             <input type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" required>
-            </div>
-            <div class="Allowed-Time form-input">
-                <label for="allowed-time">Allowed Time in minutes </label>
-            <input class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" required>
-            </div>
-           <div class="Form-actions">
-            <button type="submit" class="btn active" @onsubmit="Save">Save</button>
+        </div>
+        <div class="Allowed-Time form-input">
+            <label for="allowed-time">Allowed Time in minutes </label>
+            <input type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" required>
+        </div>
+        <div class="Question-Text form-input">
+            <label for="question-text">Question Text </label>
+            <textarea id="question-text" name="question-text" required></textarea>
+        </div>
+        <div class="input-options form-input">
+            <label for="option1" class="checkbox-label">Option 1 </label>
+            <input type="text" id="option1" name="option1" required>
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="input-options form-input">
+            <label for="option2" class="checkbox-label">Option 2 </label>
+            <input type="text" id="option2" name="option2" required>
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="input-options form-input">
+            <label for="option3" class="checkbox-label">Option 3 :</label>
+            <input type="text" id="option3" name="option3">
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="input-options form-input">
+            <label for="option4" class="checkbox-label">Option 4 :</label>
+            <input type="text" id="option4" name="option4">
+            <input type="checkbox" id="myCheckbox">
+        </div>
+
+        <div class="Form-actions">
+            <button type="submit" class="btn active">Save</button>
             <button type="cancle" class="btn" @onclick="Cancel">Cancel</button>
         </div>
-        </form>
-    </div>
+    </form>
+</div>
 
 @code {
     AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel();
     protected override async Task OnInitializedAsync()
     {
-        
+
     }
     protected async Task Save()
     {

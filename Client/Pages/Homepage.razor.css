@@ -1,6 +1,12 @@
-﻿
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "aktiv-grotesk", Arial, Â sans-serif;
+    justify-items: center;
+}
 
-a{
+a {
     text-decoration: none;
     padding: 8px 20px;
 }
@@ -15,7 +21,6 @@ a{
     width: 100%;
     background-color: #fff;
     border-collapse: collapse;
-   
 }
 
 .master-tablebutton {
@@ -50,11 +55,11 @@ th {
 .master-tablebody {
     background-color: #fff;
     background-color: #f1f1f1;
-    border:1px solid;
+    border: 1px solid;
     font-weight: 400;
     font-size: 18px;
     align-items: center;
-    text-align:center;
+    text-align: center;
 }
 
 .master-head {
@@ -66,14 +71,13 @@ th {
     width: 25%;
     font-weight: 400;
     font-size: 18px;
-    text-align:center;
+    text-align: center;
 }
 
 
 .center {
     margin-left: 14rem;
     width: 80%;
-
 }
 
 .Allowedtime {
@@ -81,80 +85,40 @@ th {
     height: 42px;
 }
 
+.btn {
+    width: 100%;
+    height: 30px;
+}
+
+    .btn:hover {
+        background-color: #02b689;
+        color: #fff;
+    }
 
 .login-actions {
     width: 54%;
     margin: 12px;
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    /* margin-top: 3vh; */
     right: 0;
-   
+    margin-left: 43rem;
 }
 
 .btnADD {
-    background-color: #02b689;
-    width: 35%;
-    padding: 7px;
-    border: 1px solid #000;
-    font-weight: 500;
-    margin-left: 45rem;
-    color:white;
-    border-radius: none;
-}
-.btnADD:hover {
     background-color: transparent;
-    color: black;
+    width: 48%;
+    padding: 8px 20px;
+    border: 1px solid #000;
+    font-weight: 600;
 }
+
+    .btnADD:hover {
+        background-color: #02b689;
+        color: #fff;
+    }
 
 .active {
     background-color: #02b689;
     color: #fff;
-}
-
-
-
-.popup-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1;
-}
-
-    .popup-container form {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-    }
-
-    .popup-container.show {
-        display: block;
-    }
-
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border: 1px solid black;
-    padding: 20px;
-    z-index: 9999;
-}
-
-.form-input {
-    margin-bottom: 20px;
-    text-align: center;
-    width: 100%;
-    font-weight: 500;
-    font-size: 18px;
-}
-.Quiz-name, {
-    display: flex;
-    align-items: center;
-    text-align: center;
 }
