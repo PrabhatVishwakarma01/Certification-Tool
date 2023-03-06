@@ -7,6 +7,10 @@
 
 
 
+
+
+
+
 .Container {
     background-color: #eaeaea;
     width: 100%;
@@ -16,10 +20,18 @@
 
 
 
+
+
+
+
 .Container-heading {
     margin: 0px 20px 30px 20px;
     box-sizing: border-box;
 }
+
+
+
+
 
 
 
@@ -37,10 +49,14 @@ label {
 
 
 
-.Quiz-name{
+
+
+
+
+.Quiz-name {
     display: flex;
-    width:90%;
-    text-align:center;
+    width: 90%;
+    text-align: center;
     align-items: center;
     text-align: center;
 }
@@ -48,9 +64,17 @@ label {
 
 
 
+
+
+
+
 .form-input {
     margin-bottom: 20px;
 }
+
+
+
+
 
 
 
@@ -63,10 +87,17 @@ input[type="text"] {
     /* margin-bottom: 20px; */
 }
 
+
+
+
+
 .Question-Text {
-   
     align-items: center;
 }
+
+
+
+
 
 
 
@@ -76,6 +107,10 @@ textarea {
     padding: 10px;
     margin-left: 10px;
 }
+
+
+
+
 
 
 
@@ -90,6 +125,10 @@ input[type="checkbox"] {
 
 
 
+
+
+
+
 .input-options {
     display: flex;
     align-items: center;
@@ -97,17 +136,29 @@ input[type="checkbox"] {
 
 
 
+
+
+
+
 /* Form Button */
 
 
 
+
+
+
+
 .Form-actions {
-    width: 80%;
+    width: 40%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 3vh;
 }
+
+
+
+
 
 
 
@@ -121,10 +172,18 @@ input[type="checkbox"] {
 
 
 
+
+
+
+
 .active {
     background-color: #02b689;
     color: #fff;
 }
+
+
+
+
 
 
 

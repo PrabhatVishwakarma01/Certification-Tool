@@ -27,8 +27,7 @@
 <input type="password" id="password" @bind="@user.Password"
                    asp-for="password"
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%^&*]).{8,}"
-                   title="Password must contain at least 8 characters,
-                including at least one uppercase letter,
+                   title="Including at least one uppercase letter,
                 one lowercase letter, one number and one special character." form="Password" required />
 <ValidationMessage For="@(() => user.Password)" ></ValidationMessage>
 <span asp-validation-for="email"></span>

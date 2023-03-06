@@ -22,6 +22,10 @@ builder.Services.AddDbContext<AppDbContext>(options => {
 builder.Services.AddTransient<IRepository<User>, UserRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 
+
+builder.Services.AddTransient<IRepository<AddQuestion>, QuestionRepository>();
+builder.Services.AddTransient<IQuestionService, QuestionService>();
+
 builder.Services.AddTransient<IRepository<QuizModel>, QuizRepository>();
 builder.Services.AddTransient<IQuizService, QuizService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {

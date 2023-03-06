@@ -16,6 +16,7 @@ using Tool.Server.Models;
     public DbSet<Score> Scores { get; set; }
     public DbSet<UserAnswer> UserAnswers { get; set; }
     public DbSet<UserAnswerMapping> UserAnswerMappings { get; set; }
+    public DbSet<AddQuestion> AddQuestions { get; set; }    
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -83,6 +84,9 @@ using Tool.Server.Models;
            .WithOne(s => s.User)
            .HasForeignKey(s => s.UserId)
            .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<AddQuestion>()
+           .HasMany(u => u.Users);
 
     }
 

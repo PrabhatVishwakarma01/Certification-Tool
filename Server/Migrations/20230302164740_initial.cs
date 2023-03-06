@@ -5,12 +5,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tool.Server.Migrations
 {
-    public partial class second : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "dbo");
+
+            migrationBuilder.CreateTable(
+                name: "AddQuestions",
+                columns: table => new
+                {
+                    QuizesQuestionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Option1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Option2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Option3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Option4 = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AddQuestions", x => x.QuizesQuestionId);
+                });
 
             migrationBuilder.CreateTable(
                 name: "QuestionTypes",
@@ -122,11 +139,17 @@ namespace Tool.Server.Migrations
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: false)
+                    UpdatedBy = table.Column<int>(type: "int", nullable: false),
+                    AddQuestionQuizesQuestionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_User_AddQuestions_AddQuestionQuizesQuestionId",
+                        column: x => x.AddQuestionQuizesQuestionId,
+                        principalTable: "AddQuestions",
+                        principalColumn: "QuizesQuestionId");
                     table.ForeignKey(
                         name: "FK_User_Roles_RoleCode",
                         column: x => x.RoleCode,
@@ -352,6 +375,12 @@ namespace Tool.Server.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_User_AddQuestionQuizesQuestionId",
+                schema: "dbo",
+                table: "User",
+                column: "AddQuestionQuizesQuestionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_RoleCode",
                 schema: "dbo",
                 table: "User",
@@ -413,6 +442,9 @@ namespace Tool.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "QuizQuestions");
+
+            migrationBuilder.DropTable(
+                name: "AddQuestions");
 
             migrationBuilder.DropTable(
                 name: "Roles");

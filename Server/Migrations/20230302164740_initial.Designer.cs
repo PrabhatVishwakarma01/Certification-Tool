@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Tool.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230227070149_second")]
-    partial class second
+    [Migration("20230302164740_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,6 +22,34 @@ namespace Tool.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Tool.Server.Models.AddQuestion", b =>
+                {
+                    b.Property<int>("QuizesQuestionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizesQuestionId"), 1L, 1);
+
+                    b.Property<string>("Option1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Option2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Option3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Option4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuestionName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("QuizesQuestionId");
+
+                    b.ToTable("AddQuestions");
+                });
 
             modelBuilder.Entity("Tool.Server.Models.QuestionOption", b =>
                 {
@@ -307,6 +335,9 @@ namespace Tool.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
 
+                    b.Property<int?>("AddQuestionQuizesQuestionId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -341,6 +372,8 @@ namespace Tool.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("AddQuestionQuizesQuestionId");
 
                     b.HasIndex("RoleCode")
                         .IsUnique()
@@ -516,6 +549,10 @@ namespace Tool.Server.Migrations
 
             modelBuilder.Entity("Tool.Server.Models.User", b =>
                 {
+                    b.HasOne("Tool.Server.Models.AddQuestion", null)
+                        .WithMany("Users")
+                        .HasForeignKey("AddQuestionQuizesQuestionId");
+
                     b.HasOne("Tool.Server.Models.Role", "Role")
                         .WithOne("User")
                         .HasForeignKey("Tool.Server.Models.User", "RoleCode")
@@ -574,6 +611,11 @@ namespace Tool.Server.Migrations
                     b.Navigation("QuizQuestion");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Tool.Server.Models.AddQuestion", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Tool.Server.Models.QuestionType", b =>

@@ -5,57 +5,76 @@
 @inject IJSRuntime JsRuntime
 <PageTitle>EditQuizCategory</PageTitle>
 
+ 
 
-    <body>
-        <div class="master p-4">
-            <br />
-            <br />
-            <div class="center">
-            <div class="Quiz-name form-input">
-                <label for="quiz-category">Quiz Category Name :</label>
-            </div>
+ 
 
-                    <table class="master-table table table-striped table-borderless">
-                        <thead>
-                            <tr class="master-head">
-                                <th class="master-head"><b>Question #</b> </th>
-                                <th class="master-head"><b>Question Text</b></th>
-                                <th class="master-head"><b>Available Options</b></th>
-                                <th class="master-head"><b>Correct Option</b></th>
-                                <th class="master-head"><b>Action</b></th>
-                            </tr>
-                        </thead>
-                        <tbody class="master-table3">
 
-                        @foreach (var q in quizList)
-                    {
-                        <tr class="master-row">
-                            <td class="master-tablebody"></td>
-                            <td class="master-tablebody"></td>
-                            <td class="master-tablebody"></td>
-                            <td class="master-tablebody"></td>
-                            <td class="master-tablebody">
-                                <button @onclick="EditQuestion" class="btn"><i class="fa fa-edit"></i></button>
-                                <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
-                            </td>
-                        </tr>
-                        
-                    }
-                          </tbody>
-                    </table>
-              </div>
-        </div>
-    </body>
-    
+<body>
+<div class="master p-4">
+<br />
+<br />
+<div class="center">
+<div class="Quiz-name form-input">
+<label for="quiz-category">Quiz Category Name :</label>
+</div>
+
+ 
+
+            @if (questionList != null)
+            {
+
+ 
+
+                <table class="master-table table table-striped table-borderless">
+<thead>
+<tr class="master-head">
+<th class="master-head"><b>Question #</b> </th>
+<th class="master-head"><b>Question Text</b></th>
+<th class="master-head"><b>Available Options</b></th>
+<th class="master-head"><b>Correct Option</b></th>
+<th class="master-head"><b>Action</b></th>
+</tr>
+</thead>
+<tbody class="master-table3">
+                        @foreach (var q in questionList)
+                        {
+<tr class="master-row">
+<td class="master-tablebody"></td>
+<td class="master-tablebody">@q.QuestionName</td>
+<td class="master-tablebody">@q.Option1<br/>@q.Option2<br />@q.Option3<br />@q.Option4</td>
+<td class="master-tablebody"></td>
+<td class="master-tablebody">
+<button @onclick="Saved" class="btn"><i class="fa fa-edit"></i></button>
+<button class="btn"><i class="fa-regular fa-trash-can"></i></button>
+</td>
+</tr>
+                        }
+</tbody>
+</table>
+            }
+</div>
+</div>
+</body>
+
+ 
+
 
 @code{
-    List<HomeViewModel> quizList = new List<HomeViewModel>();
-
-
-
-
-    void EditQuestion()
+     List<EditViewModel> questionList = new List<EditViewModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _http.GetAsync("api/question");
+        response.EnsureSuccessStatusCode();
+        questionList = await response.Content.ReadFromJsonAsync<List<EditViewModel>>();
+        foreach(var q in questionList)
+        {
+            Console.WriteLine(q.QuestionName);
+        }
+    }
+    void Saved()
     {
         NavigationManager.NavigateTo("/editquestion");
     }
+
 }
