@@ -37,10 +37,10 @@ label {
 
 
 
-.Quiz-name{
+.Quiz-name {
     display: flex;
-    width:90%;
-    text-align:center;
+    width: 90%;
+    text-align: center;
     align-items: center;
     text-align: center;
 }
@@ -64,7 +64,6 @@ input[type="text"] {
 }
 
 .Question-Text {
-   
     align-items: center;
 }
 

@@ -53,10 +53,10 @@ body {
 		}
 
 			.sidebar li a:hover {
-				background-color: #02b689;
+				background-color: #fd5f07;
 				color: white;
 			}
 .active {
-	background-color: #02b689;
+	background-color: #fd5f07;
 	color: white;
 }

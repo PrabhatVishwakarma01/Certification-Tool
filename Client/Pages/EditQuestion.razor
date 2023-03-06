@@ -1,0 +1,55 @@
+﻿@page "/editquestion"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+<PageTitle>EditQuestions</PageTitle>
+
+<div class="Container">
+    <div class="Container-heading">
+        <h2>Edit Question</h2>
+    </div>
+    <form class="input-form">
+
+        <div class="Quiz-name form-input">
+            <label for="quiz-category">Quiz Category Name :</label>
+        </div>
+        <div class="Question-Text form-input">
+            <label for="question-text">Question Text </label>
+            <textarea id="question-text" name="question-text" required></textarea>
+        </div>
+        <div class="input-options form-input">
+            <label for="option1" class="checkbox-label">Option 1 : </label>
+            <input type="text" id="option1" name="option1" required>
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="input-options form-input">
+            <label for="option2" class="checkbox-label">Option 2 :</label>
+            <input type="text" id="option2" name="option2" required>
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="input-options form-input">
+            <label for="option3" class="checkbox-label">Option 3 :</label>
+            <input type="text" id="option3" name="option3">
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="input-options form-input">
+            <label for="option4" class="checkbox-label">Option 4 :</label>
+            <input type="text" id="option4" name="option4">
+            <input type="checkbox" id="myCheckbox">
+        </div>
+
+        <div class="Form-actions">
+            <button type="reset" class="btn">Cancel</button>
+            <button type="submit" @onclick="SaveQuestion" class="btn active">Save</button>
+        </div>
+    </form>
+</div>
+
+
+
+@code {
+    void SaveQuestion()
+    {
+        NavigationManager.NavigateTo("/editquizcategory");
+    }
+
+}
