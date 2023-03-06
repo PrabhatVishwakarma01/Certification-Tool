@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,6 +17,8 @@ namespace Tool.Shared
         }
         [Required]
         [EmailAddress]
+        [RegularExpression(".*@persistent\\.com$",
+    ErrorMessage = "Email must contain @persistent.com")]
         public string Email
         {
             get;

@@ -8,7 +8,7 @@
 .Container {
     background-color: #eaeaea;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 80px;
     height: 45rem;
 }
 
@@ -105,6 +105,6 @@ input[type="checkbox"] {
 }
 
 .active {
-    background-color: #02b689;
+    background-color: #fd5f07;
     color: #fff;
 }

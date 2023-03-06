@@ -1,9 +1,12 @@
 ﻿@page "/homepage"
+@using System.Diagnostics;
 @using Tool.Shared
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+
 <Sidebar></Sidebar>
+
 
 
 <PageTitle>Home Page</PageTitle>
@@ -50,93 +53,115 @@
         }
     </div>
 </div>
-<!-- Modal -->
 <div class="modal fade " id="addquizcategorymodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Quiz Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick=@Okay></button>
             </div>
+            <DataAnnotationsValidator></DataAnnotationsValidator>
             <div class="modal-body">
                 <form class="input-form">
-
                     <div class="Quiz-name form-input">
                         <label for="quiz-category">Quiz Category Name </label>
-                        <input type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" required>
+                        <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
+                       @if ((string.IsNullOrEmpty(@quiz.QuizTitle) || string.IsNullOrWhiteSpace(@quiz.QuizTitle)) && flag)
+                        {
+                            <br /> <div class="text-danger"><h5>Quiz Category name cannot be empty !</h5></div>
+                        }
                     </div>
                     <div class="Allowed-Time form-input">
                         <label for="allowed-time">Allowed Time in minutes </label>
-                        <input class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" required>
+                        <input style="width: 27rem;height: 2rem;" class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" disabled="@validResponse" required>
+                        @if (quiz.Timer < 1 && flag)
+                        {
+                            <br /> <div class="text-danger"><h5>The timer value cannot be 0.</h5></div>
+                        }
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
-                <button type="button" class="btn btn-success" @onclick="Save" data-bs-dismiss="modal" aria-label="Close">Save changes</button>
-            </div>
-        </div>
+                @if (!validResponse)
+                {
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
+                    <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
+                }
+                else
+                {
+                    <div>Record Saved</div>
+                    <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
+                }
+             </div>
+         </div>
     </div>
 </div>
 
 
 
-
-
 @code {
-    List<HomeViewModel> quizList = new List<HomeViewModel>();
+        List<HomeViewModel> quizList = new List<HomeViewModel>();
 
-    async Task getQuizCategory()
-    {
-        var response = await _http.GetAsync("api/quiz");
-        response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
-        foreach (var q in quizList)
+        bool flag = false;
+        bool validResponse = false;
+
+        async Task getQuizCategory()
         {
-            Console.WriteLine(q.QuizTitle);
+            var response = await _http.GetAsync("api/quiz");
+            response.EnsureSuccessStatusCode();
+            quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
+            foreach (var q in quizList)
+            {
+                Debug.WriteLine(q.QuizTitle);
+            }
         }
-    }
+        protected override async Task OnInitializedAsync()
+        {
+            await getQuizCategory();
+        }
 
-    protected override async Task OnInitializedAsync()
-    {
-        getQuizCategory();
-    }
-
-
-
-    void EditQuiz()
-    {
-        NavigationManager.NavigateTo("/editquizcategory");
-    }
-    void AddQuestion()
-    {
-        NavigationManager.NavigateTo("/AddQuestion");
-    }
-
-
-    AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel
+        void EditQuiz()
+        {
+            NavigationManager.NavigateTo("/editquizcategory");
+        }
+        void AddQuestion()
+        {
+            NavigationManager.NavigateTo("/AddQuestion");
+        }
+        AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel
         {
             QuizTitle = "",
             Timer = 0
         };
 
-    protected async Task Save()
-    {
-        var response = await _http.PostAsJsonAsync("api/quiz", quiz);
-        bool jsonResponse = await response.Content.ReadFromJsonAsync<bool>();
-        if (jsonResponse)
+        async Task Save()
         {
-            await getQuizCategory();
+            Debug.WriteLine("Save");
+            this.flag = true;
+            if (quiz.Timer >= 1 && quiz.QuizTitle != "")
+            {
+                var response = await _http.PostAsJsonAsync("api/quiz", @quiz);
+                bool jsonResponse = await response.Content.ReadFromJsonAsync<bool>();
+                if (jsonResponse)
+                {
+                    await getQuizCategory();
+                    Debug.WriteLine("saved");
+                    this.validResponse = true;
+                }
+            }
+        }
+
+        void Okay()
+        {
+            this.validResponse = false;
+            this.flag = false;
+            quiz.QuizTitle = "";
+            quiz.Timer = 0;
+            NavigationManager.NavigateTo("/homepage");
+        }
+
+        void Cancel()
+        {
             NavigationManager.NavigateTo("/homepage");
         }
     }
-
-
-    void Cancel()
-    {
-        NavigationManager.NavigateTo("/homepage");
-    }
-
-
-}

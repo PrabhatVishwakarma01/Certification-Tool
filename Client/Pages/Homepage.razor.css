@@ -17,11 +17,14 @@ a{
     border-collapse: collapse;
    
 }
+.h5, h5 {
+    font-size: 13px;
+}
 
 .master-tablebutton {
     width: 12rem;
     height: 2rem;
-    background-color: #02b689;
+    background-color: #fd5f07;
     color: black;
     left: 0;
     border: 1px solid #000;
@@ -90,13 +93,13 @@ th {
 }
 
 .btnADD {
-    background-color: #02b689;
+    background-color: #fd5f07;
     width: 35%;
     padding: 7px;
     border: 1px solid #000;
     font-weight: 500;
     margin-left: 45rem;
-    color:white;
+    color: white;
     border-radius: none;
 }
 .btnADD:hover {
@@ -105,10 +108,14 @@ th {
 }
 
 .active {
-    background-color: #02b689;
+    background-color: #fd5f07;
     color: #fff;
 }
 
+.Chnage-btn {
+    background-color: #fd5f07;
+    color:white;
+}
 
 
 .popup-container {
@@ -148,8 +155,8 @@ th {
 
 .form-input {
     margin-bottom: 20px;
-    text-align: center;
     width: 100%;
+    align-content:center;
     font-weight: 500;
     font-size: 18px;
 }
