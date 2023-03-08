@@ -1,5 +1,7 @@
-﻿@page "/editquestion"
-@inject IJSRuntime JSRuntime
+﻿@page "/editquestion/{Id}"
+@using Tool.Shared
+@inject IJSRuntime JsRuntime
+@inject HttpClient Http
 @inject NavigationManager NavigationManager
 <PageTitle>EditQuestions</PageTitle>
 
@@ -14,42 +16,55 @@
         </div>
         <div class="Question-Text form-input">
             <label for="question-text">Question Text </label>
-            <textarea id="question-text" name="question-text" required></textarea>
+            <textarea id="question-text" name="question-text" @bind="@question.QuestionText" required></textarea>
         </div>
         <div class="input-options form-input">
             <label for="option1" class="checkbox-label">Option 1 : </label>
-            <input type="text" id="option1" name="option1" required>
+            <input type="text" id="option1" name="option1" @bind="@question.OptionOne" required>
             <input type="checkbox" id="myCheckbox">
         </div>
         <div class="input-options form-input">
             <label for="option2" class="checkbox-label">Option 2 :</label>
-            <input type="text" id="option2" name="option2" required>
+            <input type="text" id="option2" name="option2" @bind="@question.OptionTwo" required>
             <input type="checkbox" id="myCheckbox">
         </div>
         <div class="input-options form-input">
             <label for="option3" class="checkbox-label">Option 3 :</label>
-            <input type="text" id="option3" name="option3">
+            <input type="text" id="option3" name="option3" @bind="@question.OptionThree">
             <input type="checkbox" id="myCheckbox">
         </div>
         <div class="input-options form-input">
             <label for="option4" class="checkbox-label">Option 4 :</label>
-            <input type="text" id="option4" name="option4">
+            <input type="text" id="option4" name="option4" @bind="@question.OptionFour">
             <input type="checkbox" id="myCheckbox">
         </div>
 
         <div class="Form-actions">
-            <button type="reset" class="btn">Cancel</button>
-            <button type="submit" @onclick="SaveQuestion" class="btn active">Save</button>
+            <button type="reset" @onclick="@Cancel" class="btn">Cancel</button>
+            <button type="submit" @onclick="@SaveQuestion" class="btn active">Save</button>
         </div>
     </form>
 </div>
 
-
-
 @code {
-    void SaveQuestion()
+    [Parameter]
+    public string Id { get; set; }
+    QuestionViewModel question = new QuestionViewModel();
+    protected override async Task OnInitializedAsync()
     {
-        NavigationManager.NavigateTo("/editquizcategory");
+        question = await Http.GetFromJsonAsync<QuestionViewModel>("api/Question/" + Id);
     }
-
+    protected async Task SaveQuestion()
+    {
+        var response = await Http.PutAsJsonAsync("api/Question/" + Id, @question);
+        bool questionResponse = await response.Content.ReadFromJsonAsync<bool>();
+        if (questionResponse)
+        {
+            NavigationManager.NavigateTo("editquizcategory");
+        }
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("editquizcategory");
+    }
 }

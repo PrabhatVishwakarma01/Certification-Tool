@@ -1,56 +1,84 @@
 ﻿@page "/addquestion"
-@inject IJSRuntime JSRuntime 
+@using Tool.Shared
+@inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
 <PageTitle>AddQuestions</PageTitle>
 
 <div class="Container">
     <div class="Container-heading">
         <h2>Adding Question</h2>
     </div>
-    <form class="input-form">
+    <form class="input-form" id="QuestionForm">
 
-        <div class="Quiz-name form-input">
-            <label for="quiz-category">Quiz Category Name :</label>
-  </div>
-        <div class="Question-Text form-input">
-            <label for="question-text">Question Text </label>
-            <textarea id="question-text" name="question-text" required></textarea>
+        <div class="Quiz-name form-input"> 
+            <label for="quiz-category">Quiz Category Name:</label>
+        </div>
+        <div class="Question-text form-input">
+            <label for="question-text">Question Text:</label>
+            <textarea @bind="@question.QuestionText" ></textarea>
         </div>
         <div class="input-options form-input">
-            <label for="option1" class="checkbox-label">Option 1 : </label>
-            <input type="text" id="option1" name="option1" required>
-            <input type="checkbox" id="myCheckbox">
+            <label for="option-one" class="checkbox-label">Option 1:</label>
+            <input type="text" @bind-value="@question.OptionOne" />
+            <input type="checkbox" id="option-one-checkbox" />
         </div>
         <div class="input-options form-input">
-            <label for="option2" class="checkbox-label">Option 2 :</label>
-            <input type="text" id="option2" name="option2" required>
-            <input type="checkbox" id="myCheckbox">
+            <label for="option-two" class="checkbox-label">Option 2:</label>
+            <input type="text" @bind-value="@question.OptionTwo" />
+            <input type="checkbox" id="option-two-checkbox" />
         </div>
         <div class="input-options form-input">
-            <label for="option3" class="checkbox-label">Option 3 :</label>
-            <input type="text" id="option3" name="option3">
-            <input type="checkbox" id="myCheckbox">
+            <label for="option-three" class="checkbox-label">Option 3:</label>
+            <input type="text" @bind-value="@question.OptionThree" />
+            <input type="checkbox" id="option-three-checkbox" />
         </div>
         <div class="input-options form-input">
-            <label for="option4" class="checkbox-label">Option 4 :</label>
-            <input type="text" id="option4" name="option4">
-            <input type="checkbox" id="myCheckbox">
+            <label for="option-four" class="checkbox-label">Option 4:</label>
+            <input type="text" @bind-value="@question.OptionFour" />
+            <input type="checkbox" id="option-four-checkbox" />
         </div>
 
-        <div class="Form-actions">
-            <button type="reset" class="btn">Cancel</button>
-            <button type="submit" @onclick="SaveQuestion" class="btn active">Save</button>
-            <button type="button" class="btn">Add More Question</button>
+        <div class="form-actions">
+            <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
+            <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
+            <button type="button" @onclick="@AddMore" class="btn">Add More Question</button>
         </div>
     </form>
 </div>
 
-
-
 @code {
-    void SaveQuestion()
+    private QuestionViewModel question = new QuestionViewModel();
+
+    protected override async Task OnInitializedAsync()
     {
-        NavigationManager.NavigateTo("/editquizcategory");
+        // Any initialization logic can be added here
     }
 
+    private async Task SaveQuestion()
+    {
+        var response = await Http.PostAsJsonAsync("api/Question", question);
+        var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
+        if (questionResponse.QuestionQuizId > 0)
+        {
+            NavigationManager.NavigateTo("/editquizcategory");
+        }
+    }
+
+    private async Task AddMore()
+    {
+        var response = await Http.PostAsJsonAsync("api/Question", question);
+        var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
+        if (questionResponse.QuestionQuizId > 0)
+        {
+            question = new QuestionViewModel();
+            await JsRuntime.InvokeVoidAsync("resetForm", "#QuestionForm");
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/homepage");
+    }
 }
