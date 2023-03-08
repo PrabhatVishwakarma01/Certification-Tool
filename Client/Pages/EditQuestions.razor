@@ -1,0 +1,82 @@
+﻿@page "/editquestion/{QuizesQuestionId}"
+@inject IJSRuntime JSRuntime 
+@using Tool.Shared
+@inject HttpClient _http
+@inject NavigationManager NavigationManager
+<PageTitle>AddQuestions</PageTitle>
+
+ 
+
+ 
+
+<div class="Container">
+<div class="Container-heading">
+<h2>Adding Question</h2>
+</div>
+<form class="input-form" @onsubmit="Save">
+
+ 
+
+ 
+
+        
+<div class="Question-Text form-input">
+<label for="question-text">Question Text </label>
+<textarea id="question-text" name="question-text" @bind="@question.QuestionName" required></textarea>
+</div>
+<div class="input-options form-input">
+<label for="option1" class="checkbox-label">Option 1 : </label>
+<input type="text" id="option1" name="option1" @bind="@question.Option1" required>
+<input type="checkbox" id="myCheckbox">
+</div>
+<div class="input-options form-input">
+<label for="option2" class="checkbox-label">Option 2 :</label>
+<input type="text" id="option2" name="option2" @bind="@question.Option2" required>
+<input type="checkbox" id="myCheckbox">
+</div>
+<div class="input-options form-input">
+<label for="option3" class="checkbox-label">Option 3 :</label>
+<input type="text" id="option3" name="option3" @bind="@question.Option3">
+<input type="checkbox" id="myCheckbox">
+</div>
+<div class="input-options form-input">
+<label for="option4" class="checkbox-label">Option 4 :</label>
+<input type="text" id="option4" name="option4" @bind="@question.Option4">
+<input type="checkbox" id="myCheckbox">
+</div>
+
+ 
+
+ 
+
+        <div class="Form-actions">
+<button type="submit"  class="btn active" >Save</button>
+<button type="reset" class="btn" @onclick=@Cancel>Cancel</button>
+</div>
+</form>
+</div>
+@code {
+    [Parameter]
+    public string QuizesQuestionId{ get; set; }
+    EditViewModel question = new EditViewModel();
+    protected override async Task OnInitializedAsync()
+    {
+        question = await _http.GetFromJsonAsync<EditViewModel>("api/question/" + QuizesQuestionId);
+    }
+    protected async Task Save()
+    {
+        var response = await _http.PutAsJsonAsync("api/question/" + QuizesQuestionId, @question);
+        bool questionResponse = await response.Content.ReadFromJsonAsync<bool>();
+        if (questionResponse)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Updated Successfully!");
+            NavigationManager.NavigateTo("/editquizcategory");
+        }
+
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/editquizcategory");
+    }
+}
+

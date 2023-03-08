@@ -40,16 +40,16 @@
                         @foreach (var q in questionList)
                         {
 <tr class="master-row">
-<td class="master-tablebody"></td>
+<td class="master-tablebody">@q.QuizesQuestionId</td>
 <td class="master-tablebody">@q.QuestionName</td>
 <td class="master-tablebody">@q.Option1<br/>@q.Option2<br />@q.Option3<br />@q.Option4</td>
 <td class="master-tablebody"></td>
 <td class="master-tablebody">
-<button @onclick="Saved" class="btn"><i class="fa fa-edit"></i></button>
+<a href="/editquestion/@q.QuizesQuestionId" button class="btn" ><i class="fa fa-edit"></i></a>
 <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
 </td>
 </tr>
-                        }
+  }
 </tbody>
 </table>
             }
@@ -72,9 +72,6 @@
             Console.WriteLine(q.QuestionName);
         }
     }
-    void Saved()
-    {
-        NavigationManager.NavigateTo("/editquestion");
-    }
+   
 
 }

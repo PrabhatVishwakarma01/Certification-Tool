@@ -11,11 +11,8 @@ namespace Tool.Shared
 {
     public class AddQuestionDto
     {
-        public int QuestionIID
-        {
-            get;
-            set;
-        }
+        public int QuizesQuestionId { get; set; }
+      
 
 
 

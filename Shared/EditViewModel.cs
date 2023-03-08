@@ -11,7 +11,7 @@ namespace Tool.Shared
 {
     public class EditViewModel
     {
-
+        public int QuizesQuestionId { get; set; }
 
 
         [Required]

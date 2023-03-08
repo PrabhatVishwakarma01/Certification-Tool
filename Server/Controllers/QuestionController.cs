@@ -36,11 +36,10 @@ namespace Tool.Server.Controllers
 
 
 
-        // GET api/<QuizController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{QuizesQuestionId}")]
+        public async Task<AddQuestion> Get(int QuizesQuestionId)
         {
-            return "value";
+            return await _questionService.GetQuestion(QuizesQuestionId);
         }
 
 
@@ -57,14 +56,15 @@ namespace Tool.Server.Controllers
 
 
         }
-
-
-
-        // PUT api/<QuestionController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{QuizesQuestionId}")]
+        public async Task<bool> UpdateQuestion(int QuizesQuestionId, [FromBody] AddQuestion Object)
         {
+            await _questionService.UpdateQuestion(QuizesQuestionId, Object); return true;
         }
+
+
+
+        
 
 
 

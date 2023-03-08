@@ -10,7 +10,8 @@ namespace Tool.Server.Services
 
         Task<List<AddQuestion>> getAllQuestionCategory();
 
-
+        Task<bool> UpdateQuestion(int id, AddQuestion addQuestion);
+        Task<AddQuestion> GetQuestion(int QuizesQuestionId);
 
 
 

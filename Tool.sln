@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33312.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool.Server", "Server\Tool.Server.csproj", "{756C8D21-A0E4-4D5A-86B2-13BCECF6FBF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tool.Server", "Server\Tool.Server.csproj", "{756C8D21-A0E4-4D5A-86B2-13BCECF6FBF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool.Client", "Client\Tool.Client.csproj", "{FCC497C9-FE04-4E3E-9C91-B4B17EDC34F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tool.Client", "Client\Tool.Client.csproj", "{FCC497C9-FE04-4E3E-9C91-B4B17EDC34F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool.Shared", "Shared\Tool.Shared.csproj", "{FA8D4B9B-34E3-4322-83E5-E4693D35D153}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tool.Shared", "Shared\Tool.Shared.csproj", "{FA8D4B9B-34E3-4322-83E5-E4693D35D153}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

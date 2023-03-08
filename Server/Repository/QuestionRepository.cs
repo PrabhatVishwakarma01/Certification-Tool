@@ -35,11 +35,10 @@ namespace Tool.Server.Repository
 
 
 
-        Task<AddQuestion> IRepository<AddQuestion>.GetByIdAsync(int Id)
+        public async Task<AddQuestion> GetByIdAsync(int QuizesQuestionId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.AddQuestions.FirstOrDefaultAsync(x => x.QuizesQuestionId == QuizesQuestionId);
         }
-
 
 
         Task IRepository<AddQuestion>.DeleteAsync(int id)
