@@ -19,6 +19,9 @@ builder.Services.AddDbContext<AppDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 // For DI registration
+builder.Services.AddTransient<IRepository<QuestionModel>, QuestionRepository>();
+builder.Services.AddTransient<IQuestionService, QuestionService>();
+
 builder.Services.AddTransient<IRepository<User>, UserRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 

@@ -8,6 +8,7 @@ using Tool.Server.Models;
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<QuizModel> Quizs { get; set; }
+    public DbSet<QuestionModel> Questions { get; set; }
     public DbSet<QuestionOption> QuestionOptions { get; set; }
     public DbSet<QuestionType> QuestionTypes { get; set; }
     public DbSet<QuizQuestion> QuizQuestions { get; set; }

@@ -5,12 +5,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tool.Server.Migrations
 {
-    public partial class second : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "dbo");
+
+            migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    QuestionQuizId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionOne = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionTwo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionThree = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionFour = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.QuestionQuizId);
+                });
 
             migrationBuilder.CreateTable(
                 name: "QuestionTypes",
@@ -392,6 +409,9 @@ namespace Tool.Server.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Questions");
+
             migrationBuilder.DropTable(
                 name: "QuizReports");
 
