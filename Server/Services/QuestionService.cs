@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Tool.Server.Models;
-using Tool.Server.Repository;
+﻿using Tool.Server.Models;
 
 namespace Tool.Server.Services
 {
