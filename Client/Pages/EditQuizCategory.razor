@@ -1,6 +1,8 @@
 ﻿@page "/editquizcategory"
+@using System.Diagnostics;
 @using Tool.Shared;
 @inject HttpClient _httpClient
+@inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
 <PageTitle>EditQuizCategory</PageTitle>
@@ -10,7 +12,7 @@
     <br />
     <div class="center">
         <div class="Quiz-name form-input">
-            <label for="quiz-category">Quiz Category Name :</label>
+                <label for="quiz-category">Quiz Category Name : <b>@quizList.FirstOrDefault()?.QuizTitle</b></label>
         </div>
         @if (questionList != null)
         {
@@ -28,44 +30,48 @@
                     @foreach (var (q, index) in questionList.Select((q, index) => (q, index + 1)))
                     {
                         <tr class="master-row">
-                            <td class="master-tablebody">@index</td>
+                            <td class="master-tablebody" style="text-align: center;">@index</td>
                             <td class="master-tablebody">@q.QuestionText</td>
                             <td class="master-tablebody">@q.OptionOne, @q.OptionTwo, @q.OptionThree, @q.OptionFour</td>
                             <td class="master-tablebody"></td>
-                            <td class="master-tablebody">
-                                <a href="/editquestion/@q.QuestionQuizId" class="btn"><i class="fa fa-edit"></i></a>
-                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteQuestionDialog" @onclick="(e) => { questionIdToDelete = q.QuestionQuizId; }"><i class="fa-regular fa-trash-can"></i></button>
-                              
-                                @*Delete Dialoge Box*@
-
-                                <div class="modal fade " id="deleteQuestionDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <h5>Do you want to delete question number @index ?</h5>
-                                                <br><br>
-                                                <button type="button" class="action-btn" data-bs-dismiss="modal">Cancel</button>
-                                                <button type="button" class="action-btn active" @onclick="Delete">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <td class="master-tablebody" style="text-align: center;">
+                                <button type="button" class="btn"><a  style="color: black; padding:0" href="/editquestion/@q.QuestionQuizId"><i class="fa fa-edit"></i></a></button>
+                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionIdToDelete = q.QuestionQuizId; }"><i class="fa-regular fa-trash-can"></i></button>
                             </td>
                         </tr>
                     }
+                     @*Delete dialogue box*@
+                        <div class="modal fade" id="deleteQuizCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog delete-dialog-box">
+                                <div class="dialog-content">
+                                    <div class="dialog-body">
+                                        Are you sure you want to delete question number  ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn action-btn" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" data-bs-dismiss="modal" @onclick="@Delete" class="btn action-btn active" id="deleteQuizCategoryButton">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </tbody>
             </table>
         }
     </div>
-    </div>
-@code{
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
     int questionNumber;
     int questionIdToDelete;
 
     protected override async Task OnInitializedAsync()
+
     {
-        var response = await _httpClient.GetAsync("api/Question");
+        await getQuizCategory();
+        var response = await _httpClient.GetAsync("api/Question/" + Id);
         response.EnsureSuccessStatusCode();
         questionList = await response.Content.ReadFromJsonAsync<List<QuestionViewModel>>();
     }
@@ -75,18 +81,47 @@
         questionNumber = questionNumberToDelete;
         questionIdToDelete = questionId;
         JsRuntime.InvokeVoidAsync("$('#deleteQuestionDialog').modal('show');");
+
     }
 
     protected async Task Delete()
     {
-        var response = await _httpClient.DeleteAsync($"api/Question/{questionIdToDelete}");
-        response.EnsureSuccessStatusCode();
-        questionList.RemoveAll(q => q.QuestionQuizId == questionIdToDelete);
-        JsRuntime.InvokeVoidAsync("$('#deleteQuestionDialog').modal('hide');");
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/Question/{questionIdToDelete}");
+            response.EnsureSuccessStatusCode();
+            questionList.RemoveAll(q => q.QuestionQuizId == questionIdToDelete);
+            JsRuntime.InvokeVoidAsync("$('#deleteQuizCategoryModal').modal('hide');");
+        }
+        catch (Exception ex)
+        {
+            // Display error message to user
+            await JsRuntime.InvokeVoidAsync("alert", $"An error occurred while deleting the question: {ex.Message}");
+        }
     }
+
 
     void CancelDelete()
     {
         JsRuntime.InvokeVoidAsync("$('#deleteQuestionDialog').modal('hide');");
+ 
     }
+
+    List<HomeViewModel> quizList = new List<HomeViewModel>();
+
+    bool flag = false;
+    bool validResponse = false;
+
+    async Task getQuizCategory()
+    {
+        var response = await _http.GetAsync("api/quiz");
+        response.EnsureSuccessStatusCode();
+        quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
+        foreach (var q in quizList)
+        {
+            Debug.WriteLine(q.QuizTitle);
+        }
+    }
+
+
 }

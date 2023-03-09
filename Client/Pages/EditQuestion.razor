@@ -60,6 +60,7 @@
         bool questionResponse = await response.Content.ReadFromJsonAsync<bool>();
         if (questionResponse)
         {
+            await JsRuntime.InvokeVoidAsync("alert", "Updated Successfully!");
             NavigationManager.NavigateTo("editquizcategory");
         }
     }

@@ -22,14 +22,14 @@ namespace Tool.Server.Controllers
 
         {
             Console.WriteLine("hlloodfa");
-            return await _quizService.getAllQuizCategory();
+            return await _quizService.GetAllQuizCategory();
         }
 
         // GET api/<QuizController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<QuizModel> Get(int id)
         {
-            return "value";
+            return await _quizService.GetQuizCategory(id);
         }
 
         // POST api/<QuizController>
@@ -37,7 +37,7 @@ namespace Tool.Server.Controllers
         public async Task<bool> Post([FromBody] QuizModel quiz)
         {
             Console.WriteLine("hlelloo");
-            QuizModel newQuiz = await _quizService.addQuizCategory(quiz);
+            QuizModel newQuiz = await _quizService.AddQuizCategory(quiz);
             if (newQuiz != null) return true; else return false;
             
 

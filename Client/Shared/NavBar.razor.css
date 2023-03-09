@@ -32,6 +32,7 @@
 .nav-brand {
 	width: 130px;
 	margin-left: 20px;
+	cursor:pointer;
 }
 
 .nav-title {

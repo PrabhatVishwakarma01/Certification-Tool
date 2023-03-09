@@ -19,11 +19,11 @@
 }
 
 .form-input {
+    
     margin-bottom: 20px;
     text-align: center;
-    width: 60%;
-    font-weight:500;
-    font-size:18px;
+    width: 95%;
+    font-size: 20px;
 }
 
 
@@ -73,12 +73,6 @@ label {
     cursor: default;
     margin-bottom: 20px;
 }
-
-.form-input {
-    margin-left:20px;
-
-}
-
 
 
 /* CheckBox */
@@ -155,8 +149,10 @@ th {
     border: 1px solid;
     font-weight: 400;
     font-size: 18px;
-    align-items: center;
-    text-align: center;
+}
+
+.align-text{
+    text-align:center
 }
 
 .master-head {
@@ -243,4 +239,48 @@ th {
     border:none;
     border-radius:5px;
     justify-content:space-between;
+}
+modal-content {
+    position: relative;
+    display: flex; 
+    flex-direction: column;
+    width: 100%;
+    height:5rem;
+    pointer-events: auto; 
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+.delete-dialog-box {
+    margin: 4rem 0rem 0rem 24rem;
+    width: 35rem;
+    padding: 5px;
+    height: 12rem;
+}
+.modal-dialog {
+    width: 30rem;
+    max-width: 90%;
+}
+.dialog-action-button{
+    width:28rem;
+    margin-left:7rem
+}
+.dialog-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+.dialog-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+    font-size:9vhi;
 }

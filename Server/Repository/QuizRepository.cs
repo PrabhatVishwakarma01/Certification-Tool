@@ -29,9 +29,9 @@ namespace Tool.Server.Repository
             return await _dbContext.Quizs.ToListAsync();
         }
 
-        Task<QuizModel> IRepository<QuizModel>.GetByIdAsync(int Id)
+        public async Task<QuizModel> GetByIdAsync(int Id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Quizs.FirstOrDefaultAsync(x => x.QuizId == Id);
         }
 
         Task IRepository<QuizModel>.DeleteAsync(int id)

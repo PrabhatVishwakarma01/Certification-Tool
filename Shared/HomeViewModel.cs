@@ -11,7 +11,11 @@ namespace Tool.Shared
     public class HomeViewModel
     {
 
-        
+        public int QuizId
+        {
+            get;
+            set;
+        }
 
         [Required]
         [Display(Name = "QuizTitle")]
