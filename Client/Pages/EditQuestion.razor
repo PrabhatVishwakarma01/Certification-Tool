@@ -1,7 +1,9 @@
 ﻿@page "/editquestion/{Id}"
+@using System.Diagnostics;
 @using Tool.Shared
 @inject IJSRuntime JsRuntime
 @inject HttpClient Http
+@inject HttpClient _Http
 @inject NavigationManager NavigationManager
 <PageTitle>EditQuestions</PageTitle>
 
@@ -12,7 +14,7 @@
     <form class="input-form">
 
         <div class="Quiz-name form-input">
-            <label for="quiz-category">Quiz Category Name :</label>
+            <label for="quiz-category">Quiz Category Name : <b>@quizList.FirstOrDefault()?.QuizTitle</b></label>
         </div>
         <div class="Question-Text form-input">
             <label for="question-text">Question Text </label>
@@ -52,6 +54,7 @@
     QuestionViewModel question = new QuestionViewModel();
     protected override async Task OnInitializedAsync()
     {
+        await getQuizCategory();
         question = await Http.GetFromJsonAsync<QuestionViewModel>("api/Question/" + Id);
     }
     protected async Task SaveQuestion()
@@ -61,11 +64,26 @@
         if (questionResponse)
         {
             await JsRuntime.InvokeVoidAsync("alert", "Updated Successfully!");
-            NavigationManager.NavigateTo("editquizcategory");
+            NavigationManager.NavigateTo("/editquizcategory");
         }
     }
     void Cancel()
     {
         NavigationManager.NavigateTo("editquizcategory");
+    }
+    List<HomeViewModel> quizList = new List<HomeViewModel>();
+
+    bool flag = false;
+    bool validResponse = false;
+
+    async Task getQuizCategory()
+    {
+        var response = await _Http.GetAsync("api/quiz");
+        response.EnsureSuccessStatusCode();
+        quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
+        foreach (var q in quizList)
+        {
+            Debug.WriteLine(q.QuizTitle);
+        }
     }
 }

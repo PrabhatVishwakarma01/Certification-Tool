@@ -21,7 +21,7 @@
                     <tr class="master-head">
                         <th class="master-head QuestionNo"><b>Question #</b> </th>
                         <th class="master-head QuestionText"><b>Question Text</b></th>
-                        <th class="master-head Questionoption"><b>Available Options</b></th>
+                        @*<th class="master-head Questionoption"><b>Available Options</b></th>*@
                         <th class="master-head Questionoption"><b>Correct Option</b></th>
                         <th class="master-head QuestionNo"><b>Action</b></th>
                     </tr>
@@ -32,7 +32,7 @@
                         <tr class="master-row">
                             <td class="master-tablebody" style="text-align: center;">@index</td>
                             <td class="master-tablebody">@q.QuestionText</td>
-                            <td class="master-tablebody">@q.OptionOne, @q.OptionTwo, @q.OptionThree, @q.OptionFour</td>
+                          @*  <td class="master-tablebody">@q.OptionOne, @q.OptionTwo, @q.OptionThree, @q.OptionFour</td>*@
                             <td class="master-tablebody"></td>
                             <td class="master-tablebody" style="text-align: center;">
                                 <button type="button" class="btn"><a  style="color: black; padding:0" href="/editquestion/@q.QuestionQuizId"><i class="fa fa-edit"></i></a></button>
