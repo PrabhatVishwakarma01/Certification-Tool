@@ -1,5 +1,6 @@
 ﻿@page "/homepage"
 @using System.Diagnostics;
+@using System.Text.Json;
 @using Tool.Shared
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
@@ -136,13 +137,15 @@
             Timer = 0
         };
 
-        async Task Save()
+    async Task Save()
+    {
+        Debug.WriteLine("Save");
+        this.flag = true;
+        if (quiz.Timer >= 1 && quiz.QuizTitle != "")
         {
-            Debug.WriteLine("Save");
-            this.flag = true;
-            if (quiz.Timer >= 1 && quiz.QuizTitle != "")
+            var response = await _http.PostAsJsonAsync("api/quiz", @quiz);
+            try
             {
-                var response = await _http.PostAsJsonAsync("api/quiz", @quiz);
                 bool jsonResponse = await response.Content.ReadFromJsonAsync<bool>();
                 if (jsonResponse)
                 {
@@ -151,7 +154,16 @@
                     this.validResponse = true;
                 }
             }
+            catch (JsonException ex)
+            {
+                // Handle the exception by displaying an error message to the user
+                await JsRuntime.InvokeAsync<object>("alert", "An error occurred while processing the response from the server.");
+                Debug.WriteLine(ex.Message);
+            }
         }
+    }
+
+
 
         void Okay()
         {
