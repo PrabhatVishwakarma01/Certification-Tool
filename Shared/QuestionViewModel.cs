@@ -26,6 +26,10 @@ namespace Tool.Shared
         [Display(Name = "Option 4")]
         public string OptionFour { get; set; }
 
-        public bool Checkbox { get; set; }
+        public bool CheckBox1 { get; set; }
+        public bool CheckBox2 { get; set; }
+        public bool CheckBox3 { get; set; }
+        public bool CheckBox4 { get; set; }
+
     }
 }

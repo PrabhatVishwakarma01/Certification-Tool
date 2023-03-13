@@ -27,6 +27,7 @@
                             {
                                 <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
                             }
+            
         </div>
         <div class="input-options form-input">
             <label for="option-one" class="checkbox-label">Option 1:</label>
@@ -36,7 +37,7 @@
                                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
                             }
               
-            <input type="checkbox" id="option-one-checkbox" @*@bind-value="@option1"*@ />
+            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1"  />
            
 
         </div>
@@ -49,22 +50,28 @@
                      <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
                 }
           
-            <input type="checkbox" id="option-two-checkbox" @*@bind-value=@option2*@ />
+            <input type="checkbox" id="option-two-checkbox"  @bind-value="@question.CheckBox2"/>
            
         </div>
         <div class="input-options form-input">
             <label for="option-three" class="checkbox-label">Option 3:</label>
             <input type="text" @bind-value="@question.OptionThree" required />
          
-            <input type="checkbox" @*id="option-three-checkbox"*@   />
+            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3"  />
         </div>
         <div class="input-options form-input">
             <label for="option-four" class="checkbox-label">Option 4:</label>
             <input type="text" @bind-value="@question.OptionFour" required />
        
-            <input type="checkbox" id="option-four-checkbox" />
+            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4"/>
+           
+           
         </div>
 
+        @if( !(question.CheckBox1 || question.CheckBox2  || question.CheckBox3 || question.CheckBox4))
+            { 
+               <br /> <div class="text-danger"><h6> At least One Check Box must be Checked !</h6></div> <br />
+            }
         <div class="form-actions">
             <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
             <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
