@@ -2,7 +2,7 @@
 using Tool.Server.Models;
 
 
-public interface IQuizService
+public interface IQuizService 
 {
     Task<QuizModel> AddQuizCategory(QuizModel quiz);
 
@@ -12,6 +12,7 @@ public interface IQuizService
     Task<bool> UpdateQuizCategory(int id, QuizModel quiz);
 
     Task<bool> DeleteQuizCategory(int id);
+    Task<QuizModel> GetQuizByTitleAsync(string quizTitle);
+
 
 }
-
