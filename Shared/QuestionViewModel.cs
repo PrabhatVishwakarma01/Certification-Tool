@@ -7,7 +7,7 @@ namespace Tool.Shared
 
         public int QuestionQuizId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field Cann't be empty")]
         [Display(Name = "Question Text")]
         public string QuestionText { get; set; }
 
@@ -25,5 +25,7 @@ namespace Tool.Shared
         [Required]
         [Display(Name = "Option 4")]
         public string OptionFour { get; set; }
+
+        public bool Checkbox { get; set; }
     }
 }
