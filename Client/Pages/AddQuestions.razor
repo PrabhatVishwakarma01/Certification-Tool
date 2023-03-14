@@ -9,48 +9,82 @@
 <PageTitle>AddQuestions</PageTitle>
 
 <div class="Container">
+
     <div class="Container-heading">
         <h2>Adding Question</h2>
     </div>
-    <form class="input-form" id="QuestionForm">
+       <EditForm Model="@question" class="input-form" id="QuestionForm" OnValidSubmit="SaveQuestion">
 
-        <div class="Quiz-name form-input"> 
-            <label for="quiz-category">Quiz Category Name: <b>@quizList.FirstOrDefault()?.QuizTitle</b></label>
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+
+        <div class="Quiz-name form-input">
+            <label for="quiz-category">Quiz Category Name:</label>
         </div>
         <div class="Question-text form-input">
             <label for="question-text">Question Text:</label>
-            <textarea @bind="@question.QuestionText" ></textarea>
+            <textarea  @bind="@question.QuestionText" required></textarea>            
+            @if ((string.IsNullOrEmpty(@question.QuestionText) || string.IsNullOrWhiteSpace(@question.QuestionText)) && flag)
+                            {
+                                <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
+                            }
+            
         </div>
         <div class="input-options form-input">
             <label for="option-one" class="checkbox-label">Option 1:</label>
-            <input type="text" @bind-value="@question.OptionOne" />
-            <input type="checkbox" id="option-one-checkbox" />
+            <input  type="text" @bind-value="@question.OptionOne" required />
+               @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)) && flag)
+                            {
+                                <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
+                            }
+              
+            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1"  />
+           
+
         </div>
         <div class="input-options form-input">
             <label for="option-two" class="checkbox-label">Option 2:</label>
-            <input type="text" @bind-value="@question.OptionTwo" />
-            <input type="checkbox" id="option-two-checkbox" />
+            <input type="text" @bind-value="@question.OptionTwo" required />
+    
+               @if ((string.IsNullOrEmpty(@question.OptionTwo) || string.IsNullOrWhiteSpace(@question.OptionTwo)) && flag)
+                {
+                     <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
+                }
+          
+            <input type="checkbox" id="option-two-checkbox"  @bind-value="@question.CheckBox2"/>
+           
         </div>
         <div class="input-options form-input">
             <label for="option-three" class="checkbox-label">Option 3:</label>
-            <input type="text" @bind-value="@question.OptionThree" />
-            <input type="checkbox" id="option-three-checkbox" />
+            <input type="text" @bind-value="@question.OptionThree" required />
+         
+            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3"  />
         </div>
         <div class="input-options form-input">
             <label for="option-four" class="checkbox-label">Option 4:</label>
-            <input type="text" @bind-value="@question.OptionFour" />
-            <input type="checkbox" id="option-four-checkbox" />
+            <input type="text" @bind-value="@question.OptionFour" required />
+       
+            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4"/>
+           
+           
         </div>
 
+        @if( !(question.CheckBox1 || question.CheckBox2  || question.CheckBox3 || question.CheckBox4))
+            { 
+               <br /> <div class="text-danger"><h6> At least One Check Box must be Checked !</h6></div> <br />
+            }
         <div class="form-actions">
             <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
             <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
             <button type="button" @onclick="@AddMore" class="btn">Add More Question</button>
         </div>
-    </form>
+   </EditForm>
 </div>
 
 @code {
+    
+
+    
+
     private QuestionViewModel question = new QuestionViewModel();
 
     protected override async Task OnInitializedAsync()
@@ -61,8 +95,10 @@
     private async Task SaveQuestion()
     {
         var response = await Http.PostAsJsonAsync("api/Question", question);
+
         var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
-        if (questionResponse.QuestionQuizId > 0)
+        this.flag = true;
+        if (questionResponse.QuestionQuizId > 0 && flag) 
         {
             NavigationManager.NavigateTo("/editquizcategory");
         }
@@ -87,7 +123,7 @@
 
     bool flag = false;
     bool validResponse = false;
-
+    int count = 0;
     async Task getQuizCategory()
     {
         var response = await _http.GetAsync("api/quiz");

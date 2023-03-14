@@ -11,41 +11,62 @@
     <div class="Container-heading">
         <h2>Edit Question</h2>
     </div>
-    <form class="input-form">
-
+   
+        <EditForm Model="@question" class="input-form" OnValidSubmit="SaveQuestion">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
         <div class="Quiz-name form-input">
             <label for="quiz-category">Quiz Category Name : <b>@quizList.FirstOrDefault()?.QuizTitle</b></label>
         </div>
         <div class="Question-Text form-input">
             <label for="question-text">Question Text </label>
             <textarea id="question-text" name="question-text" @bind="@question.QuestionText" required></textarea>
+            @if ((string.IsNullOrEmpty(@question.QuestionText) || string.IsNullOrWhiteSpace(@question.QuestionText)) )
+            {
+                <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
+            }
         </div>
         <div class="input-options form-input">
             <label for="option1" class="checkbox-label">Option 1 : </label>
             <input type="text" id="option1" name="option1" @bind="@question.OptionOne" required>
-            <input type="checkbox" id="myCheckbox">
+            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1"  />
+            @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)))
+            {
+                <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
+            }
+            
         </div>
         <div class="input-options form-input">
             <label for="option2" class="checkbox-label">Option 2 :</label>
             <input type="text" id="option2" name="option2" @bind="@question.OptionTwo" required>
-            <input type="checkbox" id="myCheckbox">
+            <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2"  />
+            @if ((string.IsNullOrEmpty(@question.OptionTwo) || string.IsNullOrWhiteSpace(@question.OptionTwo)))
+            {
+              <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
+            }
+            
         </div>
         <div class="input-options form-input">
             <label for="option3" class="checkbox-label">Option 3 :</label>
             <input type="text" id="option3" name="option3" @bind="@question.OptionThree">
-            <input type="checkbox" id="myCheckbox">
+            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3"  />
         </div>
         <div class="input-options form-input">
             <label for="option4" class="checkbox-label">Option 4 :</label>
             <input type="text" id="option4" name="option4" @bind="@question.OptionFour">
-            <input type="checkbox" id="myCheckbox">
+            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4"  />
         </div>
+
+         @if( !(question.CheckBox1 || question.CheckBox2  || question.CheckBox3 || question.CheckBox4))
+            { 
+               <br /> <div class="text-danger"><h6> At least One Check Box must be Checked !</h6></div> <br />
+            }
 
         <div class="Form-actions">
             <button type="reset" @onclick="@Cancel" class="btn">Cancel</button>
             <button type="submit" @onclick="@SaveQuestion" class="btn active">Save</button>
         </div>
-    </form>
+ 
+    </EditForm>
 </div>
 
 @code {
@@ -61,7 +82,8 @@
     {
         var response = await Http.PutAsJsonAsync("api/Question/" + Id, @question);
         bool questionResponse = await response.Content.ReadFromJsonAsync<bool>();
-        if (questionResponse)
+        this.flag = true;
+        if (questionResponse && flag)
         {
             await JsRuntime.InvokeVoidAsync("alert", "Updated Successfully!");
             NavigationManager.NavigateTo("/editquizcategory");
