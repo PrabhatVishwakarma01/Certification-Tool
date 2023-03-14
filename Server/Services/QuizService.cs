@@ -1,18 +1,22 @@
-﻿using Tool.Server.Models;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
+using Tool.Server.Models;
 
-namespace Tool.Server.Services
+namespace Tool.Server.Services 
 {
-    public class QuizService : IQuizService
-    {
+    public class QuizService : IQuizService 
+   {
         private readonly IRepository<QuizModel> _quiz;
         private QuizModel addedQuiz;
+        private readonly AppDbContext _context;
 
 
-        public QuizService(IRepository<QuizModel> quiz)
+        public QuizService(AppDbContext context, IRepository<QuizModel> quiz)
         {
+            _context = context;
             _quiz = quiz;
         }
-        public async Task<QuizModel> AddQuizCategory(QuizModel quiz)
+        public async Task<QuizModel> AddQuizCategory(QuizModel quiz) 
         {
             return addedQuiz = await _quiz.CreateAsync(quiz);
         }
@@ -22,23 +26,28 @@ namespace Tool.Server.Services
             return await _quiz.GetAllAsync();
         }
 
-        public async Task<List<QuizModel>> GetAllQuizCategory()
+        public async Task<List<QuizModel>> GetAllQuizCategory() 
         {
             return await _quiz.GetAllAsync();
         }
 
-        public async Task<bool> DeleteQuizCategory(int id)
+        public async Task<bool> DeleteQuizCategory(int id) 
         {
             await _quiz.DeleteAsync(id);
             return true;
         }
 
-        public async Task<QuizModel> GetQuizCategory(int id)
+        public async Task<QuizModel> GetQuizCategory(int id) 
         {
             return await _quiz.GetByIdAsync(id);
         }
 
-        Task<bool> IQuizService.UpdateQuizCategory(int id, QuizModel quiz)
+        public async Task<QuizModel> GetQuizByTitleAsync(string quizTitle) 
+        {
+            return await _context.Quizs.FirstOrDefaultAsync(q => q.QuizTitle == quizTitle);
+        }
+
+        public Task<bool> UpdateQuizCategory(int id, QuizModel quiz) 
         {
             throw new NotImplementedException();
         }
