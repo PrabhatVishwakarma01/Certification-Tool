@@ -78,16 +78,11 @@ label {
 /* CheckBox */
 
 input[type="checkbox" i] {
-    /* cursor: default; */
-    /* appearance: auto; */
-    /* align-items: center; */
+   
     height: 25px;
     width: 25px;
-    /* box-sizing: border-box; */
     margin: 20px 14px 0px 0px;
-    /* justify-content: center; */
-    /* padding: 4px; */
-    /* border: initial; */
+    
 }
 * {
     margin: 0;
@@ -214,7 +209,7 @@ th {
 
 .btnADD:hover {
     background-color: transparent;
-    color: black;
+    color: 
 }
 
 .active {
@@ -227,7 +222,7 @@ th {
     flex-wrap: wrap;
     flex-shrink: 0;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-evenly;
     padding: 0.75rem;
     border-top: 1px solid #dee2e6;
     border-bottom-right-radius: calc(0.3rem - 1px);

@@ -10,8 +10,8 @@
 .Container {
     background-color: #eaeaea;
     width: 100%;
-    margin-top: 20px;
-    height: auto;
+    margin-top: 80px;
+    height: 41rem;
 }
 
 
@@ -50,6 +50,7 @@ label {
 
 .form-input {
     margin-bottom: 20px;
+    margin-left:20px;
 }
 
 
@@ -101,10 +102,10 @@ input[type="checkbox"] {
 
 
 .Form-actions {
-    width: 80%;
+    width: 60%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-top: 3vh;
 }
 
@@ -112,10 +113,11 @@ input[type="checkbox"] {
 
 .btn {
     background-color: transparent;
-    width: 50%;
+    width: 10rem;
     padding: 8px 20px;
     border: 1px solid #000;
     font-weight: 600;
+    font-size:15px;
 }
 
 
