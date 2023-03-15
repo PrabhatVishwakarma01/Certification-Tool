@@ -61,7 +61,7 @@
             <EditForm Model="@quiz">
                 <DataAnnotationsValidator />
                 <div class="modal-body">
-                    <form class="input-form">
+                    <div class="input-form">
                         <div class="Quiz-name form-input">
                             <label for="quiz-category">Quiz Category Name </label>
                             <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
@@ -76,7 +76,7 @@
                                 <br /> <div class="text-danger"><h5>The timer value cannot be 0.</h5></div>
                             }
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     @if (!validResponse) {

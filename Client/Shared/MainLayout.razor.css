@@ -1,7 +1,13 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "aktiv-grotesk", Arial, Â sans-serif;
+}
 .page {
     position: relative;
     display: flex;
     flex-direction: column;
+    box-sizing:border-box;
 }
 
 main {
