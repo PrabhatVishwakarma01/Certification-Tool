@@ -1,137 +1,143 @@
 ﻿@page "/addquestion"
 @using System.Diagnostics;
 @using Tool.Shared
-@inject HttpClient Http
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
-
 <PageTitle>AddQuestions</PageTitle>
-
 <div class="Container">
-
     <div class="Container-heading">
         <h2>Adding Question</h2>
     </div>
-       <EditForm Model="@question" class="input-form" id="QuestionForm" OnValidSubmit="SaveQuestion">
-
+    <EditForm Model="@question" class="input-form" id="QuestionForm" OnValidSubmit="SaveQuestion">
         <DataAnnotationsValidator></DataAnnotationsValidator>
-
         <div class="Quiz-name form-input">
             <label for="quiz-category">Quiz Category Name:</label>
         </div>
         <div class="Question-text form-input">
             <label for="question-text">Question Text:</label>
-            <textarea  @bind="@question.QuestionText" required></textarea>            
+<textarea @bind="@question.QuestionText" required></textarea>
             @if ((string.IsNullOrEmpty(@question.QuestionText) || string.IsNullOrWhiteSpace(@question.QuestionText)) && flag)
-                            {
-                                <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
-                            }
-            
+            {
+                <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
+            }
         </div>
         <div class="input-options form-input">
             <label for="option-one" class="checkbox-label">Option 1:</label>
-            <input  type="text" @bind-value="@question.OptionOne" required />
-               @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)) && flag)
-                            {
-                                <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
-                            }
-              
-            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1"  />
-           
-
+            <input type="text" @bind-value="@question.OptionOne" required />
+            @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)) && flag)
+            {
+                <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
+           }
+          <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
         </div>
         <div class="input-options form-input">
             <label for="option-two" class="checkbox-label">Option 2:</label>
             <input type="text" @bind-value="@question.OptionTwo" required />
-    
-               @if ((string.IsNullOrEmpty(@question.OptionTwo) || string.IsNullOrWhiteSpace(@question.OptionTwo)) && flag)
-                {
-                     <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
-                }
-          
-            <input type="checkbox" id="option-two-checkbox"  @bind-value="@question.CheckBox2"/>
-           
+            @if ((string.IsNullOrEmpty(@question.OptionTwo) || string.IsNullOrWhiteSpace(@question.OptionTwo)) && flag)
+            {
+                <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
+            }
+            <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2" />
         </div>
         <div class="input-options form-input">
             <label for="option-three" class="checkbox-label">Option 3:</label>
             <input type="text" @bind-value="@question.OptionThree" required />
-         
-            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3"  />
+            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3" />
         </div>
         <div class="input-options form-input">
             <label for="option-four" class="checkbox-label">Option 4:</label>
             <input type="text" @bind-value="@question.OptionFour" required />
-       
-            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4"/>
-           
-           
+            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4" />
         </div>
-
-        @if( !(question.CheckBox1 || question.CheckBox2  || question.CheckBox3 || question.CheckBox4))
-            { 
-               <br /> <div class="text-danger"><h6 style="margin-left:7rem"> At least One Check Box must be Checked !</h6></div> <br />
-            }
+        @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
+        {
+            <br /> <div class="text-danger"><h6 style="margin-left:7rem"> At least One Check Box must be Checked !</h6></div> <br />
+        }
         <div class="form-actions">
-            <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
-            <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
-            <button type="button" @onclick="@AddMore" class="btn">Add More Question</button>
+            @if (!validResponse)
+            {
+                <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
+                <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
+                <button type="button" @onclick="@AddMore" class="btn">Add More Question</button>
+            }
+            else if (isDuplicate)
+            {
+                <div class="alert-danger">Question already exists.</div>
+                <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
+                <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
+                <button type="button" @onclick="@AddMore" class="btn">Add More Question</button>
+            }
         </div>
-   </EditForm>
+    </EditForm>
 </div>
 
 @code {
-    
-
-    
-
+    List<QuestionViewModel> questionList = new List<QuestionViewModel>();
     private QuestionViewModel question = new QuestionViewModel();
-
+    bool flag = false; // used for check question or options are entered or not
+    bool validResponse = false;
+    bool isDuplicate = false;
     protected override async Task OnInitializedAsync()
     {
-        await getQuizCategory();
+        await getQuestion();
     }
-
-    private async Task SaveQuestion()
+    void Okay()
     {
-        var response = await Http.PostAsJsonAsync("api/Question", question);
-
-        var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
-        this.flag = true;
-        if (questionResponse.QuestionQuizId > 0 && flag) 
+        this.validResponse = false;
+        this.flag = false;
+        question.QuestionText = "";
+        NavigationManager.NavigateTo("/homepage");
+    }
+    void navigateToQuestion()
+    {
+        NavigationManager.NavigateTo("/editquizcategory");
+    }
+    async Task getQuestion()
+    {
+        var response = await _http.GetAsync("api/question");
+        response.EnsureSuccessStatusCode();
+        questionList = await response.Content.ReadFromJsonAsync<List<QuestionViewModel>>();
+        foreach (var q in questionList)
         {
-            NavigationManager.NavigateTo("/editquizcategory");
+            Debug.WriteLine(q.QuestionText);
         }
     }
-
+    private async Task SaveQuestion()
+    {
+        this.flag = true;
+        // Check if qusetion already exists in questionList
+        if (questionList.Any(q => q.QuestionText.Equals(question.QuestionText, StringComparison.OrdinalIgnoreCase)))
+        {
+            validResponse = true;
+            this.isDuplicate = true;
+            return;
+       }
+        // if question is not duplicate
+        if (question.QuestionText != "")
+        {
+            // Make a POST request to add quiz
+            var response = await _http.PostAsJsonAsync("api/Question", question);
+            response.EnsureSuccessStatusCode();
+            // refresh question list
+            await getQuestion();
+            validResponse = true;
+            this.isDuplicate = false;
+           NavigationManager.NavigateTo("/editquizcategory");
+        }
+    }
     private async Task AddMore()
     {
-        var response = await Http.PostAsJsonAsync("api/Question", question);
+        var response = await _http.PostAsJsonAsync("api/Question", question);
         var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
         if (questionResponse.QuestionQuizId > 0)
         {
             question = new QuestionViewModel();
             await JsRuntime.InvokeVoidAsync("resetForm", "#QuestionForm");
         }
-    }
-
+   }
     private void Cancel()
     {
         NavigationManager.NavigateTo("/homepage");
-    }
-    List<HomeViewModel> quizList = new List<HomeViewModel>();
-
-    bool flag = false;
-    bool validResponse = false;
-    int count = 0;
-    async Task getQuizCategory()
-    {
-        var response = await _http.GetAsync("api/quiz");
-        response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
-        foreach (var q in quizList)
-        {
-            Debug.WriteLine(q.QuizTitle);
-        }
     }
 }

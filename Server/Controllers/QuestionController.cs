@@ -44,5 +44,33 @@ namespace Tool.Server.Controllers
         {
             await _questionService.UpdateQuestionModel(id, Object); return true;
         }
+// POST api/<QuestionController>
+        public async Task<bool> Post([FromBody] QuestionModel question)
+        {
+            Console.WriteLine("hlelloo");
+
+            // Check if the question already exists in the database
+            QuestionModel existingQuestion = await _questionService.GetQuestionByTextAsync(question.QuestionText);
+            if (existingQuestion != null)
+            {
+                // Quiz already exists, return false to indicate failure
+                return false;
+            }
+
+            // Quiz doesn't exist, add it to the database
+            QuestionModel newQuestion = await _questionService.AddQuestion(question);
+            if (newQuestion != null)
+            {
+                // Quiz added successfully, return true to indicate success
+                return true;
+            }
+            else
+            {
+                // Quiz could not be added, return false to indicate failure
+                return false;
+            }
+        }
+
+
     }
 }

@@ -20,7 +20,8 @@
             <button type="button" class=" btn btnADD" data-bs-toggle="modal" data-bs-target="#addquizcategorymodel">Add Quiz Category</button>
         </div>
 
-        @if (quizList != null) {
+        @if (quizList != null)
+        {
             <table class="master-table table table-striped table-borderless">
                 <thead>
                     <tr class="master-head">
@@ -31,8 +32,10 @@
                     </tr>
                 </thead>
                 <tbody class="master-table3">
-                    @if (quizList != null) {
-                        @foreach (var q in quizList) {
+                    @if (quizList != null)
+                    {
+                        @foreach (var q in quizList)
+                        {
                             <tr class="master-row">
                                 <td class="master-tablebody">@q.QuizTitle</td>
                                 <td class="master-tablebody">Prabhat Vishwakarma</td>
@@ -61,33 +64,37 @@
             <EditForm Model="@quiz">
                 <DataAnnotationsValidator />
                 <div class="modal-body">
-                    <div class="input-form">
+                    <form class="input-form">
                         <div class="Quiz-name form-input">
                             <label for="quiz-category">Quiz Category Name </label>
                             <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
-                            @if ((string.IsNullOrEmpty(@quiz.QuizTitle) || string.IsNullOrWhiteSpace(@quiz.QuizTitle)) && flag) {
+                            @if ((string.IsNullOrEmpty(@quiz.QuizTitle) || string.IsNullOrWhiteSpace(@quiz.QuizTitle)) && flag)
+                            {
                                 <br /> <div class="text-danger"><h5>Quiz Category name cannot be empty !</h5></div>
                             }
                         </div>
                         <div class="Allowed-Time form-input">
                             <label for="allowed-time">Allowed Time in minutes </label>
                             <input style="width: 27rem;height: 2rem;" class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" disabled="@validResponse" required>
-                            @if (quiz.Timer < 1 && flag) {
+                            @if (quiz.Timer < 1 && flag)
+                            {
                                 <br /> <div class="text-danger"><h5>The timer value cannot be 0.</h5></div>
                             }
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    @if (!validResponse) {
+                    @if (!validResponse)
+                    {
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
                         <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
+                        @if (flag && quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
+                        {
+                            <div class="text-danger"><h5>A quiz category with that name already exists.</h5></div>
+                        }
                     }
-                    else if (quizList.Any(q => q.QuizTitle.Equals(quiz.QuizTitle, StringComparison.OrdinalIgnoreCase))) {
-                        <div>Quiz Category already exists.</div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="@Okay">Close</button>
-                    }
-                    else {
+                    else
+                    {
                         <div>Record Saved</div>
                         <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
                     }
@@ -101,52 +108,53 @@
 
 
 @code {
-    List<HomeViewModel> quizList = new List<HomeViewModel>();
+    List<AddQuizCategoryViewModel> quizList = new List<AddQuizCategoryViewModel>();
 
     bool flag = false;
     bool validResponse = false;
 
-    async Task getQuizCategory() 
+    async Task getQuizCategory()
     {
         var response = await _http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
-        foreach (var q in quizList) {
+        quizList = await response.Content.ReadFromJsonAsync<List<AddQuizCategoryViewModel>>();
+        foreach (var q in quizList)
+        {
             Debug.WriteLine(q.QuizTitle);
         }
     }
-    protected override async Task OnInitializedAsync() 
+    protected override async Task OnInitializedAsync()
     {
         await getQuizCategory();
     }
 
-    void EditQuiz() 
+    void EditQuiz()
     {
         NavigationManager.NavigateTo("/editquizcategory");
     }
-    void AddQuestion() 
+    void AddQuestion()
     {
         NavigationManager.NavigateTo("/AddQuestion");
     }
-    AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel 
-    {
+    AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel
+        {
             QuizTitle = "",
             Timer = 0
-       
-    };
 
-    async Task Save() 
+        };
+
+    async Task Save()
     {
         this.flag = true;
 
         // Check if quiz title already exists in quizList
-        if (quizList.Any(q => q.QuizTitle.Equals(quiz.QuizTitle, StringComparison.OrdinalIgnoreCase))) 
+        if (quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
         {
-            validResponse = true;
+            validResponse = false;
             return;
         }
 
-        if (quiz.Timer >= 1 && quiz.QuizTitle != "") 
+        if (quiz.Timer >= 1 && quiz.QuizTitle != "")
         {
             // Make a POST request to add quiz
             var response = await _http.PostAsJsonAsync("api/quiz", quiz);
@@ -162,7 +170,8 @@
 
 
 
-    void Okay() {
+    void Okay()
+    {
         this.validResponse = false;
         this.flag = false;
         quiz.QuizTitle = "";
@@ -170,7 +179,8 @@
         NavigationManager.NavigateTo("/homepage");
     }
 
-    void Cancel() {
+    void Cancel()
+    {
         NavigationManager.NavigateTo("/homepage");
     }
 }

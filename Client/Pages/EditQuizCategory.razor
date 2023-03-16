@@ -107,7 +107,7 @@
  
     }
 
-    List<HomeViewModel> quizList = new List<HomeViewModel>();
+    List<AddQuizCategoryViewModel> quizList = new List<AddQuizCategoryViewModel>();
 
     bool flag = false;
     bool validResponse = false;
@@ -116,7 +116,7 @@
     {
         var response = await _http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<HomeViewModel>>();
+        quizList = await response.Content.ReadFromJsonAsync<List<AddQuizCategoryViewModel>>();
         foreach (var q in quizList)
         {
             Debug.WriteLine(q.QuizTitle);

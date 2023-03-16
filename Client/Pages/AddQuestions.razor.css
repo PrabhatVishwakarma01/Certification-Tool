@@ -108,6 +108,7 @@ input[type="checkbox"] {
     align-items: center;
     justify-content: space-evenly;
     margin: 1rem 0px 69px 1rem;
+    position:fixed;
 }
 
 
