@@ -24,5 +24,7 @@ namespace Tool.Server.Models
 
         [Required]
         public string OptionFour { get; set; }
+        public string IsCorrect { get; set; }
+
     }
 }

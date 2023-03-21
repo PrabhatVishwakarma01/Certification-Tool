@@ -25,6 +25,7 @@ namespace Tool.Shared
         [Required]
         [Display(Name = "Option 4")]
         public string OptionFour { get; set; }
+        public string IsCorrect { get; set; }
 
         public bool CheckBox1 { get; set; }
         public bool CheckBox2 { get; set; }

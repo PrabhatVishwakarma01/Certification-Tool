@@ -30,6 +30,10 @@
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
            }
           <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
+          @if(question.CheckBox1==true)
+            {
+                question.IsCorrect += question.OptionOne;
+            }
         </div>
         <div class="input-options form-input">
             <label for="option-two" class="checkbox-label">Option 2:</label>
@@ -39,18 +43,30 @@
                 <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
             }
             <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2" />
+            @if (question.CheckBox2 == true)
+            {
+                question.IsCorrect += "," +question.OptionTwo ;
+            }
         </div>
         <div class="input-options form-input">
             <label for="option-three" class="checkbox-label">Option 3:</label>
             <input type="text" @bind-value="@question.OptionThree" required />
             <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3" />
+            @if (question.CheckBox3 == true)
+            {
+                question.IsCorrect += "," +question.OptionThree;
+            }
         </div>
         <div class="input-options form-input">
             <label for="option-four" class="checkbox-label">Option 4:</label>
             <input type="text" @bind-value="@question.OptionFour" required />
             <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4" />
+            @if (question.CheckBox4 == true)
+            {
+                question.IsCorrect +="," + question.OptionFour;
+            }
         </div>
-        @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
+        @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4)&& flag)
         {
             <br /> <div class="text-danger"><h6 style="margin-left:7rem"> At least One Check Box must be Checked !</h6></div> <br />
         }
@@ -114,7 +130,7 @@
             return;
        }
         // if question is not duplicate
-        if (question.QuestionText != "")
+        if (question.QuestionText != "" /*&& !(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4)*/)
         {
             // Make a POST request to add quiz
             var response = await _http.PostAsJsonAsync("api/Question", question);

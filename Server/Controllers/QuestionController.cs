@@ -48,6 +48,7 @@ namespace Tool.Server.Controllers
         public async Task<bool> Post([FromBody] QuestionModel question)
         {
             Console.WriteLine("hlelloo");
+            Console.WriteLine("iscorrect-"+question.IsCorrect);
 
             // Check if the question already exists in the database
             QuestionModel existingQuestion = await _questionService.GetQuestionByTextAsync(question.QuestionText);

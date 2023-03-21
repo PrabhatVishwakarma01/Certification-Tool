@@ -29,6 +29,9 @@ namespace Tool.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionQuizId"), 1L, 1);
 
+                    b.Property<string>("IsCorrect")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("OptionFour")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
