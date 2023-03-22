@@ -41,8 +41,8 @@
                                 <td class="master-tablebody">Prabhat Vishwakarma</td>
                                 <td class="master-tablebody">@q.Timer</td>
                                 <td class="master-tablebody">
-                                    <a href="/editquizcategory" class="btn"><i class="fa fa-edit"></i></a>
-                                    <button @onclick="AddQuestion" class="btn"><i class="fa-solid fa-circle-plus"></i></button>
+                                    <a href="/editquizcategory/@q.QuizId" class="btn"><i class="fa fa-edit"></i></a>
+                                    <a href="/addquestion/@q.QuizId" class="btn"><i class="fa-solid fa-circle-plus"></i></a>
 @*                                    <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
 *@                                </td>
                             </tr>
@@ -134,7 +134,7 @@
     }
     void AddQuestion()
     {
-        NavigationManager.NavigateTo("/AddQuestion");
+        NavigationManager.NavigateTo("/AddQuestion/{QuizId}");
     }
     AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel
         {
