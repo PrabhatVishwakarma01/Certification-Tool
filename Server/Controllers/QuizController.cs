@@ -13,25 +13,29 @@ namespace Tool.Server.Controllers
         {
 
         private readonly IQuizService _quizService;
+        private readonly AppDbContext _dbContext;
 
 
-        public QuizController(IQuizService quizService) 
+        public QuizController(IQuizService quizService, AppDbContext dbContext) 
         {
             _quizService = quizService;
+            _dbContext = dbContext;
         }
-        // GET: api/<QuizController>
         [HttpGet]
-        public async Task<List<QuizModel>> GetAll() 
+        [Route("{id}")]
+        public async Task<QuizModel> GetQuizById(int id)
         {
-            Console.WriteLine("hlloodfa");
-            return await _quizService.GetAllQuizCategory();
+            var quiz = await _dbContext.Quizs.Include(q => q.QuestionModels).Where(a => a.QuizId == id).FirstOrDefaultAsync();
+            return quiz;
         }
 
-        // GET api/<QuizController>/5
-        [HttpGet("{id}")]
-        public async Task<QuizModel> Get(int id) 
+
+        // GET: api/<QuizController>
+        [HttpGet]
+        [Route("all")]
+        public async Task<List<QuizModel>> GetAll() 
         {
-            return await _quizService.GetQuizCategory(id);
+            return await _quizService.GetAllQuizCategory();
         }
 
         // POST api/<QuizController>

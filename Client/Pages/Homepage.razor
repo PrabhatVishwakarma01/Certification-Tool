@@ -115,7 +115,7 @@
 
     async Task getQuizCategory()
     {
-        var response = await _http.GetAsync("api/quiz");
+        var response = await _http.GetAsync("api/quiz/all");
         response.EnsureSuccessStatusCode();
         quizList = await response.Content.ReadFromJsonAsync<List<AddQuizCategoryViewModel>>();
         foreach (var q in quizList)

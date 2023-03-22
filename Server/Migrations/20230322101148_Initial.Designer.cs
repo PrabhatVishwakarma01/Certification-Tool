@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Tool.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230307121528_Initial")]
+    [Migration("20230322101148_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,10 @@ namespace Tool.Server.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionQuizId"), 1L, 1);
+
+                    b.Property<string>("IsCorrect")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OptionFour")
                         .IsRequired()
@@ -51,7 +55,12 @@ namespace Tool.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("QuizId")
+                        .HasColumnType("int");
+
                     b.HasKey("QuestionQuizId");
+
+                    b.HasIndex("QuizId");
 
                     b.ToTable("Questions");
                 });
@@ -183,10 +192,7 @@ namespace Tool.Server.Migrations
             modelBuilder.Entity("Tool.Server.Models.QuizQuestion", b =>
                 {
                     b.Property<int>("QuizQuestionId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizQuestionId"), 1L, 1);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -225,8 +231,6 @@ namespace Tool.Server.Migrations
 
                     b.HasIndex("QuestionTypeId")
                         .IsUnique();
-
-                    b.HasIndex("QuizId");
 
                     b.ToTable("QuizQuestions");
                 });
@@ -471,6 +475,17 @@ namespace Tool.Server.Migrations
                     b.ToTable("UserAnswerMappings");
                 });
 
+            modelBuilder.Entity("Tool.Server.Models.QuestionModel", b =>
+                {
+                    b.HasOne("Tool.Server.Models.QuizModel", "Quiz")
+                        .WithMany("QuestionModels")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
+                });
+
             modelBuilder.Entity("Tool.Server.Models.QuestionOption", b =>
                 {
                     b.HasOne("Tool.Server.Models.QuizQuestion", "QuizQuestion")
@@ -499,9 +514,9 @@ namespace Tool.Server.Migrations
                         .IsRequired();
 
                     b.HasOne("Tool.Server.Models.QuizModel", "Quiz")
-                        .WithMany("QuizQuestions")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithMany()
+                        .HasForeignKey("QuizQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("QuestionType");
@@ -616,9 +631,9 @@ namespace Tool.Server.Migrations
 
             modelBuilder.Entity("Tool.Server.Models.QuizModel", b =>
                 {
-                    b.Navigation("QuestionOptions");
+                    b.Navigation("QuestionModels");
 
-                    b.Navigation("QuizQuestions");
+                    b.Navigation("QuestionOptions");
 
                     b.Navigation("QuizReports");
 

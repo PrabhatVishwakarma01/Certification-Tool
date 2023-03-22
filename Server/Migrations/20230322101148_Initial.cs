@@ -13,23 +13,6 @@ namespace Tool.Server.Migrations
                 name: "dbo");
 
             migrationBuilder.CreateTable(
-                name: "Questions",
-                columns: table => new
-                {
-                    QuestionQuizId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OptionOne = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OptionTwo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OptionThree = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OptionFour = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Questions", x => x.QuestionQuizId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "QuestionTypes",
                 columns: table => new
                 {
@@ -88,11 +71,35 @@ namespace Tool.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    QuestionQuizId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionOne = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionTwo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionThree = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OptionFour = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsCorrect = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    QuizId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.QuestionQuizId);
+                    table.ForeignKey(
+                        name: "FK_Questions_Quizs_QuizId",
+                        column: x => x.QuizId,
+                        principalTable: "Quizs",
+                        principalColumn: "QuizId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "QuizQuestions",
                 columns: table => new
                 {
-                    QuizQuestionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuizQuestionId = table.Column<int>(type: "int", nullable: false),
                     QuizId = table.Column<int>(type: "int", nullable: false),
                     QuestionTypeId = table.Column<int>(type: "int", nullable: false),
                     QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -115,11 +122,11 @@ namespace Tool.Server.Migrations
                         principalColumn: "QuestionTypeId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_QuizQuestions_Quizs_QuizId",
-                        column: x => x.QuizId,
+                        name: "FK_QuizQuestions_Quizs_QuizQuestionId",
+                        column: x => x.QuizQuestionId,
                         principalTable: "Quizs",
                         principalColumn: "QuizId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -338,15 +345,15 @@ namespace Tool.Server.Migrations
                 column: "QuizId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Questions_QuizId",
+                table: "Questions",
+                column: "QuizId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuizQuestions_QuestionTypeId",
                 table: "QuizQuestions",
                 column: "QuestionTypeId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuizQuestions_QuizId",
-                table: "QuizQuestions",
-                column: "QuizId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuizReports_QuizId",

@@ -32,7 +32,8 @@ namespace Tool.Server.Controllers {
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                         new Claim("UserId", user.UserId.ToString()),
-                        new Claim("Email", user.Email)
+                        new Claim("Email", user.Email),
+                        new Claim("Role", user.RoleCode)
                     };
 
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

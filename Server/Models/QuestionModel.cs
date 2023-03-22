@@ -24,5 +24,13 @@ namespace Tool.Server.Models
 
         [Required]
         public string OptionFour { get; set; }
+
+        [Required]
+        public string IsCorrect { get; set; }
+
+
+        public int QuizId { get; set; }
+        [ForeignKey("QuizId")]
+        public virtual QuizModel Quiz { get; set; }
     }
 }

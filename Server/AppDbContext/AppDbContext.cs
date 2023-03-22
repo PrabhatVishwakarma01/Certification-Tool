@@ -29,12 +29,12 @@ using Tool.Server.Models;
             .OnDelete(DeleteBehavior.Cascade);
 
 
-        //Relation between Quiz and QuizQuestion 
-        modelBuilder.Entity<QuizQuestion>()
-            .HasOne(q => q.Quiz)
-            .WithMany(qu => qu.QuizQuestions)
-            .HasForeignKey(q => q.QuizId)
-            .OnDelete(DeleteBehavior.Restrict);
+        ////Relation between Quiz and QuizQuestion 
+        //modelBuilder.Entity<QuizQuestion>()
+        //    .HasOne(q => q.Quiz)
+        //    .WithMany(qu => qu.Questions)
+        //    .HasForeignKey(q => q.QuizId)
+        //    .OnDelete(DeleteBehavior.Restrict);
 
         //Relation between QuizQuestion and QuestionOption
         modelBuilder.Entity<QuizQuestion>()

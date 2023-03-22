@@ -51,5 +51,10 @@ namespace Tool.Server.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<QuizModel> quizById()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

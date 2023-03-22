@@ -13,6 +13,5 @@ public interface IQuizService
 
     Task<bool> DeleteQuizCategory(int id);
     Task<QuizModel> GetQuizByTitleAsync(string quizTitle);
-
-
+    Task<QuizModel> quizById();
 }

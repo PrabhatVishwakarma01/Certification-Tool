@@ -5,6 +5,11 @@ namespace Tool.Server.Models;
 
 public class QuizModel
 {
+    public QuizModel()
+    {
+        this.QuestionModels = new HashSet<QuestionModel>();
+    }
+
     [Key]
     public int QuizId { get; set; }
     public string QuizTitle { get; set; }
@@ -23,7 +28,7 @@ public class QuizModel
 
     //Navigation Properties
     
-    public ICollection<QuizQuestion> QuizQuestions { get; set; }
+    public ICollection<QuestionModel> QuestionModels { get; set; }
     public ICollection<QuestionOption> QuestionOptions { get; set; }
     public ICollection<QuizReport> QuizReports { get; set; }
     public ICollection<Score> Scores { get; set; }
