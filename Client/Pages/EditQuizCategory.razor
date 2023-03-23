@@ -21,7 +21,6 @@
                     <tr class="master-head">
                         <th class="master-head QuestionNo"><b>Question #</b> </th>
                         <th class="master-head QuestionText"><b>Question Text</b></th>
-                        @*<th class="master-head Questionoption"><b>Available Options</b></th>*@
                         <th class="master-head Questionoption"><b>Correct Option</b></th>
                         <th class="master-head QuestionNo"><b>Action</b></th>
                     </tr>
@@ -32,9 +31,8 @@
                         <tr class="master-row">
                             <td class="master-tablebody" style="text-align: center;">@index</td>
                             <td class="master-tablebody">@q.QuestionText</td>
-                          @*  <td class="master-tablebody">@q.OptionOne, @q.OptionTwo, @q.OptionThree, @q.OptionFour</td>*@
-                            <td class="master-tablebody">@q.IsCorrect1 @q.IsCorrect2 @q.IsCorrect3 @q.IsCorrect4 </td>
-                            <td class="master-tablebody" style="text-align: center;">
+                            <td class="master-tablebody">@q.IsCorrect </td>
+                            <td class="master-tablebody" style="text-align: center;text-align: center;justify-content:space-evenly;display: flex;">
                                 <button type="button" class="btn"><a  style="color: black; padding:0" href="/editquestion/@q.QuestionQuizId"><i class="fa fa-edit"></i></a></button>
                                 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionIdToDelete = q.QuestionQuizId; }"><i class="fa-regular fa-trash-can"></i></button>
                             </td>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tool.Server.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,10 +23,7 @@ namespace Tool.Server.Migrations
                     OptionTwo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OptionThree = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OptionFour = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsCorrect1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsCorrect2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsCorrect3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsCorrect4 = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    IsCorrect = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

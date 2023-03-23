@@ -33,9 +33,6 @@ namespace Tool.Shared
         public bool CheckBox4 { get; set; }
 
        
-        public string IsCorrect1 { get; set; }
-        public string IsCorrect2 { get; set; }
-        public string IsCorrect3 { get; set; }
-        public string IsCorrect4 { get; set; }
+        public string IsCorrect { get; set; }
     }
 }

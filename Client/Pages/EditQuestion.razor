@@ -35,18 +35,11 @@
             <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1"  />
             @if (question.CheckBox1 == true)
             {
-             
-                question.IsCorrect1 = question.OptionOne + " ";
+
+                question.IsCorrect = question.OptionOne + " ";
 
             }
-           @* @foreach (var x in ans)
-            {
-                ans.Remove(x);
-                question.IsCorrect += x;
-                
-            }
-            *@
-            
+
         </div>
         <div class="input-options form-input">
             <label for="option2" class="checkbox-label">Option 2 :</label>
@@ -58,7 +51,7 @@
             <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2"  />
             @if (question.CheckBox2 == true)
             {
-                question.IsCorrect2 += " " + question.OptionTwo + " ";
+                question.IsCorrect += " " + question.OptionTwo + " ";
 
             }
 
@@ -71,7 +64,7 @@
             <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3"  />
             @if (question.CheckBox3 == true)
             {
-                question.IsCorrect3 += " " + question.OptionThree + " ";
+                question.IsCorrect += " " + question.OptionThree + " ";
 
             }
         </div>
@@ -81,7 +74,7 @@
             <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4"  />
             @if (question.CheckBox4 == true)
             {
-                question.IsCorrect4 += " " + question.OptionFour + " ";
+                question.IsCorrect += " " + question.OptionFour + " ";
 
             }
         </div>

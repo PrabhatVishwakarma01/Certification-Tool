@@ -28,58 +28,16 @@
             @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)) && flag)
             {
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
-           }
-          <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
+            }
+            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
 
             @if (question.CheckBox1 == true)
             {
-                question.IsCorrect1 += question.OptionOne + " ";
-                
-
+                question.IsCorrect += question.OptionOne + " ";
+                flag = true;
             }
-            @*else if (question.CheckBox1 == false)
-            {
-                question.IsCorrect1 = null;
-            }
-            else if (question.CheckBox2 == false)
-            {
-                question.IsCorrect2 = null;
-            }
-            else if (question.CheckBox3 == false)
-            {
-                question.IsCorrect3 = null;
-            }
-            else if (question.CheckBox4 == false)
-            {
-                question.IsCorrect4 = null;
-            }*@
-            else if (question.CheckBox1 == false)
-            {
-                question.IsCorrect1 = null;
-            }
-
-          @*@{
-                HashSet<string> ans = new HashSet<string>();
-         
-         
-          @if(question.CheckBox1==true)
-            {
-                
-
-                ans.Add(question.OptionOne);
-                //question.IsCorrect += question.OptionOne;
-                //question.CheckBox1 = false;
-
-            }
-            @foreach (var x in ans)
-            {
-            //Console.WriteLine(city);
-            question.IsCorrect += x;
-                ans.Remove(x);
-            }
-            }*@
-           
         </div>
+
         <div class="input-options form-input">
             <label for="option-two" class="checkbox-label">Option 2:</label>
             <input type="text" @bind-value="@question.OptionTwo" required />
@@ -90,29 +48,8 @@
             <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2" />
             @if (question.CheckBox2 == true)
             {
-                question.IsCorrect2 += " " + question.OptionTwo + " ";
-                
-               
-            }
-           @* else if (question.CheckBox1 == false)
-            {
-                question.IsCorrect1 = null;
-            }
-            else if (question.CheckBox2 == false)
-            {
-                question.IsCorrect2 = null;
-            }
-            else if (question.CheckBox3 == false)
-            {
-                question.IsCorrect3 = null;
-            }
-            else if (question.CheckBox4 == false)
-            {
-                question.IsCorrect4 = null;
-            }*@
-            else if (question.CheckBox2 == false)
-            {
-                question.IsCorrect2 = null;
+                question.IsCorrect += " " + question.OptionTwo + " ";
+                flag = true;
             }
         </div>
         <div class="input-options form-input">
@@ -121,29 +58,8 @@
             <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3" />
             @if (question.CheckBox3 == true)
             {
-                question.IsCorrect3 += " " +question.OptionThree + " ";
-               
-                
-            }
-            @*else if (question.CheckBox1 == false)
-            {
-                question.IsCorrect1 = null;
-            }
-            else if (question.CheckBox2 == false)
-            {
-                question.IsCorrect2 = null;
-            }
-            else if (question.CheckBox3 == false)
-            {
-                question.IsCorrect3 = null;
-            }
-            else if (question.CheckBox4 == false)
-            {
-                question.IsCorrect4 = null;
-            }*@
-            else if (question.CheckBox3 == false)
-            {
-                question.IsCorrect3 = null;
+                question.IsCorrect += " " + question.OptionThree + " ";
+                flag = true;
             }
         </div>
         <div class="input-options form-input">
@@ -152,33 +68,12 @@
             <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4" />
             @if (question.CheckBox4 == true)
             {
-                question.IsCorrect4 += " " + question.OptionFour + " ";
-                
-               
+                question.IsCorrect += " " + question.OptionFour + " ";
+                flag = true;
             }
-           @* else if (question.CheckBox1 == false)
-                {
-                question.IsCorrect1 = null;
-                }
-                else if (question.CheckBox2 == false)
-                {
-                    question.IsCorrect2 = null;
-                }
-                else if (question.CheckBox3 == false)
-                {
-                    question.IsCorrect3 = null;
-                }
-                else if (question.CheckBox4 == false)
-                {
-                    question.IsCorrect4 = null;
-                }*@
 
-            else if (question.CheckBox4 == false)
-            {
-                question.IsCorrect4 = null;
-            }
         </div>
-        @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4)&& flag)
+        @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4) && flag)
         {
             <br /> <div class="text-danger"><h6 style="margin-left:7rem"> At least One Check Box must be Checked ! </h6></div> <br />
         }
@@ -240,7 +135,7 @@
             validResponse = true;
             this.isDuplicate = true;
             return;
-       }
+        }
         // if question is not duplicate
         if (question.QuestionText != "" && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
         {
@@ -251,7 +146,7 @@
             await getQuestion();
             validResponse = true;
             this.isDuplicate = false;
-           NavigationManager.NavigateTo("/editquizcategory");
+            NavigationManager.NavigateTo("/editquizcategory");
         }
     }
     private async Task AddMore()
@@ -263,7 +158,7 @@
             question = new QuestionViewModel();
             await JsRuntime.InvokeVoidAsync("resetForm", "#QuestionForm");
         }
-   }
+    }
     private void Cancel()
     {
         NavigationManager.NavigateTo("/homepage");

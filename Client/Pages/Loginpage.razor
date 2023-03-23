@@ -9,7 +9,7 @@
 <div class="login-container">
     <EditForm Model = "@user" OnValidSubmit = "Login">
 
- 
+
 
     <div class = "login-container" >
 <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -20,7 +20,7 @@
 <span asp-validation-for="email"></span>
 </div>
 
- 
+
 
         <div class="login-input-container">
 <label for="password" class="login-input-label" >Password</label>
@@ -34,7 +34,7 @@
 <span asp-validation-for="email"></span>
 </div>
 
- 
+
 
         <div class="login-actions">
 <button class="btn active" >Login</button>
@@ -42,7 +42,7 @@
 </div>
 </div>
 
- 
+
 
 </EditForm>
 </div>
@@ -63,13 +63,26 @@
     protected override async Task OnInitializedAsync()
     {
     }
+
     protected async Task Login()
     {
         var response = await Http.PostAsJsonAsync("api/user", @user);
         bool loginResponse = await response.Content.ReadFromJsonAsync<bool>();
         if (loginResponse)
+        {
+            if (user.Email.Contains("assess") || user.Email.Contains("Assess"))
+            {
+                NavigationManager.NavigateTo("/assesshomepage");
+            }
+            else if (user.Email.Contains("admin") || user.Email.Contains("Admin"))
             {
                 NavigationManager.NavigateTo("/homepage");
             }
         }
+        else
+        {
+            showError = true;
+        }
+
     }
+}

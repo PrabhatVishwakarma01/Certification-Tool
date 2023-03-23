@@ -144,6 +144,7 @@ th {
     border: 1px solid;
     font-weight: 400;
     font-size: 18px;
+
 }
 
 .align-text{
@@ -218,15 +219,16 @@ th {
 }
 
 .modal-footer {
-    /* display: flex; */
-    flex-wrap: wrap;
-    flex-shrink: 0;
-    align-items: center;
     justify-content: space-evenly;
+    display: flex;
+    flex-shrink: 0;
     padding: 0.75rem;
     border-top: 1px solid #dee2e6;
     border-bottom-right-radius: calc(0.3rem - 1px);
     border-bottom-left-radius: calc(0.3rem - 1px);
+    flex-wrap: wrap;
+    width: 50%;
+    margin-left: 14rem;
 }
 .action-btn{
     width:5rem;
