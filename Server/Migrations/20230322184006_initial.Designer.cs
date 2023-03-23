@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Tool.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230321075939_initial")]
+    [Migration("20230322184006_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,16 @@ namespace Tool.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionQuizId"), 1L, 1);
 
-                    b.Property<string>("IsCorrect")
+                    b.Property<string>("IsCorrect1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IsCorrect2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IsCorrect3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IsCorrect4")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OptionFour")

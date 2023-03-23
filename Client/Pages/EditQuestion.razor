@@ -28,32 +28,62 @@
         <div class="input-options form-input">
             <label for="option1" class="checkbox-label">Option 1 : </label>
             <input type="text" id="option1" name="option1" @bind="@question.OptionOne" required>
-            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1"  />
             @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)))
             {
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
             }
+            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1"  />
+            @if (question.CheckBox1 == true)
+            {
+             
+                question.IsCorrect1 = question.OptionOne + " ";
+
+            }
+           @* @foreach (var x in ans)
+            {
+                ans.Remove(x);
+                question.IsCorrect += x;
+                
+            }
+            *@
             
         </div>
         <div class="input-options form-input">
             <label for="option2" class="checkbox-label">Option 2 :</label>
             <input type="text" id="option2" name="option2" @bind="@question.OptionTwo" required>
-            <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2"  />
             @if ((string.IsNullOrEmpty(@question.OptionTwo) || string.IsNullOrWhiteSpace(@question.OptionTwo)))
             {
-              <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
+                <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
             }
+            <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2"  />
+            @if (question.CheckBox2 == true)
+            {
+                question.IsCorrect2 += " " + question.OptionTwo + " ";
+
+            }
+
+           
             
         </div>
         <div class="input-options form-input">
             <label for="option3" class="checkbox-label">Option 3 :</label>
             <input type="text" id="option3" name="option3" @bind="@question.OptionThree">
             <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3"  />
+            @if (question.CheckBox3 == true)
+            {
+                question.IsCorrect3 += " " + question.OptionThree + " ";
+
+            }
         </div>
         <div class="input-options form-input">
             <label for="option4" class="checkbox-label">Option 4 :</label>
             <input type="text" id="option4" name="option4" @bind="@question.OptionFour">
             <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4"  />
+            @if (question.CheckBox4 == true)
+            {
+                question.IsCorrect4 += " " + question.OptionFour + " ";
+
+            }
         </div>
 
          @if( !(question.CheckBox1 || question.CheckBox2  || question.CheckBox3 || question.CheckBox4))
@@ -73,6 +103,7 @@
     [Parameter]
     public string Id { get; set; }
     QuestionViewModel question = new QuestionViewModel();
+    HashSet<string> ans = new HashSet<string>();
     protected override async Task OnInitializedAsync()
     {
         await getQuizCategory();
@@ -83,7 +114,7 @@
         var response = await Http.PutAsJsonAsync("api/Question/" + Id, @question);
         bool questionResponse = await response.Content.ReadFromJsonAsync<bool>();
         this.flag = true;
-        if (questionResponse && flag)
+        if (questionResponse && flag && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
         {
             NavigationManager.NavigateTo("/editquizcategory");
         }
