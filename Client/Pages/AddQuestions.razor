@@ -30,12 +30,6 @@
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
             }
             <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
-
-            @if (question.CheckBox1 == true)
-            {
-                question.IsCorrect += question.OptionOne + " ";
-                flag = true;
-            }
         </div>
 
         <div class="input-options form-input">
@@ -46,32 +40,16 @@
                 <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
             }
             <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2" />
-            @if (question.CheckBox2 == true)
-            {
-                question.IsCorrect += " " + question.OptionTwo + " ";
-                flag = true;
-            }
         </div>
         <div class="input-options form-input">
             <label for="option-three" class="checkbox-label">Option 3:</label>
             <input type="text" @bind-value="@question.OptionThree" required />
             <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3" />
-            @if (question.CheckBox3 == true)
-            {
-                question.IsCorrect += " " + question.OptionThree + " ";
-                flag = true;
-            }
         </div>
         <div class="input-options form-input">
             <label for="option-four" class="checkbox-label">Option 4:</label>
             <input type="text" @bind-value="@question.OptionFour" required />
             <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4" />
-            @if (question.CheckBox4 == true)
-            {
-                question.IsCorrect += " " + question.OptionFour + " ";
-                flag = true;
-            }
-
         </div>
         @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4) && flag)
         {
@@ -129,12 +107,29 @@
     private async Task SaveQuestion()
     {
         this.flag = true;
+
         // Check if qusetion already exists in questionList
         if (questionList.Any(q => q.QuestionText.Equals(question.QuestionText, StringComparison.OrdinalIgnoreCase)))
         {
             validResponse = true;
             this.isDuplicate = true;
             return;
+        }
+        if (question.CheckBox1 == true)
+        {
+            question.IsCorrect += question.OptionOne + " ";
+        }
+        if (question.CheckBox2 == true)
+        {
+            question.IsCorrect += " " + question.OptionTwo + " ";
+        }
+        if (question.CheckBox3 == true)
+        {
+            question.IsCorrect += " " + question.OptionThree + " ";
+        }
+        if (question.CheckBox4 == true)
+        {
+            question.IsCorrect += " " + question.OptionFour + " ";
         }
         // if question is not duplicate
         if (question.QuestionText != "" && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))

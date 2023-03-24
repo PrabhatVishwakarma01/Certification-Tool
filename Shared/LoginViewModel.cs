@@ -16,7 +16,8 @@ namespace Tool.Shared
             set;
         }
         [Required]
-        [EmailAddress]
+        
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
         [RegularExpression(".*@persistent\\.com$",
     ErrorMessage = "Email must contain @persistent.com")]
         public string Email
@@ -28,7 +29,7 @@ namespace Tool.Shared
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         [RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$",
-            ErrorMessage = "Passwords must be at least 8 characters and contain the following: upper case (A-Z), lower case (a-z), number (0-9) and special character (e.g. !@#$%^&*)")]
+            ErrorMessage = "Invalid pattern.")]
         public string Password
         {
             get;
