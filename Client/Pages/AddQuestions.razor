@@ -60,6 +60,7 @@
                 <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
                 <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
                 <button type="button" @onclick="@AddMore" class="btn">Add More Question</button>
+                @*@if (flag && questionList.Any(q => q.QuestionText.Equals(question.QuestionText, StringComparison.OrdinalIgnoreCase)))*@
             }
             else if (isDuplicate)
             {
@@ -68,6 +69,7 @@
                 <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
                 <button type="button" @onclick="@AddMore" class="btn">Add More Question</button>
             }
+           
         </div>
     </EditForm>
 </div>
