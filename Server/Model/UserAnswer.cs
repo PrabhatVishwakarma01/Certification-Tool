@@ -1,16 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Tool.Server.Models;
+
+namespace Tool.Server.Model;
 
 public class UserAnswer
 {
     [Key]
     public int UserAnswerId { get; set; }
     public int UserId { get; set; }
-    public int QuizId { get; set; }
+    [ForeignKey("UserId")]
     public int Attempt { get; set; }
     public int QuestionId { get; set; }
+    [ForeignKey("QuestionId")]
+
     public int UserSelectedOption { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
@@ -19,7 +22,5 @@ public class UserAnswer
     public string Comment { get; set; }
 
     //Navigation Properties
-    public User User { get; set; }
-    public QuizModel Quiz { get; set; }
-    public QuizQuestion QuizQuestion { get; set; }
+    public Question Question { get; set; }
 }

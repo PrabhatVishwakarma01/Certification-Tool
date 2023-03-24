@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tool.Server.Models;
+using Tool.Server.Model;
 
 namespace Tool.Server.Services
 {
     public interface IQuestionService
     {
-        Task<QuestionModel> AddQuestionModel(QuestionModel question);
-        Task<bool> UpdateQuestionModel(int id, QuestionModel question);
-        Task<bool> DeleteQuestionModel(int id);
-        Task<List<QuestionModel>> GetAllQuestionModel();
-        Task<QuestionModel> GetQuestionModel(int id);
-        Task<QuestionModel> GetQuestionByTextAsync(string questionText);
-        Task<QuestionModel> AddQuestion(QuestionModel question);
+        Task<Question> AddQuestion(Question question);
+        Task<bool> UpdateQuestion(int id, Question question);
+        Task<bool> DeleteQuestion(int id);
+        Task<List<Question>> GetAllQuestion();
+        Task<Question> GetQuestion(int id);
+        Task<Question> GetQuestionByTextAsync(string questionText);
     }
 }

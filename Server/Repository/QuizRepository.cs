@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using Tool.Server.Models;
+using Tool.Server.Model;
 
 namespace Tool.Server.Repository
 {
-    public class QuizRepository : IRepository<QuizModel>
+    public class QuizRepository : IRepository<Quiz>
     {
 
         readonly AppDbContext _dbContext;
@@ -13,28 +13,28 @@ namespace Tool.Server.Repository
             _dbContext = appDbContext;
         }
 
-        public async Task<QuizModel> CreateAsync(QuizModel _object)
+        public async Task<Quiz> CreateAsync(Quiz _object)
         {
             var obj = await _dbContext.Quizs.AddAsync(_object);
             _dbContext.SaveChanges();
             return obj.Entity;
         }
-        public async Task UpdateAsync(QuizModel _object)
+        public async Task UpdateAsync(Quiz _object)
         {
             _dbContext.Quizs.Update(_object);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task<List<QuizModel>> GetAllAsync()
+        public async Task<List<Quiz>> GetAllAsync()
         {
             return await _dbContext.Quizs.ToListAsync();
         }
 
-        public async Task<QuizModel> GetByIdAsync(int Id)
+        public async Task<Quiz> GetByIdAsync(int Id)
         {
             return await _dbContext.Quizs.FirstOrDefaultAsync(x => x.QuizId == Id);
         }
 
-        Task IRepository<QuizModel>.DeleteAsync(int id)
+        Task IRepository<Quiz>.DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }

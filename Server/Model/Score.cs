@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Tool.Server.Models;
+namespace Tool.Server.Model;
 
 public class Score
 {
     [Key]
     public int ScoreId { get; set; }
     public int QuizId { get; set; }
-    public int UserId { get; set; }
+    [ForeignKey("QuizId")]
     public int ObtainedScore { get; set; }
 
     //Navigation Properties
-    public QuizModel Quiz { get; set; }
-    public User User { get; set; }
+    public Quiz Quiz { get; set; }
 }

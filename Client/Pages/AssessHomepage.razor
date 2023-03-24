@@ -41,7 +41,7 @@
 
 @code {
     private int selectedQuizCategoryId;
-    private List<AddQuizCategoryViewModel> quizList = new List<AddQuizCategoryViewModel>();
+    private List<QuizViewModel> quizList = new List<QuizViewModel>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,7 +66,7 @@
     {
         var response = await _http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<AddQuizCategoryViewModel>>();
+        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
         foreach (var q in quizList)
         {
             Debug.WriteLine(q.QuizTitle);

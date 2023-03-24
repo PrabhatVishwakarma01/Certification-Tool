@@ -1,18 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Tool.Server.Model;
 
-namespace Tool.Server.Models;
+namespace Tool.Server.Model;
 
 public class QuizReport
 {
     [Key]
-    [ForeignKey("Quiz")]
     public int QuizReportId { get; set; }
-
-    public int UserId { get; set; }
-    public User User { get; set; }
-
     public int QuizId { get; set; }
+    [ForeignKey("QuizId")]
+    public Quiz Quiz { get; set; }
     public int ObtainedScore { get; set; }
     public int PassingScore { get; set; }
     public string Result { get; set; }
@@ -22,9 +20,4 @@ public class QuizReport
     public int UpdatedBy { get; set; }
     public string Comment { get; set; }
     public int Attempt { get; set; }
-
-    //Navigation Properties
-
-    public QuizModel Quiz { get; set; }
-
 }

@@ -5,7 +5,7 @@ namespace Tool.Shared
     public class QuestionViewModel
     {
 
-        public int QuestionQuizId { get; set; }
+        public int QuestionId { get; set; }
 
         [Required(ErrorMessage = "This field Cann't be empty")]
         [Display(Name = "Question Text")]

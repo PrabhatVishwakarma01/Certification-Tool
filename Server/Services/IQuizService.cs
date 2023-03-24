@@ -1,18 +1,18 @@
 ﻿using System.Threading.Tasks;
-using Tool.Server.Models;
+using Tool.Server.Model;
 
 
 public interface IQuizService 
 {
-    Task<QuizModel> AddQuizCategory(QuizModel quiz);
+    Task<Quiz> AddQuizCategory(Quiz quiz);
 
-    Task<List<QuizModel>> GetAllQuizCategory();
-    Task<QuizModel> GetQuizCategory(int id);
+    Task<List<Quiz>> GetAllQuizCategory();
+    Task<Quiz> GetQuizCategory(int id);
 
-    Task<bool> UpdateQuizCategory(int id, QuizModel quiz);
+    Task<bool> UpdateQuizCategory(int id, Quiz quiz);
 
     Task<bool> DeleteQuizCategory(int id);
-    Task<QuizModel> GetQuizByTitleAsync(string quizTitle);
+    Task<Quiz> GetQuizByTitleAsync(string quizTitle);
 
 
 }

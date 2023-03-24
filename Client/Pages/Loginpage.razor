@@ -33,8 +33,10 @@
 <ValidationMessage For="@(() => user.Password)" ></ValidationMessage>
 <span asp-validation-for="email"></span>
 </div>
-
-
+ @if (showError)
+            {
+                <div class="alert" style="width:25rem; color:red " role="alert"> Invalid username and password </div>
+            }
 
         <div class="login-actions">
 <button class="btn active" >Login</button>
@@ -70,18 +72,18 @@
         bool loginResponse = await response.Content.ReadFromJsonAsync<bool>();
         if (loginResponse)
         {
-            if (user.Email.Contains("assess") || user.Email.Contains("Assess"))
+            if (user.Email.Contains("assess") || user.Email.Contains("Assess") || user.Email.Contains("ASSESS"))
             {
                 NavigationManager.NavigateTo("/assesshomepage");
             }
-            else if (user.Email.Contains("admin") || user.Email.Contains("Admin"))
+            else if (user.Email.Contains("admin") || user.Email.Contains("Admin") || user.Email.Contains("ADMIN"))
             {
                 NavigationManager.NavigateTo("/homepage");
             }
-        }
-        else
-        {
-            showError = true;
+            else
+            {
+                showError = true;
+            }
         }
 
     }

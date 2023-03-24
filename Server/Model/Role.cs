@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tool.Server.Model;
 
-namespace Tool.Server.Models;
+namespace Tool.Server.Model;
 
 public class Role
 {
@@ -13,7 +14,4 @@ public class Role
     public int UpdatedBy { get; set; }
 
     //Navigation Properties
-    public User User { get; set; }
-
-
 }

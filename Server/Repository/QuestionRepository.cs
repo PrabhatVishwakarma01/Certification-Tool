@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tool.Server.Models;
+using Tool.Server.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Tool.Server.Repository
 {
-    public class QuestionRepository : IRepository<QuestionModel>
+    public class QuestionRepository : IRepository<Question>
     {
         private readonly AppDbContext _dbContext;
 
@@ -14,32 +14,32 @@ namespace Tool.Server.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<QuestionModel> CreateAsync(QuestionModel _object)
+        public async Task<Question> CreateAsync(Question _object)
         {
             var obj = await _dbContext.Questions.AddAsync(_object);
             await _dbContext.SaveChangesAsync();
             return obj.Entity;
         }
 
-        public async Task UpdateAsync(QuestionModel _object)
+        public async Task UpdateAsync(Question _object)
         {
             _dbContext.Questions.Update(_object);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<QuestionModel>> GetAllAsync()
+        public async Task<List<Question>> GetAllAsync()
         {
             return await _dbContext.Questions.ToListAsync();
         }
 
-        public async Task<QuestionModel> GetByIdAsync(int id)
+        public async Task<Question> GetByIdAsync(int id)
         {
-            return await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionQuizId == id);
+            return await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionId == id);
         }
 
         public async Task DeleteAsync(int id)
         {
-            var data = await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionQuizId == id);
+            var data = await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionId == id);
 
             if (data != null)
             {

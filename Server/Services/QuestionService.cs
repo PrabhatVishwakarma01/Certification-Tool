@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Tool.Server.Models;
+using Tool.Server.Model;
 
 
 
@@ -7,13 +7,13 @@ namespace Tool.Server.Services
 {
     public class QuestionService : IQuestionService
     {
-        private readonly IRepository<QuestionModel> _question;
+        private readonly IRepository<Question> _question;
         private readonly AppDbContext _context;
-        private QuestionModel addedQuestion;
+        private Question addedQuestion;
 
 
 
-        public QuestionService(AppDbContext context, IRepository<QuestionModel> question)
+        public QuestionService(AppDbContext context, IRepository<Question> question)
         {
             _context = context;
             _question = question;
@@ -21,14 +21,18 @@ namespace Tool.Server.Services
 
 
 
-        public async Task<QuestionModel> AddQuestionModel(QuestionModel question)
+        public async Task<Question> AddQuestion(Question question)
         {
-            return await _question.CreateAsync(question);
+            await _context.Questions.AddAsync(question);
+            await _context.SaveChangesAsync();
+            return question;
+
+            //return await _question.CreateAsync(question);
         }
 
 
 
-        public async Task<bool> UpdateQuestionModel(int id, QuestionModel question)
+        public async Task<bool> UpdateQuestion(int id, Question question)
         {
             var data = await _question.GetByIdAsync(id);
 
@@ -55,7 +59,7 @@ namespace Tool.Server.Services
 
 
 
-        public async Task<bool> DeleteQuestionModel(int id)
+        public async Task<bool> DeleteQuestion(int id)
         {
             await _question.DeleteAsync(id);
             return true;
@@ -63,24 +67,20 @@ namespace Tool.Server.Services
 
 
 
-        public async Task<List<QuestionModel>> GetAllQuestionModel()
+        public async Task<List<Question>> GetAllQuestion()
         {
             return await _question.GetAllAsync();
         }
 
 
 
-        public async Task<QuestionModel> GetQuestionByTextAsync(string questionText)
+        public async Task<Question> GetQuestionByTextAsync(string questionText)
         {
             return await _context.Questions.FirstOrDefaultAsync(q => q.QuestionText == questionText);
         }
-        public async Task<QuestionModel> GetQuestionModel(int id)
+        public async Task<Question> GetQuestion(int id)
         {
             return await _question.GetByIdAsync(id);
-        }
-        public async Task<QuestionModel> AddQuestion(QuestionModel question)
-        {
-            return addedQuestion = await _question.CreateAsync(question);
         }
     }
 }

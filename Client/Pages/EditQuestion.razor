@@ -116,7 +116,7 @@
     {
         NavigationManager.NavigateTo("editquizcategory");
     }
-    List<AddQuizCategoryViewModel> quizList = new List<AddQuizCategoryViewModel>();
+    List<QuizViewModel> quizList = new List<QuizViewModel>();
 
     bool flag = false;
     bool validResponse = false;
@@ -125,7 +125,7 @@
     {
         var response = await _Http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<AddQuizCategoryViewModel>>();
+        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
         foreach (var q in quizList)
         {
             Debug.WriteLine(q.QuizTitle);

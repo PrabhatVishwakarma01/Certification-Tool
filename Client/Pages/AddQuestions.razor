@@ -153,7 +153,7 @@
     {
         var response = await _http.PostAsJsonAsync("api/Question", question);
         var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
-        if (questionResponse.QuestionQuizId > 0)
+        if (questionResponse.QuestionId > 0)
         {
             question = new QuestionViewModel();
             await JsRuntime.InvokeVoidAsync("resetForm", "#QuestionForm");

@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 
 
-    public class AddQuizCategoryViewModel
+    public class QuizViewModel
     {
         public int QuizId
         {

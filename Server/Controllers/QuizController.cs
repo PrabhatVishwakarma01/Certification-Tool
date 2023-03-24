@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using Tool.Server.Models;
+using Tool.Server.Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,7 +21,7 @@ namespace Tool.Server.Controllers
         }
         // GET: api/<QuizController>
         [HttpGet]
-        public async Task<List<QuizModel>> GetAll() 
+        public async Task<List<Quiz>> GetAll() 
         {
             Console.WriteLine("hlloodfa");
             return await _quizService.GetAllQuizCategory();
@@ -29,25 +29,25 @@ namespace Tool.Server.Controllers
 
         // GET api/<QuizController>/5
         [HttpGet("{id}")]
-        public async Task<QuizModel> Get(int id) 
+        public async Task<Quiz> Get(int id) 
         {
             return await _quizService.GetQuizCategory(id);
         }
 
         // POST api/<QuizController>
-        public async Task<bool> Post([FromBody] QuizModel quiz) 
+        public async Task<bool> Post([FromBody] Quiz quiz) 
             {
             Console.WriteLine("hlelloo");
 
             // Check if the quiz already exists in the database
-            QuizModel existingQuiz = await _quizService.GetQuizByTitleAsync(quiz.QuizTitle);
+            Quiz existingQuiz = await _quizService.GetQuizByTitleAsync(quiz.QuizTitle);
             if (existingQuiz != null) {
                 // Quiz already exists, return false to indicate failure
                 return false;
             }
 
             // Quiz doesn't exist, add it to the database
-            QuizModel newQuiz = await _quizService.AddQuizCategory(quiz);
+            Quiz newQuiz = await _quizService.AddQuizCategory(quiz);
             if (newQuiz != null) {
                 // Quiz added successfully, return true to indicate success
                 return true;

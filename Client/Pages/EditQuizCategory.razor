@@ -33,8 +33,8 @@
                             <td class="master-tablebody">@q.QuestionText</td>
                             <td class="master-tablebody">@q.IsCorrect </td>
                             <td class="master-tablebody" style="text-align: center;text-align: center;justify-content:space-evenly;display: flex;">
-                                <button type="button" class="btn"><a  style="color: black; padding:0" href="/editquestion/@q.QuestionQuizId"><i class="fa fa-edit"></i></a></button>
-                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionIdToDelete = q.QuestionQuizId; }"><i class="fa-regular fa-trash-can"></i></button>
+                                <button type="button" class="btn"><a  style="color: black; padding:0" href="/editquestion/@q.QuestionId"><i class="fa fa-edit"></i></a></button>
+                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionIdToDelete = q.QuestionId; }"><i class="fa-regular fa-trash-can"></i></button>
                             </td>
                         </tr>
                     }
@@ -88,7 +88,7 @@
         {
             var response = await _httpClient.DeleteAsync($"api/Question/{questionIdToDelete}");
             response.EnsureSuccessStatusCode();
-            questionList.RemoveAll(q => q.QuestionQuizId == questionIdToDelete);
+            questionList.RemoveAll(q => q.QuestionId == questionIdToDelete);
             JsRuntime.InvokeVoidAsync("$('#deleteQuizCategoryModal').modal('hide');");
         }
         catch (Exception ex)
@@ -105,7 +105,7 @@
  
     }
 
-    List<AddQuizCategoryViewModel> quizList = new List<AddQuizCategoryViewModel>();
+    List<QuizViewModel> quizList = new List<QuizViewModel>();
 
     bool flag = false;
     bool validResponse = false;
@@ -114,7 +114,7 @@
     {
         var response = await _http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<AddQuizCategoryViewModel>>();
+        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
         foreach (var q in quizList)
         {
             Debug.WriteLine(q.QuizTitle);
