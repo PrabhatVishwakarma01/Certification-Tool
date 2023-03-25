@@ -24,6 +24,12 @@ builder.Services.AddTransient<IQuestionService, QuestionService>();
 builder.Services.AddTransient<IRepository<User>, UserRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 
+builder.Services.AddControllersWithViews()
+ .AddNewtonsoftJson(options =>
+ options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
+
 builder.Services.AddTransient<IRepository<Quiz>, QuizRepository>();
 builder.Services.AddTransient<IQuizService, QuizService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {

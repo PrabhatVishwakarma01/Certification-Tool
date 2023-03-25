@@ -1,4 +1,4 @@
-﻿@page "/editquizcategory"
+﻿@page "/editquizcategory/{QuizId}"
 @using System.Diagnostics;
 @using Tool.Shared;
 @inject HttpClient _httpClient
@@ -7,12 +7,14 @@
 @inject IJSRuntime JsRuntime
 <PageTitle>EditQuizCategory</PageTitle>
 
+
+
 <div class="master p-4">
     <br />
     <br />
     <div class="center">
         <div class="Quiz-name form-input">
-                <label for="quiz-category">Quiz Category Name : <b>@quizList.FirstOrDefault()?.QuizTitle</b></label>
+            <label for="quiz-category">Quiz Category Name : <b>@quiz.QuizTitle</b></label>
         </div>
         @if (questionList != null)
         {
@@ -31,48 +33,57 @@
                         <tr class="master-row">
                             <td class="master-tablebody" style="text-align: center;">@index</td>
                             <td class="master-tablebody">@q.QuestionText</td>
-                            <td class="master-tablebody">@q.IsCorrect </td>
-                            <td class="master-tablebody" style="text-align: center;text-align: center;justify-content:space-evenly;display: flex;">
-                                <button type="button" class="btn"><a  style="color: black; padding:0" href="/editquestion/@q.QuestionId"><i class="fa fa-edit"></i></a></button>
+                            <td class="master-tablebody"></td>
+                            <td class="master-tablebody" style="text-align: center;">
+                                <button type="button" class="btn"><a  style="color: black; padding:0" href="/editquestion/@q.QuestionId"><i class="fa fa-edit"></i></a></button>
                                 <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionIdToDelete = q.QuestionId; }"><i class="fa-regular fa-trash-can"></i></button>
                             </td>
                         </tr>
                     }
-                     @*Delete dialogue box*@
-                        <div class="modal fade" id="deleteQuizCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog delete-dialog-box">
-                                <div class="dialog-content">
-                                    <div class="dialog-body">
-                                        Are you sure you want to delete question number @questionIdToDelete ?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn action-btn" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="button" data-bs-dismiss="modal" @onclick="@Delete" class="btn action-btn active" id="deleteQuizCategoryButton">Delete</button>
-                                    </div>
+                    @*Delete dialogue box*@
+                    <div class="modal fade" id="deleteQuizCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog delete-dialog-box">
+                            <div class="dialog-content">
+                                <div class="dialog-body">
+                                    Are you sure you want to delete question number @questionIdToDelete ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn action-btn" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" data-bs-dismiss="modal" @onclick="@Delete" class="btn action-btn active" id="deleteQuizCategoryButton">Delete</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </tbody>
             </table>
         }
     </div>
 </div>
 
+
+
 @code {
+    [Parameter]
+    public string QuizId { get; set; }
     [Parameter]
     public string Id { get; set; }
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
     int questionNumber;
     int questionIdToDelete;
 
-    protected override async Task OnInitializedAsync()
 
+
+    QuizViewModel quiz = new QuizViewModel();
+    protected override async Task OnInitializedAsync()
     {
+        @*quiz = await _http.GetFromJsonAsync<QuizViewModel>("api/quiz/" + QuizId);*@
         await getQuizCategory();
-        var response = await _httpClient.GetAsync("api/Question/" + Id);
-        response.EnsureSuccessStatusCode();
-        questionList = await response.Content.ReadFromJsonAsync<List<QuestionViewModel>>();
+        @*var response = await _httpClient.GetAsync("api/Question/" + Id);*@
+        @*response.EnsureSuccessStatusCode();
+        questionList = await response.Content.ReadFromJsonAsync<List<QuestionViewModel>>();*@
     }
+
+
 
     void ShowDeleteDialog(int questionNumberToDelete, int questionId)
     {
@@ -80,7 +91,11 @@
         questionIdToDelete = questionId;
         JsRuntime.InvokeVoidAsync("$('#deleteQuestionDialog').modal('show');");
 
+
+
     }
+
+
 
     protected async Task Delete()
     {
@@ -99,20 +114,28 @@
     }
 
 
+
+
     void CancelDelete()
     {
         JsRuntime.InvokeVoidAsync("$('#deleteQuestionDialog').modal('hide');");
- 
+
     }
 
+
+
     List<QuizViewModel> quizList = new List<QuizViewModel>();
+
+
 
     bool flag = false;
     bool validResponse = false;
 
+
+
     async Task getQuizCategory()
     {
-        var response = await _http.GetAsync("api/quiz");
+        var response = await _http.GetAsync("api/quiz/" + QuizId);
         response.EnsureSuccessStatusCode();
         quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
         foreach (var q in quizList)
@@ -120,6 +143,8 @@
             Debug.WriteLine(q.QuizTitle);
         }
     }
+
+
 
 
 }
