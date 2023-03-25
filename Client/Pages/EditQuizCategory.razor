@@ -65,9 +65,8 @@
 @code {
     [Parameter]
     public string QuizId { get; set; }
-    [Parameter]
-    public string Id { get; set; }
-    List<QuestionViewModel> questionList = new List<QuestionViewModel>();
+    @*[Parameter]*@
+    @*public string Id { get; set; }*@
     int questionNumber;
     int questionIdToDelete;
 
@@ -76,11 +75,9 @@
     QuizViewModel quiz = new QuizViewModel();
     protected override async Task OnInitializedAsync()
     {
-        @*quiz = await _http.GetFromJsonAsync<QuizViewModel>("api/quiz/" + QuizId);*@
-        await getQuizCategory();
-        @*var response = await _httpClient.GetAsync("api/Question/" + Id);*@
-        @*response.EnsureSuccessStatusCode();
-        questionList = await response.Content.ReadFromJsonAsync<List<QuestionViewModel>>();*@
+        await getQuestionList();
+
+
     }
 
 
@@ -124,7 +121,7 @@
 
 
 
-    List<QuizViewModel> quizList = new List<QuizViewModel>();
+    List<QuestionViewModel> questionList = new List<QuestionViewModel>();
 
 
 
@@ -133,15 +130,14 @@
 
 
 
-    async Task getQuizCategory()
+    async Task getQuestionList()
     {
-        var response = await _http.GetAsync("api/quiz/" + QuizId);
+        var response = await _http.GetAsync("api/quiz/" +QuizId);
         response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
-        foreach (var q in quizList)
-        {
-            Debug.WriteLine(q.QuizTitle);
-        }
+        quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
+        questionList = quiz.Questions;
+
+
     }
 
 

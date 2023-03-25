@@ -5,31 +5,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Tool.Shared;
 
-
-
-    public class QuizViewModel
+public class QuizViewModel
+{
+    public int QuizId
     {
-        public int QuizId
-        {
-            get;
-            set;
-        }
+        get;
+        set;
+    }
 
-        [Required]
-        [Display(Name = "QuizTitle")]
-        public string QuizTitle
-        {
-            get;
-            set;
-        }
-        [Required]
-        [Display(Name = "Timer")]
-        public double Timer
-        {
-            get;
-            set;
-        }
+    [Required]
+    [Display(Name = "QuizTitle")]
+    public string QuizTitle
+    {
+        get;
+        set;
+    }
+    [Required]
+    [Display(Name = "Timer")]
+    public double Timer
+    {
+        get;
+        set;
+    }
 
-        
+        public List<QuestionViewModel> Questions
+    {
+        get; set;
+    } 
     }

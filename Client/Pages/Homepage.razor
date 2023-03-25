@@ -131,7 +131,7 @@
 
     void EditQuiz()
     {
-        NavigationManager.NavigateTo("/editquizcategory");
+        NavigationManager.NavigateTo("/editquizcategory/{QuizId}");
     }
     void AddQuestion()
     {
@@ -140,8 +140,7 @@
     QuizViewModel quiz = new QuizViewModel
         {
             QuizTitle = "",
-            Timer = 0
-
+            Timer = 0,
         };
 
     async Task Save()
