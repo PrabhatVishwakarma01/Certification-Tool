@@ -17,4 +17,14 @@ public class AppDbContext : DbContext
     public DbSet<UserAnswerMapping> UserAnswerMappings { get; set; }
 
 
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Question>()
+            .HasOne(e => e.Quiz)
+            .WithMany(e => e.Questions)
+            .HasForeignKey(e => e.QuizId);
+            
+    }
+
 }

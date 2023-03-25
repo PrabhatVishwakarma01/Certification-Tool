@@ -1,4 +1,4 @@
-﻿@page "/editquizcategory/{QuizId}"
+﻿@page "/editquizcategory/{QuizId:int}"
 @using System.Diagnostics;
 @using Tool.Shared;
 @inject HttpClient _httpClient
@@ -33,10 +33,10 @@
                         <tr class="master-row">
                             <td class="master-tablebody" style="text-align: center;">@index</td>
                             <td class="master-tablebody">@q.QuestionText</td>
-                            <td class="master-tablebody"></td>
+                            <td class="master-tablebody">@q.IsCorrect</td>
                             <td class="master-tablebody" style="text-align: center;">
                                 <button type="button" class="btn"><a  style="color: black; padding:0" href="/editquestion/@q.QuestionId"><i class="fa fa-edit"></i></a></button>
-                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionIdToDelete = q.QuestionId; }"><i class="fa-regular fa-trash-can"></i></button>
+                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionToDelete = q.QuestionId; serialNo = index; }"><i class="fa-regular fa-trash-can"></i></button>
                             </td>
                         </tr>
                     }
@@ -45,7 +45,7 @@
                         <div class="modal-dialog delete-dialog-box">
                             <div class="dialog-content">
                                 <div class="dialog-body">
-                                    Are you sure you want to delete question number @questionIdToDelete ?
+                                    Are you sure you want to delete question number @serialNo from @quiz.QuizTitle ?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn action-btn" data-bs-dismiss="modal">Cancel</button>
@@ -64,14 +64,14 @@
 
 @code {
     [Parameter]
-    public string QuizId { get; set; }
-    @*[Parameter]*@
-    @*public string Id { get; set; }*@
-    int questionNumber;
-    int questionIdToDelete;
+    public int QuizId { get; set; }
+
+    public int questionToDelete;
+
+    public int serialNo;
 
 
-
+    List<QuestionViewModel> questionList = new List<QuestionViewModel>();
     QuizViewModel quiz = new QuizViewModel();
     protected override async Task OnInitializedAsync()
     {
@@ -84,8 +84,7 @@
 
     void ShowDeleteDialog(int questionNumberToDelete, int questionId)
     {
-        questionNumber = questionNumberToDelete;
-        questionIdToDelete = questionId;
+       
         JsRuntime.InvokeVoidAsync("$('#deleteQuestionDialog').modal('show');");
 
 
@@ -97,10 +96,10 @@
     protected async Task Delete()
     {
         try
-        {
-            var response = await _httpClient.DeleteAsync($"api/Question/{questionIdToDelete}");
+        {   
+            var response = await _httpClient.DeleteAsync("api/question/" + questionToDelete);
             response.EnsureSuccessStatusCode();
-            questionList.RemoveAll(q => q.QuestionId == questionIdToDelete);
+            questionList.RemoveAll(q => q.QuestionId == questionToDelete);
             JsRuntime.InvokeVoidAsync("$('#deleteQuizCategoryModal').modal('hide');");
         }
         catch (Exception ex)
@@ -121,7 +120,6 @@
 
 
 
-    List<QuestionViewModel> questionList = new List<QuestionViewModel>();
 
 
 

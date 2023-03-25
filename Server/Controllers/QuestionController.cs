@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Tool.Server.Model;
 using Tool.Server.Services;
 
@@ -37,6 +38,19 @@ public class QuestionController : ControllerBase
 
         return Ok(newQuestion);
     }
+
+    //[HttpPost]
+    //[Route("{id}")]
+    //public async Task<Quiz> GetQuizById(int id)
+    //{
+    //    var quiz = await _dbContext.Quizs.Include(q => q.Questions).Where(a => a.QuizId == id).FirstOrDefaultAsync();
+    //    return quiz;
+    //}
+
+
+
+
+
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<bool>> DeleteQuestion(int id)

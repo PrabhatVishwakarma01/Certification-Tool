@@ -16,7 +16,7 @@ namespace Tool.Server.Model
         
         public int QuizId { get; set; }
         [ForeignKey("QuizId")]
-        public Quiz Quizzes { get; set; }
+        public Quiz Quiz { get; set; }
         [Required]
         public string QuestionText { get; set; }
         [Required]

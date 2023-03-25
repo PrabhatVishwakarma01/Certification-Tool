@@ -9,6 +9,7 @@ using Tool.Shared;
 
 public class QuizViewModel
 {
+    public int QuestionId { get; set; }
     public int QuizId
     {
         get;

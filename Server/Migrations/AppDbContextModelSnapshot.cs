@@ -399,13 +399,13 @@ namespace Tool.Server.Migrations
 
             modelBuilder.Entity("Tool.Server.Model.Question", b =>
                 {
-                    b.HasOne("Tool.Server.Model.Quiz", "Quizzes")
+                    b.HasOne("Tool.Server.Model.Quiz", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Quizzes");
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("Tool.Server.Model.QuestionType", b =>

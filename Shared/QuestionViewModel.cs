@@ -5,6 +5,7 @@ namespace Tool.Shared
     public class QuestionViewModel
     {
 
+        public int QuizId { get; set; }
         public int QuestionId { get; set; }
 
         [Required(ErrorMessage = "This field Cann't be empty")]
@@ -32,6 +33,7 @@ namespace Tool.Shared
         public bool CheckBox3 { get; set; }
         public bool CheckBox4 { get; set; }
 
+        public QuizViewModel Quiz { get; set; }
        
         public string IsCorrect { get; set; }
     }

@@ -16,6 +16,7 @@ namespace Tool.Server.Repository
 
         public async Task<Question> CreateAsync(Question _object)
         {
+
             var obj = await _dbContext.Questions.AddAsync(_object);
             await _dbContext.SaveChangesAsync();
             return obj.Entity;

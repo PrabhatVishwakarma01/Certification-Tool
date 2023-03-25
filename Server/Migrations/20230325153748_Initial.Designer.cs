@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Tool.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230324113706_Initial")]
+    [Migration("20230325153748_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -401,13 +401,13 @@ namespace Tool.Server.Migrations
 
             modelBuilder.Entity("Tool.Server.Model.Question", b =>
                 {
-                    b.HasOne("Tool.Server.Model.Quiz", "Quizzes")
+                    b.HasOne("Tool.Server.Model.Quiz", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Quizzes");
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("Tool.Server.Model.QuestionType", b =>

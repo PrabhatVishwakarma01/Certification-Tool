@@ -80,7 +80,7 @@ namespace Tool.Server.Services
         }
         public async Task<Question> GetQuestion(int id)
         {
-            return await _question.GetByIdAsync(id);
+            return await _context.Questions.Include(q => q.Quiz).FirstOrDefaultAsync(q => q.QuizId == id);
         }
     }
 }
