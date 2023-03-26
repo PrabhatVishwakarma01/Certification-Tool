@@ -45,7 +45,7 @@
                         <div class="modal-dialog delete-dialog-box">
                             <div class="dialog-content">
                                 <div class="dialog-body">
-                                    Are you sure you want to delete question number @serialNo from @quiz.QuizTitle ?
+                                    Are you sure you want to delete question number <b>@serialNo</b> from <b>@quiz.QuizTitle</b> ?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn action-btn" data-bs-dismiss="modal">Cancel</button>
@@ -59,9 +59,6 @@
         }
     </div>
 </div>
-
-
-
 @code {
     [Parameter]
     public int QuizId { get; set; }
@@ -84,7 +81,7 @@
 
     void ShowDeleteDialog(int questionNumberToDelete, int questionId)
     {
-       
+
         JsRuntime.InvokeVoidAsync("$('#deleteQuestionDialog').modal('show');");
 
 
@@ -96,7 +93,7 @@
     protected async Task Delete()
     {
         try
-        {   
+        {
             var response = await _httpClient.DeleteAsync("api/question/" + questionToDelete);
             response.EnsureSuccessStatusCode();
             questionList.RemoveAll(q => q.QuestionId == questionToDelete);
@@ -130,7 +127,7 @@
 
     async Task getQuestionList()
     {
-        var response = await _http.GetAsync("api/quiz/" +QuizId);
+        var response = await _http.GetAsync("api/quiz/" + QuizId);
         response.EnsureSuccessStatusCode();
         quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
         questionList = quiz.Questions;

@@ -82,5 +82,9 @@ namespace Tool.Server.Services
         {
             return await _context.Questions.Include(q => q.Quiz).FirstOrDefaultAsync(q => q.QuizId == id);
         }
+        public async Task<Question> GetQuestionByQuizIdAndTextAsync(int quizId, string questionText)
+        {
+            return await _context.Questions.Include(q => q.Quiz).FirstOrDefaultAsync(q => q.QuizId == quizId && q.QuestionText == questionText);
+        }
     }
 }

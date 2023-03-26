@@ -24,7 +24,7 @@ public class AppDbContext : DbContext
             .HasOne(e => e.Quiz)
             .WithMany(e => e.Questions)
             .HasForeignKey(e => e.QuizId);
-            
+
     }
 
 }

@@ -33,11 +33,11 @@ namespace Tool.Server.Controllers
         [HttpPost]
         public async Task<bool> Login([FromBody] User user)
         {
-           return await _userService.Login(user);
-           
+            return await _userService.Login(user);
 
-            
-        }   
+
+
+        }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]

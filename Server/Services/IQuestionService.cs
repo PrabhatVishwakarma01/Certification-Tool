@@ -12,5 +12,6 @@ namespace Tool.Server.Services
         Task<List<Question>> GetAllQuestion();
         Task<Question> GetQuestion(int id);
         Task<Question> GetQuestionByTextAsync(string questionText);
+        Task<Question> GetQuestionByQuizIdAndTextAsync(int quizId, string questionText);
     }
 }

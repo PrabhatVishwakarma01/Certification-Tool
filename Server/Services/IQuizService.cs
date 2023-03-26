@@ -2,7 +2,7 @@
 using Tool.Server.Model;
 
 
-public interface IQuizService 
+public interface IQuizService
 {
     Task<Quiz> AddQuizCategory(Quiz quiz);
 

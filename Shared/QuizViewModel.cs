@@ -31,8 +31,8 @@ public class QuizViewModel
         set;
     }
 
-        public List<QuestionViewModel> Questions
+    public List<QuestionViewModel> Questions
     {
         get; set;
-    } 
     }
+}

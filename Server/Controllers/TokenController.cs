@@ -8,24 +8,30 @@ using System.Text;
 using Tool.Server.Model;
 using Tool.Shared;
 
-namespace Tool.Server.Controllers {
+namespace Tool.Server.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
-    public class TokenController : ControllerBase {
+    public class TokenController : ControllerBase
+    {
         public IConfiguration _configuration;
         private readonly AppDbContext _context;
 
-        public TokenController(IConfiguration config, AppDbContext context) {
+        public TokenController(IConfiguration config, AppDbContext context)
+        {
             _configuration = config;
             _context = context;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(LoginViewModel _userData) {
-            if (_userData != null && _userData.Email != null && _userData.Password != null) {
+        public async Task<IActionResult> Post(LoginViewModel _userData)
+        {
+            if (_userData != null && _userData.Email != null && _userData.Password != null)
+            {
                 var user = await GetUser(_userData.Email, _userData.Password);
 
-                if (user != null) {
+                if (user != null)
+                {
                     //create claims details based on the user information
                     var claims = new[] {
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
@@ -45,15 +51,20 @@ namespace Tool.Server.Controllers {
                         signingCredentials: signIn);
 
                     return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-                } else {
+                }
+                else
+                {
                     return BadRequest("Invalid credentials");
                 }
-            } else {
+            }
+            else
+            {
                 return BadRequest();
             }
         }
 
-        private async Task<User> GetUser(string email, string password) {
+        private async Task<User> GetUser(string email, string password)
+        {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
 

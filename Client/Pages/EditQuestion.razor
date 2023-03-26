@@ -11,16 +11,16 @@
     <div class="Container-heading">
         <h2>Edit Question</h2>
     </div>
-   
-        <EditForm Model="@question" class="input-form" OnValidSubmit="SaveQuestion">
-                <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <EditForm Model="@question" class="input-form" OnValidSubmit="SaveQuestion">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
         <div class="Quiz-name form-input">
             <label for="quiz-category">Quiz Category Name : <b>@question.Quiz?.QuizTitle </b></label>
         </div>
         <div class="Question-Text form-input">
             <label for="question-text">Question Text </label>
             <textarea id="question-text" name="question-text" @bind="@question.QuestionText" required></textarea>
-            @if ((string.IsNullOrEmpty(@question.QuestionText) || string.IsNullOrWhiteSpace(@question.QuestionText)) )
+            @if ((string.IsNullOrEmpty(@question.QuestionText) || string.IsNullOrWhiteSpace(@question.QuestionText)))
             {
                 <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
             }
@@ -32,7 +32,7 @@
             {
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
             }
-            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1"  />
+            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
             @if (question.CheckBox1 == true)
             {
 
@@ -48,20 +48,20 @@
             {
                 <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
             }
-            <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2"  />
+            <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2" />
             @if (question.CheckBox2 == true)
             {
                 question.IsCorrect += " " + question.OptionTwo + " ";
 
             }
 
-           
-            
+
+
         </div>
         <div class="input-options form-input">
             <label for="option3" class="checkbox-label">Option 3 :</label>
             <input type="text" id="option3" name="option3" @bind="@question.OptionThree">
-            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3"  />
+            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3" />
             @if (question.CheckBox3 == true)
             {
                 question.IsCorrect += " " + question.OptionThree + " ";
@@ -71,7 +71,7 @@
         <div class="input-options form-input">
             <label for="option4" class="checkbox-label">Option 4 :</label>
             <input type="text" id="option4" name="option4" @bind="@question.OptionFour">
-            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4"  />
+            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4" />
             @if (question.CheckBox4 == true)
             {
                 question.IsCorrect += " " + question.OptionFour + " ";
@@ -79,16 +79,16 @@
             }
         </div>
 
-         @if( !(question.CheckBox1 || question.CheckBox2  || question.CheckBox3 || question.CheckBox4))
-            { 
-               <br /> <div class="text-danger"><h6 style="margin-left:7rem;"> At least One Check Box must be Checked !</h6></div> <br />
-            }
+        @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
+        {
+            <br /> <div class="text-danger"><h6 style="margin-left:7rem;"> At least One Check Box must be Checked !</h6></div> <br />
+        }
 
         <div class="Form-actions">
             <button type="reset" @onclick="@Cancel" class="btn">Cancel</button>
             <button type="submit" @onclick="@SaveQuestion" class="btn active">Save</button>
         </div>
- 
+
     </EditForm>
 </div>
 
@@ -126,16 +126,16 @@
 
     async Task getQuestion()
     {
-        var response = await _Http.GetAsync("api/question/"+ QuestionId );
+        var response = await _Http.GetAsync("api/question/" + QuestionId);
         response.EnsureSuccessStatusCode();
         question = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
-        
+
     }
 
 
 
 
-   
+
 
 
 

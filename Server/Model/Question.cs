@@ -13,7 +13,7 @@ namespace Tool.Server.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int QuestionId { get; set; }
-        
+
         public int QuizId { get; set; }
         [ForeignKey("QuizId")]
         public Quiz Quiz { get; set; }

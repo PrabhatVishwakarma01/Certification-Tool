@@ -26,7 +26,7 @@ namespace Tool.Shared
         [Required]
         [Display(Name = "Option 4")]
         public string OptionFour { get; set; }
-        
+
 
         public bool CheckBox1 { get; set; }
         public bool CheckBox2 { get; set; }
@@ -34,7 +34,7 @@ namespace Tool.Shared
         public bool CheckBox4 { get; set; }
 
         public QuizViewModel Quiz { get; set; }
-       
+
         public string IsCorrect { get; set; }
     }
 }

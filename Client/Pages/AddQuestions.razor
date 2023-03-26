@@ -99,7 +99,7 @@
         question.QuestionText = "";
         NavigationManager.NavigateTo("/homepage");
     }
-   @* void navigateToQuestion()
+    @* void navigateToQuestion()
     {
         NavigationManager.NavigateTo("/editquizcategory");
     }*@
@@ -114,12 +114,14 @@
         this.flag = true;
 
         // Check if qusetion already exists in questionList
-        if (questionList.Any(q => q.QuestionText.Equals(question.QuestionText, StringComparison.OrdinalIgnoreCase)))
+        if (questionList.Any(q => q.QuizId == question.QuizId &&
+                           q.QuestionText.Equals(question.QuestionText, StringComparison.OrdinalIgnoreCase)))
         {
             validResponse = true;
             this.isDuplicate = true;
             return;
         }
+
         if (question.CheckBox1 == true)
         {
             question.IsCorrect += question.OptionOne + " ";
@@ -140,7 +142,7 @@
         if (question.QuestionText != "" && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
         {
             // Make a POST request to add quiz
-            
+
             var response = await _http.PostAsJsonAsync("api/question", question);
             response.EnsureSuccessStatusCode();
             // refresh question list
@@ -166,7 +168,7 @@
     }
     async Task getQuizTitle()
     {
-        var response = await _http.GetAsync("api/quiz/" +QuizId);
+        var response = await _http.GetAsync("api/quiz/" + QuizId);
         response.EnsureSuccessStatusCode();
         quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
 

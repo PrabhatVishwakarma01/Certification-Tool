@@ -29,6 +29,15 @@ public class QuestionController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Question>> AddQuestion([FromBody] Question question)
     {
+        // Check if the question already exists in the database
+        Question existingQuestion = await _questionService.GetQuestionByQuizIdAndTextAsync(question.QuizId, question.QuestionText);
+        if (existingQuestion != null)
+        {
+            // Question already exists, return BadRequest to indicate failure
+            return BadRequest("Question already exists in the database.");
+        }
+
+        // Question doesn't exist, add it to the database
         var newQuestion = await _questionService.AddQuestion(question);
 
         if (newQuestion == null)
@@ -38,19 +47,6 @@ public class QuestionController : ControllerBase
 
         return Ok(newQuestion);
     }
-
-    //[HttpPost]
-    //[Route("{id}")]
-    //public async Task<Quiz> GetQuizById(int id)
-    //{
-    //    var quiz = await _dbContext.Quizs.Include(q => q.Questions).Where(a => a.QuizId == id).FirstOrDefaultAsync();
-    //    return quiz;
-    //}
-
-
-
-
-
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<bool>> DeleteQuestion(int id)
