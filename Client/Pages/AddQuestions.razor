@@ -29,7 +29,7 @@
             {
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
             }
-            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
+            <input type="checkbox" id="option-one-checkbox" @bind="@question.CheckBox1" />
         </div>
 
         <div class="input-options form-input">
@@ -39,17 +39,17 @@
             {
                 <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
             }
-            <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2" />
+            <input type="checkbox" id="option-two-checkbox" @bind="@question.CheckBox2" />
         </div>
         <div class="input-options form-input">
             <label for="option-three" class="checkbox-label">Option 3:</label>
             <input type="text" @bind-value="@question.OptionThree" required />
-            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3" />
+            <input type="checkbox" id="option-three-checkbox" @bind="@question.CheckBox3" />
         </div>
         <div class="input-options form-input">
             <label for="option-four" class="checkbox-label">Option 4:</label>
             <input type="text" @bind-value="@question.OptionFour" required />
-            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4" />
+            <input type="checkbox" id="option-four-checkbox" @bind="@question.CheckBox4" />
         </div>
         @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4) && flag)
         {

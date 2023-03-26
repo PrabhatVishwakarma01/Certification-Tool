@@ -40,7 +40,13 @@
 </div>
 
 @code {
-    private int selectedQuizCategoryId;
+
+    [Parameter]
+    public int QuizId { get; set; }
+
+   
+
+    public int selectedQuizCategoryId;
     private List<QuizViewModel> quizList = new List<QuizViewModel>();
 
     protected override async Task OnInitializedAsync()
@@ -53,7 +59,7 @@
         var selectedQuiz = quizList.FirstOrDefault(q => q.QuizId == selectedQuizCategoryId);
         if (selectedQuiz != null)
         {
-            NavigationManager.NavigateTo($"/assesstakeexam?quizId={selectedQuizCategoryId}");
+            NavigationManager.NavigateTo("/assesstakeexam/" + selectedQuizCategoryId );
         }
     }
 
@@ -64,7 +70,7 @@
 
     private async Task GetQuizCategory()
     {
-        var response = await _http.GetAsync("api/quiz");
+        var response = await _http.GetAsync("api/quiz/all");
         response.EnsureSuccessStatusCode();
         quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
         foreach (var q in quizList)

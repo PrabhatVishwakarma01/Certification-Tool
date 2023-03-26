@@ -23,6 +23,7 @@ public class QuestionController : ControllerBase
     [HttpGet("{id}")]
     public async Task<Question> Get(int id)
     {
+        Console.WriteLine("hellose");
         return await _questionService.GetQuestion(id);
     }
 
