@@ -1,5 +1,9 @@
 @page "/addquestion/{QuizId:int}"
-
+@using System.Diagnostics;
+@using Tool.Shared
+@inject HttpClient _http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 <PageTitle>AddQuestions</PageTitle>
 <div class="Container">
     <div class="Container-heading">

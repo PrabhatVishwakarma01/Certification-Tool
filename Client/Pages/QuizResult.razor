@@ -1,5 +1,9 @@
 ﻿@page "/quizresult"
-
+@using System.Diagnostics;
+@using Tool.Shared
+@inject HttpClient _Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
 <div class="container">
     <div class="container-heading">
@@ -25,7 +29,7 @@
 
     async Task getQuizCategory()
     {
-        var response = await _http.GetAsync("api/quiz");
+        var response = await _Http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
         quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
         foreach (var q in quizList)

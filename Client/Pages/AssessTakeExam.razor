@@ -1,5 +1,12 @@
 ﻿@page "/assesstakeexam/{QuizId:int}"
-
+@using System.Linq
+@using System.Diagnostics;
+@using Tool.Shared
+@inject IJSRuntime JsRuntime
+@inject HttpClient Http
+@inject HttpClient _Http
+@inject NavigationManager NavigationManager
+@using Tool.Client.Components
 
 <div class="container">
     <div class="sidebar">
@@ -7,13 +14,13 @@
         <ul>
             @for (int i = 1; i < questionList?.Capacity; i++)
             {
-                <li class="@((i == 1) ? "active" : "")">Ques : @(i)</li>
+                <li class="@((i == 1) ? "active" : "")">Ques : @(i + 1)</li>
             }
         </ul>
     </div>
     <div class="main">
         <div class="main-heading">
-            <b>Quiz Category : @quiz?.QuizTitle</b>
+            <b>Quiz Category :</b> @quiz?.QuizTitle
             <div class="timer">
                 <b>Timer: </b>
                 @if (hours > 0)
@@ -79,7 +86,6 @@
         await updateTime();
     }
 
-
     async Task updateTime()
     {
         while (hours >= 0 && minutes >= 0 && seconds >= 0)
@@ -90,7 +96,6 @@
                 {
                     if (hours == 0)
                     {
-                        // Handle case where timer has ended
                         stopwatch.Stop();
                         NavigationManager.NavigateTo("/quizresult");
                         return;
@@ -118,13 +123,13 @@
 
     async Task getQuiz()
     {
-        var response = await _http.GetAsync("api/quiz/" + QuizId);
+        var response = await _Http.GetAsync("api/quiz/" + QuizId);
         response.EnsureSuccessStatusCode();
         quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
         questionList = quiz?.Questions;
     }
 
-  
+
     protected void changeQuestion()
     {
         if (questionIndex < questionList.Count - 1)
