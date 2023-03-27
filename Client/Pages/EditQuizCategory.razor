@@ -1,10 +1,4 @@
 ﻿@page "/editquizcategory/{QuizId:int}"
-@using System.Diagnostics;
-@using Tool.Shared;
-@inject HttpClient _httpClient
-@inject HttpClient _http
-@inject NavigationManager NavigationManager
-@inject IJSRuntime JsRuntime
 <PageTitle>EditQuizCategory</PageTitle>
 
 
@@ -94,7 +88,7 @@
     {
         try
         {
-            var response = await _httpClient.DeleteAsync("api/question/" + questionToDelete);
+            var response = await _http.DeleteAsync("api/question/" + questionToDelete);
             response.EnsureSuccessStatusCode();
             questionList.RemoveAll(q => q.QuestionId == questionToDelete);
             JsRuntime.InvokeVoidAsync("$('#deleteQuizCategoryModal').modal('hide');");
@@ -130,10 +124,7 @@
         var response = await _http.GetAsync("api/quiz/" + QuizId);
         response.EnsureSuccessStatusCode();
         quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
-        questionList = quiz.Questions;
-
-
-    }
+        }
 
 
 

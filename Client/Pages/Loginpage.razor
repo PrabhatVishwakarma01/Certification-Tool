@@ -1,8 +1,5 @@
 ﻿@page "/"
-@using Tool.Shared
-@inject HttpClient Http
-@inject NavigationManager NavigationManager
-@inject IJSRuntime JsRuntime
+
 
 <PageTitle>Tool Login</PageTitle>
 
@@ -68,7 +65,7 @@
 
     protected async Task Login()
     {
-        var response = await Http.PostAsJsonAsync("api/user", @user);
+        var response = await _http.PostAsJsonAsync("api/user", @user);
         bool loginResponse = await response.Content.ReadFromJsonAsync<bool>();
         if (loginResponse)
         {

@@ -44,9 +44,11 @@ namespace Tool.Server.Services
                 data.OptionOne = question.OptionOne;
                 data.OptionTwo = question.OptionTwo;
                 data.OptionThree = question.OptionThree;
-                data.OptionFour = question.OptionFour;
-
-
+                data.IsCorrect = question.IsCorrect;
+                data.CheckBox1 = question.CheckBox1;
+                data.CheckBox2 = question.CheckBox2;
+                data.CheckBox3 = question.CheckBox3;
+                data.CheckBox4 = question.CheckBox4;
 
                 await _question.UpdateAsync(data);
                 return true;

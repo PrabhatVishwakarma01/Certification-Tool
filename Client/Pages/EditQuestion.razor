@@ -1,10 +1,4 @@
 ﻿@page "/editquestion/{QuestionId:int}"
-@using System.Diagnostics;
-@using Tool.Shared
-@inject IJSRuntime JsRuntime
-@inject HttpClient Http
-@inject HttpClient _Http
-@inject NavigationManager NavigationManager
 <PageTitle>EditQuestions</PageTitle>
 
 <div class="Container">
@@ -33,13 +27,6 @@
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
             }
             <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
-            @if (question.CheckBox1 == true)
-            {
-
-                question.IsCorrect = question.OptionOne + " ";
-
-            }
-
         </div>
         <div class="input-options form-input">
             <label for="option2" class="checkbox-label">Option 2 :</label>
@@ -49,34 +36,16 @@
                 <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
             }
             <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2" />
-            @if (question.CheckBox2 == true)
-            {
-                question.IsCorrect += " " + question.OptionTwo + " ";
-
-            }
-
-
-
         </div>
         <div class="input-options form-input">
             <label for="option3" class="checkbox-label">Option 3 :</label>
             <input type="text" id="option3" name="option3" @bind="@question.OptionThree">
             <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3" />
-            @if (question.CheckBox3 == true)
-            {
-                question.IsCorrect += " " + question.OptionThree + " ";
-
-            }
         </div>
         <div class="input-options form-input">
             <label for="option4" class="checkbox-label">Option 4 :</label>
             <input type="text" id="option4" name="option4" @bind="@question.OptionFour">
             <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4" />
-            @if (question.CheckBox4 == true)
-            {
-                question.IsCorrect += " " + question.OptionFour + " ";
-
-            }
         </div>
 
         @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
@@ -108,7 +77,24 @@
     }
     protected async Task SaveQuestion()
     {
-        var response = await Http.PutAsJsonAsync("api/question/" + QuestionId, question);
+        question.IsCorrect = "";
+        if (question.CheckBox1 == true)
+        {
+            question.IsCorrect += question.OptionOne + " ";
+        }
+        if (question.CheckBox2 == true)
+        {
+            question.IsCorrect += " " + question.OptionTwo + " ";
+        }
+        if (question.CheckBox3 == true)
+        {
+            question.IsCorrect += " " + question.OptionThree + " ";
+        }
+        if (question.CheckBox4 == true)
+        {
+            question.IsCorrect += " " + question.OptionFour + " ";
+        }
+        var response = await _http.PutAsJsonAsync("api/question/" + QuestionId, question);
         bool questionResponse = await response.Content.ReadFromJsonAsync<bool>();
         this.flag = true;
         if (questionResponse && flag && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
@@ -126,7 +112,7 @@
 
     async Task getQuestion()
     {
-        var response = await _Http.GetAsync("api/question/" + QuestionId);
+        var response = await _http.GetAsync("api/question/" + QuestionId);
         response.EnsureSuccessStatusCode();
         question = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
 

@@ -1,12 +1,5 @@
 ﻿@page "/assesstakeexam/{QuizId:int}"
-@using System.Linq
-@using System.Diagnostics;
-@using Tool.Shared
-@inject IJSRuntime JsRuntime
-@inject HttpClient Http
-@inject HttpClient _Http
-@inject NavigationManager NavigationManager
-@using Tool.Client.Components
+
 
 <div class="container">
     <div class="sidebar">
@@ -125,7 +118,7 @@
 
     async Task getQuiz()
     {
-        var response = await _Http.GetAsync("api/quiz/" + QuizId);
+        var response = await _http.GetAsync("api/quiz/" + QuizId);
         response.EnsureSuccessStatusCode();
         quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
         questionList = quiz?.Questions;
