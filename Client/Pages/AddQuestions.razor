@@ -1,9 +1,5 @@
-﻿@page "/addquestion"
-@using System.Diagnostics;
-@using Tool.Shared
-@inject HttpClient _http
-@inject NavigationManager NavigationManager
-@inject IJSRuntime JsRuntime
+@page "/addquestion/{QuizId:int}"
+
 <PageTitle>AddQuestions</PageTitle>
 <div class="Container">
     <div class="Container-heading">
@@ -12,7 +8,7 @@
     <EditForm Model="@question" class="input-form" id="QuestionForm" OnValidSubmit="SaveQuestion">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <div class="Quiz-name form-input">
-            <label for="quiz-category">Quiz Category Name:</label>
+            <label for="quiz-category">Quiz Category Name : &nbsp; <b> @quiz.QuizTitle</b> </label>
         </div>
         <div class="Question-text form-input">
             <label for="question-text">Question Text:</label>
@@ -29,7 +25,7 @@
             {
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
             }
-            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
+            <input type="checkbox" id="option-one-checkbox" @bind="@question.CheckBox1" />
         </div>
 
         <div class="input-options form-input">
@@ -39,17 +35,17 @@
             {
                 <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
             }
-            <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2" />
+            <input type="checkbox" id="option-two-checkbox" @bind="@question.CheckBox2" />
         </div>
         <div class="input-options form-input">
             <label for="option-three" class="checkbox-label">Option 3:</label>
             <input type="text" @bind-value="@question.OptionThree" required />
-            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3" />
+            <input type="checkbox" id="option-three-checkbox" @bind="@question.CheckBox3" />
         </div>
         <div class="input-options form-input">
             <label for="option-four" class="checkbox-label">Option 4:</label>
             <input type="text" @bind-value="@question.OptionFour" required />
-            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4" />
+            <input type="checkbox" id="option-four-checkbox" @bind="@question.CheckBox4" />
         </div>
         @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4) && flag)
         {
@@ -74,14 +70,23 @@
 </div>
 
 @code {
+    [Parameter]
+    public int QuizId { get; set; }
+
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
-    private QuestionViewModel question = new QuestionViewModel();
+    public QuestionViewModel question = new QuestionViewModel();
+    QuizViewModel quiz = new QuizViewModel();
+
+
     bool flag = false; // used for check question or options are entered or not
     bool validResponse = false;
     bool isDuplicate = false;
     protected override async Task OnInitializedAsync()
     {
+        QuizId = QuizId;
+        question.QuizId = QuizId;
         await getQuestion();
+        await getQuizTitle();
     }
     void Okay()
     {
@@ -90,31 +95,29 @@
         question.QuestionText = "";
         NavigationManager.NavigateTo("/homepage");
     }
-    void navigateToQuestion()
+    @* void navigateToQuestion()
     {
         NavigationManager.NavigateTo("/editquizcategory");
-    }
+    }*@
     async Task getQuestion()
     {
         var response = await _http.GetAsync("api/question");
         response.EnsureSuccessStatusCode();
         questionList = await response.Content.ReadFromJsonAsync<List<QuestionViewModel>>();
-        foreach (var q in questionList)
-        {
-            Debug.WriteLine(q.QuestionText);
-        }
     }
     private async Task SaveQuestion()
     {
         this.flag = true;
 
         // Check if qusetion already exists in questionList
-        if (questionList.Any(q => q.QuestionText.Equals(question.QuestionText, StringComparison.OrdinalIgnoreCase)))
+        if (questionList.Any(q => q.QuizId == question.QuizId &&
+                           q.QuestionText.Equals(question.QuestionText, StringComparison.OrdinalIgnoreCase)))
         {
             validResponse = true;
             this.isDuplicate = true;
             return;
         }
+
         if (question.CheckBox1 == true)
         {
             question.IsCorrect += question.OptionOne + " ";
@@ -135,27 +138,35 @@
         if (question.QuestionText != "" && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
         {
             // Make a POST request to add quiz
-            var response = await _http.PostAsJsonAsync("api/Question", question);
+
+            var response = await _http.PostAsJsonAsync("api/question", question);
             response.EnsureSuccessStatusCode();
             // refresh question list
             await getQuestion();
             validResponse = true;
             this.isDuplicate = false;
-            NavigationManager.NavigateTo("/editquizcategory");
+            NavigationManager.NavigateTo("/editquizcategory/" + QuizId);
         }
     }
     private async Task AddMore()
     {
-        var response = await _http.PostAsJsonAsync("api/Question", question);
-        var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
-        if (questionResponse.QuestionQuizId > 0)
+        @*var response = await _http.PostAsJsonAsync("api/Question", question);
+        var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();*@
+        @*if (questionResponse.QuestionId > 0)
         {
             question = new QuestionViewModel();
             await JsRuntime.InvokeVoidAsync("resetForm", "#QuestionForm");
-        }
+        }*@
     }
     private void Cancel()
     {
         NavigationManager.NavigateTo("/homepage");
+    }
+    async Task getQuizTitle()
+    {
+        var response = await _http.GetAsync("api/quiz/" + QuizId);
+        response.EnsureSuccessStatusCode();
+        quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
+
     }
 }

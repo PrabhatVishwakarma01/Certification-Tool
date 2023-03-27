@@ -1,6 +1,6 @@
 ﻿
 using System;
-using Tool.Server.Models;
+using Tool.Server.Model;
 
 public class UserService : IUserService
 {

@@ -1,5 +1,5 @@
 ﻿
-using Tool.Server.Models;
+using Tool.Server.Model;
 
 public interface IUserService
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using Tool.Server.Models;
+using Tool.Server.Model;
 
 namespace Tool.Server.Repository
 {

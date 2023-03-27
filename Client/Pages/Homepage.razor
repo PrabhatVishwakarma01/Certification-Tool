@@ -1,10 +1,5 @@
 ﻿@page "/homepage"
-@using System.Diagnostics;
-@using System.Text.Json;
-@using Tool.Shared
-@inject HttpClient _http
-@inject NavigationManager NavigationManager
-@inject IJSRuntime JsRuntime
+
 
 <Sidebar></Sidebar>
 
@@ -38,13 +33,14 @@
                         {
                             <tr class="master-row">
                                 <td class="master-tablebody">@q.QuizTitle</td>
-                                <td class="master-tablebody">Prabhat Vishwakarma</td>
+                                <td class="master-tablebody">Admin</td>
                                 <td class="master-tablebody">@q.Timer</td>
                                 <td class="master-tablebody">
-                                    <a href="/editquizcategory" class="btn"><i class="fa fa-edit"></i></a>
-                                    <button @onclick="AddQuestion" class="btn"><i class="fa-solid fa-circle-plus"></i></button>
-@*                                    <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
-*@                                </td>
+                                    <a href="/editquizcategory/@q.QuizId" class="btn"><i class="fa fa-edit"></i></a>
+                                    <a href="/addquestion/@q.QuizId" class="btn"><i class="fa-solid fa-circle-plus"></i></a>
+                                    @*                                    <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
+                        *@
+                                </td>
                             </tr>
                         }
                     }
@@ -108,16 +104,16 @@
 
 
 @code {
-    List<AddQuizCategoryViewModel> quizList = new List<AddQuizCategoryViewModel>();
+    List<QuizViewModel> quizList = new List<QuizViewModel>();
 
     bool flag = false;
     bool validResponse = false;
 
     async Task getQuizCategory()
     {
-        var response = await _http.GetAsync("api/quiz");
+        var response = await _http.GetAsync("api/quiz/all");
         response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<AddQuizCategoryViewModel>>();
+        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
         foreach (var q in quizList)
         {
             Debug.WriteLine(q.QuizTitle);
@@ -130,17 +126,16 @@
 
     void EditQuiz()
     {
-        NavigationManager.NavigateTo("/editquizcategory");
+        NavigationManager.NavigateTo("/editquizcategory/{QuizId:int}");
     }
     void AddQuestion()
     {
-        NavigationManager.NavigateTo("/AddQuestion");
+        NavigationManager.NavigateTo("/AddQuestion/{QuizId:int}");
     }
-    AddQuizCategoryViewModel quiz = new AddQuizCategoryViewModel
+    QuizViewModel quiz = new QuizViewModel
         {
             QuizTitle = "",
-            Timer = 0
-
+            Timer = 0,
         };
 
     async Task Save()

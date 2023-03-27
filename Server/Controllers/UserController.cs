@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using Tool.Server.Models;
+using Tool.Server.Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,11 +33,11 @@ namespace Tool.Server.Controllers
         [HttpPost]
         public async Task<bool> Login([FromBody] User user)
         {
-           return await _userService.Login(user);
-           
+            return await _userService.Login(user);
 
-            
-        }   
+
+
+        }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Tool.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230323170556_Initial")]
+    [Migration("20230326132543_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,15 +23,37 @@ namespace Tool.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Tool.Server.Models.QuestionModel", b =>
+            modelBuilder.Entity("Tool.Server.Model.Question", b =>
                 {
-                    b.Property<int>("QuestionQuizId")
+                    b.Property<int>("QuestionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionQuizId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"), 1L, 1);
+
+                    b.Property<bool>("CheckBox1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CheckBox2")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CheckBox3")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CheckBox4")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("IsCorrect")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OptionFour")
@@ -50,43 +72,21 @@ namespace Tool.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("QuestionMedia")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("QuestionOrder")
+                        .HasColumnType("int");
+
                     b.Property<string>("QuestionText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("QuestionQuizId");
-
-                    b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("Tool.Server.Models.QuestionOption", b =>
-                {
-                    b.Property<int>("QuizOptionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizOptionId"), 1L, 1);
-
-                    b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OptionText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ToolTip")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -94,16 +94,14 @@ namespace Tool.Server.Migrations
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
 
-                    b.HasKey("QuizOptionId");
-
-                    b.HasIndex("QuestionId");
+                    b.HasKey("QuestionId");
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("QuestionOptions");
+                    b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.QuestionType", b =>
+            modelBuilder.Entity("Tool.Server.Model.QuestionType", b =>
                 {
                     b.Property<int>("QuestionTypeId")
                         .ValueGeneratedOnAdd()
@@ -117,8 +115,11 @@ namespace Tool.Server.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("QuestionId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -128,10 +129,12 @@ namespace Tool.Server.Migrations
 
                     b.HasKey("QuestionTypeId");
 
+                    b.HasIndex("QuestionId");
+
                     b.ToTable("QuestionTypes");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.QuizModel", b =>
+            modelBuilder.Entity("Tool.Server.Model.Quiz", b =>
                 {
                     b.Property<int>("QuizId")
                         .ValueGeneratedOnAdd()
@@ -183,58 +186,7 @@ namespace Tool.Server.Migrations
                     b.ToTable("Quizs");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.QuizQuestion", b =>
-                {
-                    b.Property<int>("QuizQuestionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizQuestionId"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<byte[]>("QuestionMedia")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("QuestionOrder")
-                        .HasColumnType("int");
-
-                    b.Property<string>("QuestionText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("QuestionTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuizId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ToolTip")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.HasKey("QuizQuestionId");
-
-                    b.HasIndex("QuestionTypeId")
-                        .IsUnique();
-
-                    b.HasIndex("QuizId");
-
-                    b.ToTable("QuizQuestions");
-                });
-
-            modelBuilder.Entity("Tool.Server.Models.QuizReport", b =>
+            modelBuilder.Entity("Tool.Server.Model.QuizReport", b =>
                 {
                     b.Property<int>("QuizReportId")
                         .ValueGeneratedOnAdd()
@@ -272,19 +224,14 @@ namespace Tool.Server.Migrations
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("QuizReportId");
 
                     b.HasIndex("QuizId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("QuizReports");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.Role", b =>
+            modelBuilder.Entity("Tool.Server.Model.Role", b =>
                 {
                     b.Property<string>("RoleCode")
                         .HasColumnType("nvarchar(450)");
@@ -309,7 +256,7 @@ namespace Tool.Server.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.Score", b =>
+            modelBuilder.Entity("Tool.Server.Model.Score", b =>
                 {
                     b.Property<int>("ScoreId")
                         .ValueGeneratedOnAdd()
@@ -323,7 +270,7 @@ namespace Tool.Server.Migrations
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("ScoreId");
@@ -335,7 +282,7 @@ namespace Tool.Server.Migrations
                     b.ToTable("Scores");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.User", b =>
+            modelBuilder.Entity("Tool.Server.Model.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -378,14 +325,12 @@ namespace Tool.Server.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("RoleCode")
-                        .IsUnique()
-                        .HasFilter("[RoleCode] IS NOT NULL");
+                    b.HasIndex("RoleCode");
 
                     b.ToTable("User", "dbo");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.UserAnswer", b =>
+            modelBuilder.Entity("Tool.Server.Model.UserAnswer", b =>
                 {
                     b.Property<int>("UserAnswerId")
                         .ValueGeneratedOnAdd()
@@ -408,9 +353,6 @@ namespace Tool.Server.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuizId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -427,14 +369,10 @@ namespace Tool.Server.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("QuizId");
-
-                    b.HasIndex("UserId");
-
                     b.ToTable("UserAnswers");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.UserAnswerMapping", b =>
+            modelBuilder.Entity("Tool.Server.Model.UserAnswerMapping", b =>
                 {
                     b.Property<int>("UserAnsweringMappingId")
                         .ValueGeneratedOnAdd()
@@ -448,16 +386,7 @@ namespace Tool.Server.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuizOptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuizQuestionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserSelectedOption")
@@ -467,180 +396,103 @@ namespace Tool.Server.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("QuizQuestionId");
-
-                    b.HasIndex("UserId");
-
                     b.ToTable("UserAnswerMappings");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.QuestionOption", b =>
+            modelBuilder.Entity("Tool.Server.Model.Question", b =>
                 {
-                    b.HasOne("Tool.Server.Models.QuizQuestion", "QuizQuestion")
-                        .WithMany("QuestionOptions")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tool.Server.Models.QuizModel", "Quiz")
-                        .WithMany("QuestionOptions")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Quiz");
-
-                    b.Navigation("QuizQuestion");
-                });
-
-            modelBuilder.Entity("Tool.Server.Models.QuizQuestion", b =>
-                {
-                    b.HasOne("Tool.Server.Models.QuestionType", "QuestionType")
-                        .WithOne("QuizQuestion")
-                        .HasForeignKey("Tool.Server.Models.QuizQuestion", "QuestionTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tool.Server.Models.QuizModel", "Quiz")
-                        .WithMany("QuizQuestions")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("QuestionType");
-
-                    b.Navigation("Quiz");
-                });
-
-            modelBuilder.Entity("Tool.Server.Models.QuizReport", b =>
-                {
-                    b.HasOne("Tool.Server.Models.QuizModel", "Quiz")
-                        .WithMany("QuizReports")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tool.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Quiz");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Tool.Server.Models.Score", b =>
-                {
-                    b.HasOne("Tool.Server.Models.QuizModel", "Quiz")
-                        .WithMany("Scores")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tool.Server.Models.User", "User")
-                        .WithMany("Scores")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Quiz");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Tool.Server.Models.User", b =>
-                {
-                    b.HasOne("Tool.Server.Models.Role", "Role")
-                        .WithOne("User")
-                        .HasForeignKey("Tool.Server.Models.User", "RoleCode")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("Tool.Server.Models.UserAnswer", b =>
-                {
-                    b.HasOne("Tool.Server.Models.QuizQuestion", "QuizQuestion")
-                        .WithMany("UserAnswers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Tool.Server.Models.QuizModel", "Quiz")
-                        .WithMany()
+                    b.HasOne("Tool.Server.Model.Quiz", "Quiz")
+                        .WithMany("Questions")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tool.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Quiz");
-
-                    b.Navigation("QuizQuestion");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.UserAnswerMapping", b =>
+            modelBuilder.Entity("Tool.Server.Model.QuestionType", b =>
                 {
-                    b.HasOne("Tool.Server.Models.QuestionOption", "Question")
+                    b.HasOne("Tool.Server.Model.Question", "Question")
                         .WithMany()
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Tool.Server.Models.QuizQuestion", "QuizQuestion")
-                        .WithMany()
-                        .HasForeignKey("QuizQuestionId");
-
-                    b.HasOne("Tool.Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Question");
-
-                    b.Navigation("QuizQuestion");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.QuestionType", b =>
+            modelBuilder.Entity("Tool.Server.Model.QuizReport", b =>
                 {
-                    b.Navigation("QuizQuestion");
+                    b.HasOne("Tool.Server.Model.Quiz", "Quiz")
+                        .WithMany("QuizReports")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.QuizModel", b =>
+            modelBuilder.Entity("Tool.Server.Model.Score", b =>
                 {
-                    b.Navigation("QuestionOptions");
+                    b.HasOne("Tool.Server.Model.Quiz", "Quiz")
+                        .WithMany("Scores")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("QuizQuestions");
+                    b.HasOne("Tool.Server.Model.User", null)
+                        .WithMany("Scores")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Quiz");
+                });
+
+            modelBuilder.Entity("Tool.Server.Model.User", b =>
+                {
+                    b.HasOne("Tool.Server.Model.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleCode");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Tool.Server.Model.UserAnswer", b =>
+                {
+                    b.HasOne("Tool.Server.Model.Question", "Question")
+                        .WithMany("UserAnswers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Tool.Server.Model.UserAnswerMapping", b =>
+                {
+                    b.HasOne("Tool.Server.Model.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Tool.Server.Model.Question", b =>
+                {
+                    b.Navigation("UserAnswers");
+                });
+
+            modelBuilder.Entity("Tool.Server.Model.Quiz", b =>
+                {
+                    b.Navigation("Questions");
 
                     b.Navigation("QuizReports");
 
                     b.Navigation("Scores");
                 });
 
-            modelBuilder.Entity("Tool.Server.Models.QuizQuestion", b =>
-                {
-                    b.Navigation("QuestionOptions");
-
-                    b.Navigation("UserAnswers");
-                });
-
-            modelBuilder.Entity("Tool.Server.Models.Role", b =>
-                {
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Tool.Server.Models.User", b =>
+            modelBuilder.Entity("Tool.Server.Model.User", b =>
                 {
                     b.Navigation("Scores");
                 });

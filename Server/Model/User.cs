@@ -1,17 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Tool.Server.Models
+namespace Tool.Server.Model
 {
     [Table("User", Schema = "dbo")]
     public class User
     {
+        public User()
+        {
+            this.Scores = new HashSet<Score>();
+        }
         [Key]
         public int UserId { get; set; }
 
         public string RoleCode { get; set; }
+        [ForeignKey("RoleCode")]
         public Role Role { get; set; }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Mobile { get; set; }
