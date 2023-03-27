@@ -1,6 +1,7 @@
 ﻿@page "/quizresult"
 @using System.Diagnostics;
 @using Tool.Shared
+@inject HttpClient _http
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
@@ -10,26 +11,42 @@
         Quiz Category :  <b>@quizList.FirstOrDefault()?.QuizTitle</b>
     </div>
     <div class="Content">
-    <h5>Score:</h5>
-    <br />
-    <h5>Result: </h5>
-</div>
-<div class="login-actions">
-    <button class="btn" @onclick="Exit">Exit</button>
+        <h5>
+            Score : @score.FirstOrDefault()?.ObtainedScore
+        </h5>
+        <br />
+        <h5>
+            Result :
+            @if (@scoreViewModels.ObtainedScore > 70)
+            {
+                <text>Pass</text>
+            }
+            else
+            {
+                <text>Fail</text>
+            }
+        </h5>
+    </div>
+    <div class="login-actions">
+        <button class="btn" @onclick="Exit">Exit</button>
     </div>
 </div>
 
 @code {
+    List<ScoreViewModel> score = new List<ScoreViewModel>();
+    string result = "";
+    private ScoreViewModel scoreViewModels = new Tool.Shared.ScoreViewModel();
     List<AddQuizCategoryViewModel> quizList = new List<AddQuizCategoryViewModel>();
 
     protected override async Task OnInitializedAsync()
     {
         await getQuizCategory();
+        await getScore();
     }
 
     async Task getQuizCategory()
     {
-        var response = await _Http.GetAsync("api/quiz");
+        var response = await _http.GetAsync("api/quiz");
         response.EnsureSuccessStatusCode();
         quizList = await response.Content.ReadFromJsonAsync<List<AddQuizCategoryViewModel>>();
         foreach (var q in quizList)
@@ -37,6 +54,19 @@
             Debug.WriteLine(q.QuizTitle);
         }
     }
+    async Task getScore()
+    {
+        var response = await _http.GetAsync("api/score");
+        response.EnsureSuccessStatusCode();
+        score = await response.Content.ReadFromJsonAsync<List<ScoreViewModel>>();
+        foreach (var q in score)
+        {
+            Debug.WriteLine(q.ObtainedScore);
+        }
+
+    }
+
+
     void Exit()
     {
         NavigationManager.NavigateTo("/");
