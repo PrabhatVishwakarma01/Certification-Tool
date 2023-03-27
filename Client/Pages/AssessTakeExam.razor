@@ -21,7 +21,21 @@
     <div class="main">
         <div class="main-heading">
             <b>Quiz Category : @quiz?.QuizTitle</b>
-            <div class="timer"> <b>Timer :&nbsp; </b>@minutes:@(seconds < 10 ? "0" : "")@seconds</div>
+            <div class="timer">
+                <b>Timer: </b>
+                @if (hours > 0)
+                {
+                    @($"{hours}:{(minutes < 10 ? "0" : "")}{minutes}:{(seconds < 10 ? "0" : "")}{seconds}")
+                }
+                else if (minutes > 0)
+                {
+                    @($"{minutes}:{(seconds < 10 ? "0" : "")}{seconds}")
+                }
+                else
+                {
+                    @($"{seconds} seconds")
+                }
+            </div>
         </div>
         <br />
         <Question Question="@questionList?[questionIndex]" serialNo="@serialNo" />
@@ -52,7 +66,7 @@
     Stopwatch stopwatch = new Stopwatch();
     int minutes = 0;
     int seconds = 0;
-
+    int hours = 0;
     QuestionViewModel question = new QuestionViewModel();
     QuizViewModel quiz = new QuizViewModel();
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
@@ -64,6 +78,8 @@
         serialNo = 1;
         await getQuiz();
         minutes = (int)quiz.Timer;
+        hours = minutes / 60;
+        minutes = minutes % 60;
         seconds = 0;
         stopwatch.Start();
         await Task.Delay(TimeSpan.FromSeconds(1));
@@ -73,11 +89,29 @@
 
     async Task updateTime()
     {
-        while (minutes >= 0 && seconds >= 0)
+        while (hours >= 0 && minutes >= 0 && seconds >= 0)
         {
             if (seconds == 0)
             {
-                minutes--;
+                if (minutes == 0)
+                {
+                    if (hours == 0)
+                    {
+                        // Handle case where timer has ended
+                        stopwatch.Stop();
+                        NavigationManager.NavigateTo("/quizresult");
+                        return;
+                    }
+                    else
+                    {
+                        hours--;
+                        minutes = 59;
+                    }
+                }
+                else
+                {
+                    minutes--;
+                }
                 seconds = 59;
             }
             else
@@ -88,6 +122,7 @@
             StateHasChanged();
         }
     }
+
     async Task getQuiz()
     {
         var response = await _Http.GetAsync("api/quiz/" + QuizId);
